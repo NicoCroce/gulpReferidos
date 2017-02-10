@@ -1,0 +1,183 @@
+<div class="row plusPadLeft">
+	<div class="col-xs-12">
+		<h1 class="titulo">Te enviamos la simulación del préstamo</h1>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12">
+		&nbsp;
+	</div>
+</div>
+
+
+<div class="row plusPadLeft">
+	<div class="col-xs-12">
+		<form>
+			<div class="form-group col-md-6">
+				<label for="nombre" class="control-label">Nombre</label>
+				<input type="text" id="nombre" class="form-control">	
+			</div>			
+	
+			<div class="form-group col-md-6">
+				<label for="apellido" class="control-label">Apellido</label>
+				<input type="text" id="apellido" class="form-control">	
+			</div>
+			
+			<div class="form-group col-md-6">
+				<label for="tipoDoc" class="control-label">DNI</label>
+				<select id="tipoDoc">
+					<option value="0">DNI</option>
+				</select>
+				<input type="text" id="nroDoc" class="form-control">
+			</div>
+			
+			<div class="form-group col-md-6">
+				<label for="telefono" class="control-label">Telefono</label>
+				<input type="text" id="telefono" class="form-control">
+			</div>
+			
+			<div class="form-group col-md-6">
+				<label for="mail" class="control-label">Mail</label>
+<!-- 				<span class="mail fuente-gris">@</span> -->
+<!-- 				<input type="text" id="mail" class="form-control mail"> -->
+				
+				
+				
+				
+				<div class="dynamic-fields-container" ng-repeat="email in envio.emails" ng-class="email.id !== 'email-1'? 'dynamicFieldMargin' : ''">
+					<span class="mail fuente-gris">@</span>
+					<input type="text" id="mail" ng-model="email.valor" ng-attr-id="{{ email.id }}" class="form-control mail">
+					
+					<a class="removeIngreso" ng-if="email.id != 'email-1'" ng-click="removeEmail(email.id)"></a>
+				</div>
+				<span class="agregar" ng-if="envio.emails.length < 2" ng-click="addNewEmail()">Agregá a otra persona con la quieras compartir la información</span>
+			</div>
+			
+			<div class="form-group col-md-6">
+				<label for="sucursal" class="control-label">Sucursal</label>
+			
+				<input type="text" id="sucursal" 
+					ng-model="envio.sucursal" 
+					placeholder="" 
+					uib-typeahead="sucursal as sucursal.descripcionSucursal for sucursal in sucursales | filter:$viewValue | limitTo:5" 
+					class="form-control" 
+					typeahead-show-hint="true" 
+					typeahead-editable="false"
+					typeahead-min-length="0"
+					typeahead-select-on-blur="true">
+			
+			</div>
+			
+			<div class="form-group col-md-6">
+				{{envio.sucursal}}
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label for="provincia" class="control-label">Provincia</label>
+				
+					<input type="text" id="provincia" 
+						ng-model="envio.provincia" 
+						placeholder="" 
+						uib-typeahead="provincia as provincia.nombre for provincia in provincias | filter:$viewValue | limitTo:5" 
+						class="form-control" 
+						typeahead-show-hint="true" 
+						typeahead-editable="false"
+						typeahead-min-length="0"
+						typeahead-select-on-blur="true" autocomplete="off">
+				
+				</div>
+				
+				<div class="form-group col-md-6">
+					{{envio.provincia}}
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label for="localidad" class="control-label">Localidad</label>
+				
+					<input type="text" id="localidad" 
+						ng-model="envio.localidad" 
+						placeholder="" 
+						uib-typeahead="localidad as localidad.nombre for localidad in localidades| filter:$viewValue | limitTo:5" 
+						class="form-control" 
+						typeahead-show-hint="true" 
+						typeahead-editable="false"
+						typeahead-min-length="0"
+						typeahead-select-on-blur="true" autocomplete="off">
+				
+				</div>
+				
+				<div class="form-group col-md-6">
+					{{envio.localidad}}
+				</div>
+			</div>
+			
+		</form>
+	</div>
+</div>
+
+
+
+
+<div class="row">
+	<div class="col-xs-12">
+		&nbsp;
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12 text-center">
+		<button class="btn btn-enviar" ng-click="enviar()">Enviar</button>	
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12">
+		&nbsp;
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12 text-center">
+		<a href="" ng-click="volver()" class="volver">Volver</a>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12">
+		&nbsp;
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12">
+		&nbsp;
+	</div>
+</div>
+
+<!-- telefono -->
+<div class="row plusPadLeft">
+	<div class="col-xs-12 ">
+		<a href="" class="hidden-xs hidden-sm" style="cursor: default;"><img src="img/shared/ico_tel.png"><span class="telefono">{{msg().telefono}}</span></a>
+		<a ng-href="tel:+{{msg().telefono}}" class="hidden-md hidden-lg" style="cursor: default;"><img src="img/shared/ico_tel.png"><span class="telefono">{{msg().telefono}}</span></a>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12">
+		&nbsp;
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12">
+		<p class="legales" ng-bind-html="paso.legales != null ? paso.legales : msg().mainLegales"></p>
+	</div>
+</div>
+

@@ -1,0 +1,97 @@
+{
+	"tituloNavbar": "PRESTAMOS HIPOTECARIOS",
+	"facebook":"https://www.facebook.com/BBVAFrancesArg",
+	"twitter":"https://twitter.com/bbvafrancesarg?lang=es",
+	"youtube":"https://www.youtube.com/user/bbvabancofrances",
+	"telefono":"0810-222-0000",
+	"cantPasos":3,
+	"mainLegales":"Oferta válida desde el xx/xx/2017 hasta el día xx/xx/2017. Cartera consumo. <span class='legales5x'>Costo Financiero Total nominal anual (CFTna) 5,05%.</span>CFTNA calculado para un préstamo de $2.500.000 sobre un valor de tasación de $3.571.000 para compra de vivienda única, familiar y permanente en pesos a tasa fija para un plazo de 180 meses. El CFTNA y la cuota incluyen: capital, intereses y seguro de incendio (para casa o departamento en planta baja y fuera de barrios privados o cerrados). Operación destino primera vivienda no esta gravada con I.V.A. El Costo Financiero Total Nominal Anual es orientativo y de carácter informativo, calculado en base a meses de 30 días, el mismo podrá variar en caso de que los días contados desde la fecha de liquidación del préstamo a la fecha de vencimiento de la primera cuota superen los 30 días, pudiendo también variar el función al valor de la propiedad y el plazo seleccionado. Operación Tasa nominal anual (TNA) 4,90% Fija; tasa efectiva anual (TEA) 5,01%. La tasa que se aplica es vencida sobre saldos. Otorgamiento sujeto al cumplimiento de los requisitos exigidos por el departamento de créditos de BBVA Banco Francés S.A. y demás condiciones de vinculación. Los accionistas de BBVA Banco Francés S.A. limitan su responsabilidad a la integración de las acciones suscriptas conforme Ley 19.550 y Ley 25.738. CUIT 30-500000319-3. Reconquista 199 CABA - CP 1003.",
+	"tagging":{
+			"activado":false
+	},
+	"pasos":{
+		"/hipotecarios/consulta":{
+			"numero": 1,
+			"titulo": "Simulador",
+			"texto": "Respondiendo las preguntas podemos calcular la mejor opción para tu Crédito Hipotecario. Completá los datos y enterate cuánto es tu cuota.",
+			"proximo":"/hipotecarios/resultados",
+			"contador":true,
+			"feliz":true,
+			"banner": "modules/hipotecarios/img/ofertasDigitales/consulta.jpg",
+			"validaciones":{
+				"ingresoTotalMinimo": 15000,
+				"ingresoMinimo": 10000,
+				"includeNombreVivienda": "UVA",
+				"trabajo": {
+					"relacion":{
+						"antiguedadMinima": 1,
+						"mensajeError": "La antigüedad mínima requerida para poder acceder a un préstamo hipotecario es de 1 año"
+					},
+					"monotributista":{
+						"antiguedadMinima": 3,
+						"mensajeError": "La antigüedad mínima requerida para poder acceder a un préstamo hipotecario es de 3 años"
+					},
+					"autonomo":{
+						"antiguedadMinima": 2,
+						"mensajeError": "La antigüedad mínima requerida para poder acceder a un préstamo hipotecario es de 2 años"
+					}
+				}
+			}
+		},
+		"/hipotecarios/sinOferta":{
+			"numero": 1,
+			"titulo":"Simulación",
+			"texto":"Podés intentar nuevamente cambiando las cifras.",
+			"proximo":null,
+			"contador":true,
+			"legales":""
+		},
+		"/hipotecarios/errorSimulacion":{
+			"numero": 1,
+			"titulo":"Simulación",
+			"texto":"Error técnico",
+			"proximo":null,
+			"contador":true,
+			"legales":""
+		},
+		"/hipotecarios/error":{
+			"numero": 0,
+			"titulo":"Error",
+			"texto":"Error General",
+			"proximo":null,
+			"contador":false,
+			"legales":""
+		},
+		"/hipotecarios/resultados":{
+			"numero": 2,
+			"titulo": "Resultados",
+			"texto": "Según los datos que nos proporcionaste calculamos la siguiente opción de préstamo Hipotecario: Monto Solitado $ 3.000.000,00 a 20 años - 240 meses. Podés probar diferentes opciones modificando los campos de Monto Solicitado y Plazo, tanto para préstamos UVA´s como para préstamos a Tasa Fija.",
+			"proximo":"/hipotecarios/envio",
+			"contador":true,
+			"feliz":true
+		},
+		"/hipotecarios/envio":{
+			"numero": 3,
+			"titulo": "Envío",
+			"texto": "Te pedimos tus datos para poder enviarte la simulación y los pasos a seguir en el caso de estar interesado en avanzar con el préstamo.",
+			"proximo":"/hipotecarios/gracias",
+			"contador":true,
+			"feliz":true
+		},
+		"/hipotecarios/gracias":{
+			"numero": 0,
+			"titulo": "Información enviada",
+			"texto": "Por favor verificá tu casilla de correo electrónico.",
+			"bannerTemplate": "modules/hipotecarios/templates/bannerGracias.html",
+			"proximo":null,
+			"contador":false
+		}
+	},
+	"services": ["modules/hipotecarios/js/services/servidor.js", "modules/hipotecarios/js/services/tagging.js"],
+	"styles": ["css/debug.css"],
+	"scripts": [],
+	"logging":{
+		"firebase": true
+	}
+
+}

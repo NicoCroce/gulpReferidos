@@ -1,0 +1,79 @@
+div.debugCheck{
+	display: initial;
+}
+
+div.consola-header {
+    background-color: #efc140;
+    color: black;
+    font-weight: bold;
+    height: 22px;
+    padding-left: 4px;
+    padding-right: 4px;
+    text-align: center;
+}    
+    
+div.consola-header > span#titulo{
+	float: left;
+}    
+    
+div.consola{
+	min-width: 130px;
+	min-height: 70px;
+	position: fixed;
+	background-color: black;
+	color: white;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	-ms-user-select: none;
+	-khtml-user-select: none;     
+	user-select: none;
+	z-index: 9999999;
+	top: 0;
+	overflow: auto;
+	resize: both;
+	font-size: 13px;
+	font-weight: bold;
+}
+            
+span.consola-error > span{
+    margin-right: 7px;
+}
+
+span.consola-error{
+	color: #ff8f8f;
+    display: block;
+    padding-left: 4px;
+    padding-right: 4px;
+}    
+
+span.x{
+    float: right;
+    padding-right: 6px;
+    text-transform: lowercase;
+    font-weight: bold;
+    font-size: 19px;
+    line-height: 18px;
+    cursor: pointer;
+}
+
+span.stacktrace{
+    display: block;
+    color: #70bf70;
+    width: 53%;
+    padding-left: 20px;
+    padding-right: 0px;
+    margin-right: 0px !important;
+}
+
+div#navDebug{
+	display: inline-block;
+}
+
+#navDebug > div > input[type='button']{
+    min-width: 50px;
+    font-size: 9px;
+    margin-right: 2px;
+    height: 14px;
+    line-height: 8px;
+}

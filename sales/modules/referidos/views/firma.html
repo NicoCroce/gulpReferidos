@@ -1,0 +1,31 @@
+<div class="row plusPadLeft">
+    <h1 class="text-center">Vamos a configurar tu cuenta</h1>
+    <h3 class="text-center">Para abrir la caja de ahorros en pesos seleccioná:</h3>
+    <div class="col-xs-12">
+        <form name="sucursales" class="clearfix">
+            <div class="form-group col-md-6">
+                <label for="emailId" class="control-label">Sucursal de radicación</label>
+                <select id="typeDocId" ng-model="data.typeDocSelected" ng-options="doc.description for doc in data.typesDoc track by doc.id"
+                    class="btn-select">
+                    </select>
+            </div>
+
+            <div class="form-group col-md-6 link-sucursal">
+                <a href="">Encontrar Sucursales BBVA.</a>
+            </div>
+            <p>Generamos una Tarjeta de Débito sin costo para que puedas operar desde tu caja de ahorro con mayor comodidad. Te la vamos
+    a estar enviando a la sucursal que nos indicaste dentro de los próximos 10 días.</p>
+        </form>
+        
+
+        <!--<form name="condiciones" class="text-center">
+            <input type="checkbox" ng-init="checkStaate = false" ng-model="checkStaate">
+            <span>Acepto <a href="">Términos y Condiciones</a></span>
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    <button class="btn btn-enviar" ng-click="continue()">Continuar</button>
+                </div>
+            </div>
+        </form>-->
+    </div>
+</div>

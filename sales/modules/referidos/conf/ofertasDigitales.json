@@ -1,0 +1,65 @@
+{
+	"tituloNavbar": "REFERIDOS",
+	"facebook": "https://www.facebook.com/BBVAFrancesArg",
+	"twitter": "https://twitter.com/bbvafrancesarg?lang=es",
+	"youtube": "https://www.youtube.com/user/bbvabancofrances",
+	"landing": "/referidos/consulta",
+	"telefono": "0810-222-0000",
+	"cantPasos": 3,
+	"mainLegales": "Oferta válida desde el xx/xx/2017 hasta el día xx/xx/2017. Cartera consumo. <span class='legales5x'>Costo Financiero Total nominal anual (CFTna) 5,05%.</span>CFTNA calculado para un préstamo de $2.500.000 sobre un valor de tasación de $3.571.000 para compra de vivienda única, familiar y permanente en pesos a tasa fija para un plazo de 180 meses. El CFTNA y la cuota incluyen: capital, intereses y seguro de incendio (para casa o departamento en planta baja y fuera de barrios privados o cerrados). Operación destino primera vivienda no esta gravada con I.V.A. El Costo Financiero Total Nominal Anual es orientativo y de carácter informativo, calculado en base a meses de 30 días, el mismo podrá variar en caso de que los días contados desde la fecha de liquidación del préstamo a la fecha de vencimiento de la primera cuota superen los 30 días, pudiendo también variar el función al valor de la propiedad y el plazo seleccionado. Operación Tasa nominal anual (TNA) 4,90% Fija; tasa efectiva anual (TEA) 5,01%. La tasa que se aplica es vencida sobre saldos. Otorgamiento sujeto al cumplimiento de los requisitos exigidos por el departamento de créditos de BBVA Banco Francés S.A. y demás condiciones de vinculación. Los accionistas de BBVA Banco Francés S.A. limitan su responsabilidad a la integración de las acciones suscriptas conforme Ley 19.550 y Ley 25.738. CUIT 30-500000319-3. Reconquista 199 CABA - CP 1003.",
+	"tagging": {
+		"activado": false
+	},
+	"pasos": {
+		"/referidos/consulta": {
+			"numero": 1,
+			"titulo": "¡Hola!",
+			"texto": "Fuiste referido por un compañero de tutrabajoparaempezaracobrartusueldoenBBVAFrancés.",
+			"proximo": "/referidos/paso1",
+			"contador": true,
+			"bannerTemplate": "modules/referidos/templates/banner.html",
+			"asideTemplate": "modules/referidos/templates/asidePaso1.html",
+			"feliz": true,
+			"validaciones": {
+				"ingresoTotalMinimo": 15000,
+				"ingresoMinimo": 10000,
+				"includeNombreVivienda": "UVA"
+			}
+		},
+		"/referidos/paso1": {
+			"numero": 2,
+			"titulo": "Datos personales",
+			"texto": "Por favor confirmanos los datos quenospasó tu referente.",
+			"proximo": null,
+			"contador": true,
+			"legales": ""
+		},
+		"/referidos/paso2": {
+			"numero": 3,
+			"titulo": "Datos de contacto",
+			"texto": "Estos datos seran usados para enviarte novedades sobre este proceso y del Banco.",
+			"proximo": null,
+			"contador": true,
+			"legales": ""
+		},
+		"/referidos/cuenta": {
+			"numero": 4,
+			"titulo": "Configuración",
+			"texto": "Caja de Ahorro.",
+			"proximo": null,
+			"contador": true,
+			"legales": ""
+		},
+		"/referidos/firma": {
+			"numero": 5,
+			"titulo": "Registro de firma",
+			"texto": "Caja de Ahorro.",
+			"proximo": null,
+			"contador": true,
+			"legales": ""
+		}
+	},
+	"services": ["modules/referidos/js/services/services.js"],
+	"styles": ["css/debug.css"],
+	"scripts": []
+}

@@ -1,0 +1,261 @@
+<div class="row plusPadLeft">
+	<div class="col-xs-12">
+		<h1 class="titulo">Estas son las opciones que tenemos para vos:</h1>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12">
+		&nbsp;
+	</div>
+</div>
+
+
+<div class="row plusPadLeft">
+	<div class="col-xs-12">
+		<div class="panel-group" id="accordion" role="tablist"
+			aria-multiselectable="true">
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingOne">
+					<h4 class="panel-title">
+						<span id="buttonOne" role="button" data-toggle="collapse" data-parent="#accordion"
+							data-target="#collapseOne" aria-expanded="true"
+							aria-controls="collapseOne" class="collapsed" ng-click="accordion(true)"> HIPOTECARIO UVA's <span class="flechita"></span></span>
+					</h4>
+				</div>
+				<div id="collapseOne" class="panel-collapse collapse"
+					role="tabpanel" aria-labelledby="headingOne">
+					<div class="panel-body">
+						<div class="row hidden-sm hidden-xs">
+							<div class="col-md-3 col-md-offset-6">
+								<p class="resultado-header">En Pesos</p>
+							</div>
+							<div class="col-md-3">
+								<p class="resultado-header">En UVA's</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="resultado-container">
+								<div class="row">
+									<div class="col-md-6">
+										<p class="montoMaximo">Monto Maximo Disponible</p>
+									</div>
+									<div class="col-md-3 col-xs-6">
+										<span class="money fuente-gris">$ {{resultados.tasaVariable.montoMaximo}}</span>
+									</div>
+									<div class="col-md-3 col-xs-6">
+										<p class="uvaMaximo">180.000 UVA's</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="resultado-container">
+								<div class="row">
+									<div class="col-md-6">
+										<p class="resultadoTitle">Monto Solicitado</p>
+									</div>
+									<div class="col-md-3 col-xs-6">
+										<span class="money fuente-azul-oscuro">$</span>
+ 										<input type="text" x-only-decimal ng-model="resultados.tasaVariable.montoSolicitado" class="form-control resultado money" ng-blur="montoValido(resultados.tasaVariable.montoMaximo, resultados.tasaVariable.montoSolicitado)" ng-class="{errorEnInput: valMontoSolicitadoTV}" >
+									</div>
+									<div class="col-md-3 col-xs-12">
+										<p class="uvaMaximo">180.000 UVA's</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					
+						<div class="row">
+							<div class="resultado-container">
+								<div class="row">
+									<div class="col-md-6">
+										<p class="resultadoTitle">Plazo</p>
+									</div>
+									<div class="col-md-6">
+										<select>
+											<option value="1">20 años - 240 meses</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="resultado-container">
+								<div class="row">
+									<div class="col-md-6">
+										<p class="resultadoTitle">Cuota Mensual</p>
+									</div>
+									<div class="col-md-3 col-xs-6">
+										<span class="resultado money">$ {{resultados.tasaVariable.montoCuota}}</span>
+									</div>
+									<div class="col-md-3 col-xs-6">
+										<p class="uvaMaximo">1.500 UVA's</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					
+						<div class="row">
+							<div class="descripcion-container">
+								<div class="row">
+									<div class="col-md-6">
+										<p class="descripcion">Tasa Nominal Anual (T.N.A) X,XX%.</p>
+									</div>
+									<div class="col-md-6">
+										<p class="descripcion">Cotización UVA´s a la fecha: $15,18.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading" role="tab" id="headingTwo">
+					<h4 class="panel-title">
+						<span id="buttonTwo" class="collapsed" role="button" data-toggle="collapse"
+							data-parent="#accordion" data-target="#collapseTwo"
+							aria-expanded="false" aria-controls="collapseTwo" class="collapsed" ng-click="accordion(false)">
+							HIPOTECARIO TASA FIJA  <span class="flechita"></span></span>
+					</h4>
+				</div>
+				<div id="collapseTwo" class="panel-collapse collapse"
+					role="tabpanel" aria-labelledby="headingTwo">
+					<div class="panel-body">
+						<div class="row hidden-sm hidden-xs">
+							<div class="col-md-3 col-md-offset-6">
+								<p class="resultado-header">En Pesos</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="resultado-container">
+								<div class="row">
+									<div class="col-md-6">
+										<p class="montoMaximo">Monto Maximo Disponible</p>
+									</div>
+									<div class="col-md-6">
+										<span class="money fuente-gris">$ {{resultados.tasaFija.montoMaximo}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="resultado-container">
+								<div class="row">
+									<div class="col-md-6">
+										<p class="resultadoTitle">Monto Solicitado</p>
+									</div>
+									<div class="col-md-3">
+										<span class="money fuente-azul-oscuro">$</span>
+										<input type="text" x-only-decimal ng-model="resultados.tasaFija.montoSolicitado" class="form-control resultado money" ng-blur="montoValido(resultados.tasaFija.montoMaximo, resultados.tasaFija.montoSolicitado)" ng-class="{errorEnInput: valMontoSolicitadoTF}">
+									</div>
+								</div>
+							</div>
+						</div>
+					
+						<div class="row">
+							<div class="resultado-container">
+								<div class="row">
+									<div class="col-md-6">
+										<p class="resultadoTitle">Plazo</p>
+									</div>
+									<div class="col-md-6">
+										<select>
+											<option value="1">20 años - 240 meses</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="resultado-container">
+								<div class="row">
+									<div class="col-md-6">
+										<p class="resultadoTitle">Cuota Mensual</p>
+									</div>
+									<div class="col-md-6">
+										<span class="money fuente-gris">$ {{resultados.tasaFija.montoCuota}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					
+						<div class="row">
+							<div class="descripcion-container">
+								<div class="row">
+									<div class="col-xs-12">
+										<p class="descripcion">Tasa Nominal Anual (T.N.A) X,XX%.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12">
+		&nbsp;
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12 text-center">
+		<button class="btn btn-quiero" ng-click="quiero()">Quiero recibir una copia<br/>de esta Simulación</button>	
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12">
+		&nbsp;
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12 text-center">
+		<a href="" ng-click="volver()" class="volver">Volver</a>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12">
+		&nbsp;
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12">
+		&nbsp;
+	</div>
+</div>
+
+<!-- telefono -->
+<div class="row plusPadLeft">
+	<div class="col-xs-12 ">
+		<a href="" class="hidden-xs hidden-sm" style="cursor: default;"><img src="img/shared/ico_tel.png"><span class="telefono">{{msg().telefono}}</span></a>
+		<a ng-href="tel:+{{msg().telefono}}" class="hidden-md hidden-lg" style="cursor: default;"><img src="img/shared/ico_tel.png"><span class="telefono">{{msg().telefono}}</span></a>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12">
+		&nbsp;
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12">
+		<p class="legales" ng-bind-html="paso.legales != null ? paso.legales : msg().mainLegales"></p>
+	</div>
+</div>

@@ -1,0 +1,168 @@
+<div class="row plusPadLeft">
+	<div class="col-xs-12">
+		<h1 class="titulo">Simulá tu cuota mensual</h1>
+	</div>
+</div>
+
+
+<div class="row plusPadLeft">
+	<div class="col-xs-12">
+		<form class="consulta" name="formConsulta" id="formConsulta" novalidate>
+			<div class="form-group">
+				<label class="control-label">Situación laboral</label>
+				<div class="toggle-buttons-wrapper" data-toggle="buttons">
+					<div class="col-md-4 noPadLeft doublePadRight noPadMobile">
+						<button class="btn-switch" ng-class="consulta.trabajo == 'relacion' ? 'active' : ''" ng-click="trabajo('relacion')">Relación de Dependencia</button>
+					</div>
+					<div class="col-md-4 noPadMobile">
+						<button class="btn-switch" ng-class="consulta.trabajo == 'monotributista' ? 'active' : ''" ng-click="trabajo('monotributista')">Monotributista</button>
+					</div>
+					<div class="col-md-4 noPadRight doublePadLeft noPadMobile">
+						<button class="btn-switch" ng-class="consulta.trabajo == 'autonomo' ? 'active' : ''" ng-click="trabajo('autonomo')">Autónomo</button>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group bigMarginTop">
+				<h2 class="subtitulo">Ingresos</h2>
+				<label for="antiguedad" class="control-label">Antigüedad laboral</label>
+				<span class="menos fuente-gris" ng-click="menosAntiguedad()"></span>
+				<input type="text" id="antiguedad" class="form-control consulta" ng-model="antiguedadDesc" readonly ng-class="{errorEnInput: (errorAntiguedad && submitted)}" ng-change="validarAntiguedadAsinc()" ng-required="true">
+				
+				
+				<span class="mas fuente-gris" ng-click="masAntiguedad()"></span>
+				
+				<a class="masInfo hidden-xs hidden-sm" x-tool-tip data-placement="right" data-toggle="tooltip" title="La antiguedad mínima requerida para poder acceder a un préstamo hipotecario es de X año."></a>
+				<a class="masInfo hidden-md hidden-lg" data-toggle="modal" data-target="#defaultModal" data-title="Antigüedad" data-body="La antiguedad mínima requerida para poder acceder a un préstamo hipotecario es de X año."></a>
+				<br>
+				<span ng-show="(errorAntiguedad && submitted)" id="errorAntiguedad" class="error">{{mensajeErrorAntiguedad}}</span>
+			</div>
+		
+			<div class="form-group">
+				<label for="ingresoNeto" class="control-label">Ingresos netos mensuales</label>
+				
+				<div class="dynamic-fields-container" ng-repeat="ingreso in consulta.ingresos" ng-class="ingreso.id !== 'ingreso-1'? 'dynamicFieldMargin' : ''">
+					<span class="money fuente-gris">$</span>
+					<input type="text" x-only-num ng-model="ingreso.valor" id="sueldo" name="sueldo" ng-attr-id="{{ ingreso.id }}" class="form-control consulta money" ng-class="{errorEnInput: (errorIngresos && submitted)}" ng-blur="validarIngresosAsinc()" ng-required="true">
+					
+					<a class="masInfo hidden-xs hidden-sm" ng-if="ingreso.id == 'ingreso-1'" x-tool-tip data-placement="right" data-toggle="tooltip" title="Es el sueldo que recibís en mano, podés agregar los ingresos de tu pareja o cónyuge."></a>
+					<a class="masInfo hidden-md hidden-lg" ng-if="ingreso.id == 'ingreso-1'" data-toggle="modal" data-target="#defaultModal" data-title="Ingresos" data-body="Es el sueldo que recibís en mano, podés agregar los ingresos de tu pareja o cónyuge."></a>
+					<a class="removeIngreso" ng-if="ingreso.id != 'ingreso-1'" ng-click="removeIngreso(ingreso.id)"></a>
+				</div>
+				<span class="agregar" ng-if="consulta.ingresos.length < 2" ng-click="addNewIngreso()">Agregar ingresos de tu pareja o conyuge</span>
+				<br>
+				<span ng-show="errorIngresos" id="errorIngresos" class="error">El ingreso mínimo debe ser de $15.000,00. En el caso de solicitar el préstamo con su pareja <br>
+				o cónyuge uno de los dos sueldos debe ser de $10.000,00 neto.</span>
+			</div>
+			
+			<div class="form-group">
+				<h2 class="subtitulo">Gastos mensuales</h2>
+				<label for="minimoConsumoTarjeta" class="control-label">Total de pagos mínimos de Tarjetas de Crédito</label>
+				<span class="money fuente-gris">$</span>
+				<input type="text" x-only-num ng-model="consulta.minimoConsumoTarjeta" id="minimoConsumoTarjeta" name="minimoConsumoTarjeta" class="form-control consulta money" ng-class="{errorEnInput: (!formConsulta.minimoConsumoTarjeta.$valid && (formConsulta.minimoConsumoTarjeta.$dirty || submitted))}" ng-required="true">
+				
+				
+				<a class="masInfo hidden-xs hidden-sm" x-tool-tip data-placement="right" data-toggle="tooltip" title="Si tenés tarjeta de crédito en uso, te pedimos el consumo mínimo que figura en tu último resumen. Si usas más de una tarjeta, te pedimos el total de los mínimos. Te solicitamos estos datos para poder hacer un cálculo de tus gastos mensuales y así, poder informate una cuota acorde en el Simulador de préstamo Hipotecario."></a>
+				<a class="masInfo hidden-md hidden-lg" data-toggle="modal" data-target="#defaultModal" data-title="Tarjetas" data-body="Si tenés tarjeta de crédito en uso, te pedimos el consumo mínimo que figura en tu último resumen. Si usas más de una tarjeta, te pedimos el total de los mínimos. Te solicitamos estos datos para poder hacer un cálculo de tus gastos mensuales y así, poder informate una cuota acorde en el Simulador de préstamo Hipotecario."></a>
+				<br>
+				<span ng-show="(!formConsulta.minimoConsumoTarjeta.$valid && (formConsulta.minimoConsumoTarjeta.$dirty || submitted))" id="errorMinimoConsumoTarjeta" class="error">Este campo es Obligatorio.</span>
+			</div>
+			
+			<div class="form-group">
+				<label for="prestamoAbono" class="control-label">Cuotas de otros préstamos</label>
+				<span class="money fuente-gris">$</span>
+				<input type="text" x-only-num ng-model="consulta.prestamoAbono" id="prestamoAbono" name="prestamoAbono" class="form-control consulta money" ng-class="{errorEnInput: errorPrestamoAbono}">
+				
+				<a class="masInfo hidden-xs hidden-sm" x-tool-tip data-placement="right" data-toggle="tooltip" title="Si tenés un préstamo, te pedimos ingreses el valor de la cuota mensual. Si tenés más de uno, el total de todas las cuotas."></a>
+				<a class="masInfo hidden-md hidden-lg" data-toggle="modal" data-target="#defaultModal" data-title="Préstamos" data-body="Si tenés un préstamo, te pedimos ingreses el valor de la cuota mensual. Si tenés más de uno, el total de todas las cuotas."></a>
+				<br>
+				<span ng-show="errorPrestamoAbono" id="errorPrestamoAbono" class="error">Este campo es Obligatorio.</span>
+			</div>
+		
+			<div class="form-group">
+				<h2 class="subtitulo">Tu préstamo hipotecario</h2>
+			
+				<label class="control-label">¿En qué vas a utilizar el préstamo hipotecario?</label>
+				
+				<div class="toggle-buttons-wrapper" data-toggle="buttons">
+					<div class="col-md-3 noPadLeft doublePadRight noPadMobile" ng-repeat-start="vivienda in datosViviendasAMostrar" ng-if="$first">
+						<button class="btn-switch-special" ng-click="tipoVivienda(vivienda.valor, vivienda.porcentaje)"><pre class="btn-pre" ng-class="consulta.tipoVivienda == vivienda.valor ? 'active' : ''">{{vivienda.descripcion}}</pre></button>
+					</div>
+					<div class="col-md-3 noPadMobile" ng-if="$middle">
+						<button class="btn-switch-special" ng-click="tipoVivienda(vivienda.valor, vivienda.porcentaje)"><pre class="btn-pre" ng-class="consulta.tipoVivienda == vivienda.valor ? 'active' : ''">{{vivienda.descripcion}}</pre></button>
+					</div>
+					<div class="col-md-3 noPadRight thin doublePadLeft noPadMobile" ng-repeat-end ng-if="(!$first && $last)">
+						<button class="btn-switch-special" ng-click="tipoVivienda(vivienda.valor, vivienda.porcentaje)"><pre class="btn-pre" ng-class="consulta.tipoVivienda == vivienda.valor ? 'active' : ''">{{vivienda.descripcion}}</pre></button>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group bigMarginTop">
+				<label for="valorPropiedad" class="control-label">¿Cuál es el valor de la propiedad?</label>
+				<span class="money fuente-gris">$</span>
+				<input type="text" x-only-num ng-model="consulta.valorPropiedad" id="valorPropiedad" name="valorPropiedad" class="form-control consulta money" ng-class="{errorEnInput: (!formConsulta.valorPropiedad.$valid && (formConsulta.valorPropiedad.$dirty || submitted))}" ng-required="true">
+				
+				<a class="masInfo hidden-xs hidden-sm" x-tool-tip data-placement="right" data-toggle="tooltip" title="Ingresar el valor de la propiedad que vas a adquirir en Pesos Argentinos."></a>
+				<a class="masInfo hidden-md hidden-lg" data-toggle="modal" data-target="#defaultModal" data-title="Propiedad" data-body="Ingresar el valor de la propiedad que vas a adquirir en Pesos Argentinos."></a>
+				<br>
+				<span ng-show="(!formConsulta.valorPropiedad.$valid && (formConsulta.valorPropiedad.$dirty || submitted))" class="error">Necesitamos completes este campo para validar qué porcentaje de la propiedad estás solicitando.</span>
+			</div>
+			
+			<div class="form-group">
+				<label id="montoSolicitud" class="control-label">¿Cuánto dinero vas a solicitar?</label>
+				<span class="money fuente-gris">$</span>
+				<input type="text" x-only-num ng-model="consulta.montoSolicitud" id="montoSolicitud" name="montoSolicitud" class="form-control consulta money" ng-class="{errorEnInput: (!formConsulta.montoSolicitud.$valid && (formConsulta.montoSolicitud.$dirty || submitted))}" ng-required="true">
+				
+				<a class="masInfo hidden-xs hidden-sm" x-tool-tip data-placement="right" data-toggle="tooltip" title="Podés modificar el monto solicitado y realizar nuevas simulaciones."></a>
+				<a class="masInfo hidden-md hidden-lg" data-toggle="modal" data-target="#defaultModal" data-title="Solicitud" data-body="Podés modificar el monto solicitado y realizar nuevas simulaciones."></a>
+				<br>
+				<span ng-show="(!errorValidarMontoSolicitud && (!formConsulta.montoSolicitud.$valid && (formConsulta.montoSolicitud.$dirty || submitted)))" class="error">Este campo es Obligatorio.</span>
+				<span ng-show="errorValidarMontoSolicitud" class="error">{{mensajeErrorMonto}}</span>
+			</div>
+			
+			<div class="form-group actionButtonContainer col-xs-12">
+				<input type="submit" class="btn btn-consulta" ng-click="consultar()" value="Calcular">
+			</div>
+		</form>	
+		
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12">
+		&nbsp;
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12">
+		&nbsp;
+	</div>
+</div>
+
+<!-- telefono -->
+<div class="row plusPadLeft">
+	<div class="col-xs-12 ">
+		<a href="" class="hidden-xs hidden-sm" style="cursor: default;"><img src="img/shared/ico_tel.png"><span class="telefono">{{msg().telefono}}</span></a>
+		<a ng-href="tel:+{{msg().telefono}}" class="hidden-md hidden-lg" style="cursor: default;"><img src="img/shared/ico_tel.png"><span class="telefono">{{msg().telefono}}</span></a>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12">
+		&nbsp;
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-xs-12">
+		<p class="legales" ng-bind-html="paso.legales != null ? paso.legales : msg().mainLegales"></p>
+	</div>
+</div>
+
+<!-- <script type="text/javascript">
+
+$('input.errorEnInput:first').focus();
+
+</script> -->

@@ -1,0 +1,48 @@
+{
+	"destinos":{
+		"adquisicion1":"Adquisición de 1ra. vivienda",
+		"construccion1":"Construcción de 1ra. vivienda",
+		"refaccion1":"Refacción de 1ra. vivienda",
+		"adquisicion2":"Adquisición de 2da. vivienda",
+		"adquisicion1UVA":"Adquisición de 1ra. vivienda en UVAs",
+		"construccion1UVA":"Construcción de 1ra. vivienda en UVAs",
+		"refaccion1UVA":"Refacción de 1ra. vivienda en UVAs",
+		"adquisicion2UVA":"Adquisición de 2da. vivienda en UVAS"
+	},
+	"repago":{
+		"excel":{
+			"url":"https://www.bbvafrances.com.ar/ph/conf/repago.xlsx",
+			"campos":{
+				"refPlazo":"E7",     
+				"refValorPropiedad":"E8",
+				"refDestino":"E9",    
+				"refMontoSolicitado":"E11",        
+				"refTipoTasa":"E12",           
+				"refIngresos":"E19",      
+				"refValorTarjetas":"E34",     
+				"refValorPrestamos":"E54",
+				"refEvalPorcentajeFinanciar":"F15",
+				"refEvalDictamen":"E73",
+				"refCuota":"E14",
+				"refPorcentajeFinanciar":"E15"
+			},
+			"impl":"ar.org.bbva.homebanking.campania.hipotecarios.impl.ExcelFormulaProviderImpl"
+		},
+		"formula":{
+			"velocity":"$repago.setResultado($resultado_aprobado) $repago.getRespuesta().put('porcentajeOk', 'OK') $repago.putNumericValue('cuota', 1819283, 100) $repago.getRespuesta().put('file','/tmp/repago-1484765892352.xlsx') $repago.getRespuesta().put('plazo', 180) $repago.putNumericValue('porcentajeFinanciar', 6483, 10000)",
+			"impl":"ar.org.bbva.homebanking.campania.hipotecarios.impl.VelocityFormulaProviderImpl"
+		}
+	},
+	"opcionRepago":"formula",
+	"conversorDeHost":{
+		"10":"adquisicion1",
+		"30":"construccion1",
+		"40":"refaccion1",
+		"20":"adquisicion2",
+		"11":"adquisicion1UVA",
+		"31":"construccion1UVA",
+		"41":"refaccion1UVA",
+		"21":"adquisicion2UVA"
+	}
+}
+

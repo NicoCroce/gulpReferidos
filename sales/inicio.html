@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html ng-app="bbvaApp" lang="es"> 
+	<head>
+		<script src='//assets.adobedtm.com/95bb966a4c61b200a089c37679aaf96e22114787/satelliteLib-f6de09220b65ed3376814b646e0391f1d8b95d1b.js'></script>
+		<title>BBVA Francés | Oferta Exclusiva</title>
+		<link rel="shortcut icon" href="/fbin/css/img/favicon.ico">
+		<meta name="robots" content="noindex">
+		<meta http-equiv="cache-control" content="max-age=0" />
+		<meta http-equiv="cache-control" content="no-cache" />
+		<meta http-equiv="expires" content="-1" />
+		<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+		<meta http-equiv="pragma" content="no-cache" />
+		<meta name="google" value="notranslate">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		
+		<link rel="stylesheet" href="css/lib/bootstrap.min.css">
+		<link rel="stylesheet" href="css/lib/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="css/base.css?v4" />
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-fixed-top">
+				<div class="container noPadNavbarAntiPhone">
+					<div class="navbar-header">
+						<a ng-href="#" class="brand-logo"><img alt="" class="logo" src="img/shared/logo.png"></a>
+					</div>
+					
+					<div class="debugCheck" ng-if="showDebugSwitch()" ng-controller="DebugController">
+						<input type="checkbox" ng-model="debug" ng-checked="debug"> Debug?
+						
+						<div class="consola" id="elem" ng-show="debug">
+							<div class="consola-header">
+								<span id="titulo">Debug</span>
+								<div id="navDebug">
+								</div>
+								<span id="x" class="x" ng-click="setDebug(false)">X</span>
+							</div>
+							<div class="consola-logs" id="divConsole">
+							
+							</div>
+						</div>
+					</div>
+					
+					<p class="navbar-text navbar-right">
+						{{msg().tituloNavbar}}
+					</p>
+					
+				</div>
+			</nav>
+		</header>
+		<main>
+			<div id="mainContainer" class="container table-container">
+				<div class="row table-row">
+					<img class="banner hidden-md hidden-lg" alt="" ng-src="{{paso.banner}}" ng-if="paso.banner && !paso.bannerTemplate">
+					<div class="hidden-md hidden-lg" id="bannerTemplateContainerMobile" ng-include="paso.bannerTemplate" ng-if="paso.bannerTemplate"></div>
+					
+					<div class="col-md-3 table-col sideInfo">
+						<div class="pasoContainer">
+							<p class="indicadorPaso fuente-azul" ng-if="paso.contador">paso {{paso.numero}} de {{pasos}}</p>
+							
+							<h2 class="tituloPaso">{{paso.titulo}}</h2>
+							
+							<img class="tilde" src="img/shared/ico_aside.png" ng-if="paso.feliz">
+							
+							<p class="textoDelPaso">{{paso.texto}}</p>
+						</div>
+						
+						<div class="hidden-xs hidden-sm" id="asideTemplateContainer" ng-include="paso.asideTemplate" ng-if="paso.asideTemplate"></div>
+
+						<div class="proximoPasoContainer" ng-if="proximoPaso && proximoPaso.numero != 0">
+							<p class="indicadorPaso fuente-azul">paso {{proximoPaso.numero}} de {{pasos}}</p>
+							<h2 class="tituloPaso">{{proximoPaso.titulo}}</h2>
+						</div>
+					</div>
+					<div class="col-md-9 table-col noPadLeft">
+						<img class="banner hidden-xs hidden-sm" alt="" ng-src="{{paso.banner}}" ng-if="paso.banner && !paso.bannerTemplate">
+						<div class="hidden-xs hidden-sm" id="bannerTemplateContainer" ng-include="paso.bannerTemplate" ng-if="paso.bannerTemplate"></div>
+						<div class="plusPadLeft" ng-view id="vista"></div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<div class="modal fade" id="defaultModal" tabindex="-1" role="dialog" aria-labelledby="modalTitle">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="modalTitle">Modal title</h4>
+					</div>
+					<div class="modal-body">
+						<p id="modalBody"></p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer class="page-footer fondo-azul fuente-blanca lighten-3">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						&nbsp;
+					</div>
+					<div class="col-xs-12">
+						&nbsp;
+					</div>
+					<div class="col-md-4">
+						<div id="copyReference" class="reference">
+							<img src="img/shared/logo_footer.png">
+							<div class="footer-line">&nbsp;</div>
+							<p class="adelante">adelante</p>
+						</div>
+					</div>
+					
+					<div class="col-md-4 col-md-offset-4 hidden-xs hidden-sm">
+						<div class="socialIconsContainer">
+							<a ng-href="{{msg().facebook}}" target="_blank"><img class="socialIcon" src="img/shared/ico_facebook.png"></a>
+							<a ng-href="{{msg().twitter}}" target="_blank"><img class="socialIcon" src="img/shared/ico_twitter.png"></a>
+							<a ng-href="{{msg().youtube}}" target="_blank"><img class="socialIcon" src="img/shared/ico_youtube.png"></a>
+						</div>
+					</div>
+					
+					<div class="col-xs-12">
+						&nbsp;
+					</div>
+					<div class="col-xs-12">
+						&nbsp;
+					</div>
+					<div class="col-md-4">
+						<div x-copy-element data-id="copyReference">
+							<a href="" data-toggle="modal" data-target="#avisoLegalModal"  class="aviso" style="float: left;">Aviso Legal</a>
+							<a href="" data-toggle="modal" data-target="#navegadoresModal"  class="aviso" style="float: right;">Aviso Navegadores</a>
+							
+							<div ng-include="'views/avisoLegal.html'"></div>
+							<div ng-include="'views/navegadores.html'"></div>
+							
+						</div>
+					</div>
+					<div class="col-xs-12">
+						&nbsp;
+					</div>
+					<div class="col-md-4">
+						<p class="copyright">© 2017 BBVA Francés</p> 
+					</div>
+					<div class="col-md-4 hidden-md hidden-lg">
+						<div class="socialIconsContainer">
+							<a ng-href="{{msg().facebook}}" target="_blank"><img class="socialIcon" src="img/shared/ico_facebook.png"></a>
+							<a ng-href="{{msg().twitter}}" target="_blank"><img class="socialIcon" src="img/shared/ico_twitter.png"></a>
+							<a ng-href="{{msg().youtube}}" target="_blank"><img class="socialIcon" src="img/shared/ico_youtube.png"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+	
+	
+		<script src="//www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+		<script type="text/javascript" src="js/lib/jquery-3.1.0.min.js?v4"></script>
+		<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/lib/angular.min.js?v4"></script>
+		<script type="text/javascript" src="js/lib/angular-route.min.js?v4"></script>
+		<script type="text/javascript" src="js/lib/angular-sanitize.min.js?v4"></script>
+		<script type="text/javascript" src="js/lib/angular-resource.min.js?v4"></script>
+		<script type="text/javascript" src="js/lib/angular-ui-router.min.js?v4"></script>
+												
+		<script type="text/javascript" src="js/lib/ui-bootstrap-tpls-2.5.0.min.js?v4"></script>
+		
+		
+		<script>
+	  		// Initialize Firebase
+			var config = {
+				apiKey : "AIzaSyDX_9OS_bG-yzqkYykUoJGD1nAj9K3njPo",
+				authDomain : "sales-9c8a0.firebaseapp.com",
+				databaseURL : "https://sales-9c8a0.firebaseio.com",
+				storageBucket : "sales-9c8a0.appspot.com",
+				messagingSenderId : "1002509075296"
+			};
+			firebase.initializeApp(config);
+		</script>
+		
+		
+		<script type="text/javascript" src="js/utils.js?v4"></script>
+		<script type="text/javascript" src="js/lazyUtils.js?v4"></script>
+		<script type="text/javascript" src="js/app.js?v4"></script>
+		<script type="text/javascript" src="js/directives.js?v4"></script>
+		
+		
+		<!-- NUEVO TAGGING -->
+		<script type="text/javascript" src="/fbin/mult/campaign/oferta/js/datalayer.js?v12"></script>	
+		<script type="text/javascript" src="/fbin/mult/campaign/oferta/js/funciones_dataLayer.js?v12"></script>	
+	</body>
+
+
+	
+</html>
