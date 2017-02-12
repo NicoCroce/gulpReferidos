@@ -1,6 +1,6 @@
 'use strict';
 
-var  serverPort 	= 2173;
+var  serverPort 	= 8089;
 
 var configProject 	= require('./config/config-project'),
 	gulp 			= require("gulp"),//http://gulpjs.com/
@@ -20,7 +20,7 @@ var configProject 	= require('./config/config-project'),
 	log 			= gutil.log;
 
 var FOLDER_ASSETS 		= 'sales',
-	FOLDER_DEV 			= 'dev',
+	FOLDER_DEV 			= 'sales',
 	FOLDER_BUILD 		= 'build',
 	BOWER_COMPONENTS 	= 'bower_components';
 
@@ -32,10 +32,9 @@ var SRC_CSS_BASE 		= path.join(FOLDER_ASSETS, 'css'),
 	SRC_VIEWS_BASE 		= path.join(FOLDER_ASSETS, 'views'),
 	SRC_FONTS_BASE 		= path.join(FOLDER_ASSETS, 'icons'),
 	SRC_DATA_BASE 		= path.join(FOLDER_ASSETS, 'data'),
-	SRC_JS_LIBS_FILES 	= path.join(SRC_JAVASCRIPT_BASE, 'lib'),
-	SRC_PROJECT;
+	SRC_JS_LIBS_FILES 	= path.join(SRC_JAVASCRIPT_BASE, 'lib');
 
-var SASS_FILES_PROJECT, MODULE_JS_FILES, INDEX_SERVER_FILE;
+var SRC_PROJECT, MODULE, SASS_FILES_PROJECT, MODULE_JS_FILES, INDEX_SERVER_FILE;
 	//JS_EXTERNAL_FILES = SRC_JAVASCRIPT_BASE + '/*.js',
 	//IMAGES_FILES 		= SRC_IMAGES_BASE + '/**/*',
 	//ICON_FILES 			= SRC_FONTS_BASE + '/**/*',
@@ -68,8 +67,10 @@ function start (done){
 	if (projectElement) {
 		SRC_PROJECT = path.join(SRC_MODULES_BASE, projectElement.module);
 		INDEX_SERVER_FILE = projectElement.clearIndex;
-		console.log('module:   ' + SRC_PROJECT);
+		MODULE = projectElement.module;
+		console.log('SRC_module:   ' + SRC_PROJECT);
 		console.log('index:    ', INDEX_SERVER_FILE);
+		console.log('MODULE:    ', MODULE);
 		setProjectVars();
 	}
 	return done();
@@ -89,6 +90,28 @@ function sassFunction() {
 		/*.pipe(browserSync.stream()).on('error', gutil.log);*/
 };
 
+function connectServer(done) {
+	browserSync.init({
+		port: serverPort,
+		server: {
+			baseDir: ENVIRONMENT,
+			middleware: [{
+				route: "/",
+				handle: function (req, res, next) {
+					res.writeHead(302, { 'Location': 'inicio.html#/' + MODULE + '/' + INDEX_SERVER_FILE + '?targetHost=http://localhost:8080' });
+					res.end();
+					next();
+				}
+			}],
+		},
+		ui: {
+			port: 2222,
+		}
+	});
+
+	return done();
+};
+
 
 function showComment(string) {
 	if (runFirstTime) { return; }
@@ -100,4 +123,4 @@ function showComment(string) {
 };
 
 
-gulp.task("run", gulp.series(start, sassFunction));
+gulp.task("run", gulp.series(start, sassFunction, connectServer));
