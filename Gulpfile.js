@@ -3,6 +3,7 @@
 var  serverPort 	= 8089;
 
 var configProject 	= require('./config/config-project'),
+	configFiles		= require('./config/config-files'),
 	gulp 			= require("gulp"),//http://gulpjs.com/
 	gutil 			= require("gulp-util"),//https://github.com/gulpjs/gulp-util
 	sass 			= require("gulp-sass"),//https://www.npmjs.org/package/gulp-sass
@@ -52,25 +53,22 @@ function setProjectVars(){
 		//INDEX_SERVER_FILE = '';
 }
 
-var JS_FILES_EXTERNAL_ORDER = configProject.getFiles(SRC_JS_LIBS_FILES),
-	JS_FILES_APP_ORDER 		= configProject.getAppFiles(SRC_JAVASCRIPT_BASE);
+var JS_FILES_EXTERNAL_ORDER = configFiles.getLibsFiles(SRC_JS_LIBS_FILES),
+	JS_FILES_APP_ORDER 		= configFiles.getAppFiles(SRC_JAVASCRIPT_BASE);
 
 var ENVIRONMENT = FOLDER_DEV,
 	runFirstTime = true;
 
-var uglifyOptions = configProject.getUglifySettings;
+var uglifyOptions = configFiles.getUglifySettings;
 
 gulp.task("sass", gulp.series(sassFunction));
 
 function start (done){
-	var projectElement 	= configProject.selectProject(process);
+	var projectElement 	= configProject.selectProject(process); //Envio como parámetro a los argumentos del comando.
 	if (projectElement) {
-		SRC_PROJECT = path.join(SRC_MODULES_BASE, projectElement.module);
-		INDEX_SERVER_FILE = projectElement.clearIndex;
-		MODULE = projectElement.module;
-		console.log('SRC_module:   ' + SRC_PROJECT);
-		console.log('index:    ', INDEX_SERVER_FILE);
-		console.log('MODULE:    ', MODULE);
+		SRC_PROJECT = path.join(SRC_MODULES_BASE, projectElement.module); //Genero la ruta del proyecto.
+		INDEX_SERVER_FILE = projectElement.clearIndex; //Almaceno el index de la página como global
+		MODULE = projectElement.module; //Almaceno el Módulo a trabajar como global
 		setProjectVars();
 	}
 	return done();
