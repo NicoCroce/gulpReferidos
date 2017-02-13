@@ -58,6 +58,7 @@ function setProjectVars(){
 
 var JS_FILES_EXTERNAL_ORDER = configFiles.getLibsFiles(BOWER_COMPONENTS),
 	JS_GLOBAL_APP_ORDER 	= configFiles.getGlobalAppFiles(SRC_JAVASCRIPT_BASE),
+	CSS_FILES_EXTERNAL_ORDER = configFiles.getGlobalAppFiles(BOWER_COMPONENTS),
 	uglifyOptions 			= configFiles.getUglifySettings;
 
 
@@ -96,7 +97,7 @@ function sassFunction() {
 };
 
 function cssConcatLibs(done) {
-	gulp.src(JS_FILES_EXTERNAL_ORDER)
+	gulp.src(CSS_FILES_EXTERNAL_ORDER)
 		.pipe(concat('libs.js')) // concat pulls all our files together before minifying them
 		.pipe(gulp.dest(path.join(ENVIRONMENT, 'js/min/'))).on('error', gutil.log);
 	done();
