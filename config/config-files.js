@@ -2,26 +2,31 @@
 
 var path = require('path');
 
-exports.getLibsFiles = function (SRC_JS_LIBS_FILES) {
+exports.getLibsFiles = function (BOWER_COMPONENTS) {
     return [
-        path.join(SRC_JS_LIBS_FILES + '/jquery/dist/jquery-3.1.0.min.js'),
-        path.join(SRC_JS_LIBS_FILES + '/angular/bootstrap.min.js'),
-        path.join(SRC_JS_LIBS_FILES + '/angular/angular.min.js'),
-        path.join(SRC_JS_LIBS_FILES + '/angular/angular-route.min.js'),
-        path.join(SRC_JS_LIBS_FILES + '/angular/angular-sanitize.min.js'),
-        path.join(SRC_JS_LIBS_FILES + '/angular/angular-resource.min.js'),
-        path.join(SRC_JS_LIBS_FILES + '/angular/angular-ui-router.min.js'),
-        path.join(SRC_JS_LIBS_FILES + '/angular/ui-bootstrap-tpls-2.5.0.min.js')
+        path.join(BOWER_COMPONENTS, 'jquery/dist/jquery.min.js'),
+        path.join(BOWER_COMPONENTS, 'tether/dist/js/tether.min.js'),
+        path.join(BOWER_COMPONENTS, 'bootstrap/dist/js/bootstrap.min.js'),
+        path.join(BOWER_COMPONENTS, 'angular/angular.min.js'),
+        path.join(BOWER_COMPONENTS, 'angular-route/angular-route.min.js'),
+        path.join(BOWER_COMPONENTS, 'angular-sanitize/angular-sanitize.min.js'),
+        path.join(BOWER_COMPONENTS, 'angular-resource/angular-resource.min.js'),
+        path.join(BOWER_COMPONENTS, 'angular-ui-router/release/angular-ui-router.min.js'),
+        path.join(BOWER_COMPONENTS, 'angular-bootstrap/ui-bootstrap-tpls.min.js')
     ];
 };
 
-exports.getAppFiles = function (SRC_JAVASCRIPT_BASE) {
+exports.getGlobalAppFiles = function (SRC_JAVASCRIPT_BASE) {
     return [
-        path.join(SRC_JAVASCRIPT_BASE + '/utils.js'),
-        path.join(SRC_JAVASCRIPT_BASE + '/lazyUtils.js'),
-        path.join(SRC_JAVASCRIPT_BASE + '/app.js'),
-        path.join(SRC_JAVASCRIPT_BASE + '/directives.js'),
-        path.join(SRC_JAVASCRIPT_BASE + '/**/*.js')
+        path.join(SRC_JAVASCRIPT_BASE, 'utils.js'),
+        path.join(SRC_JAVASCRIPT_BASE, 'lazyUtils.js'),
+        path.join(SRC_JAVASCRIPT_BASE, 'app.js'),
+        path.join(SRC_JAVASCRIPT_BASE, 'directives.js'),
+        path.join(SRC_JAVASCRIPT_BASE, '**/*.js'),
+        '!' + path.join(SRC_JAVASCRIPT_BASE, 'lib/libs.js'),
+        '!' + path.join(SRC_JAVASCRIPT_BASE, 'funciones_dataLayer.js'),
+        '!' + path.join(SRC_JAVASCRIPT_BASE, 'datalayer.js'),
+        '!' + path.join(SRC_JAVASCRIPT_BASE, 'concant/**/*')
     ];
 };
 

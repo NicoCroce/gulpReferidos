@@ -25,17 +25,20 @@ var FOLDER_ASSETS 		= 'sales',
 	FOLDER_BUILD 		= 'build',
 	BOWER_COMPONENTS 	= 'bower_components';
 
+var ENVIRONMENT 		= FOLDER_DEV,
+	runFirstTime 		= true;
+
 var SRC_CSS_BASE 		= path.join(FOLDER_ASSETS, 'css'),
 	SRC_SASS_BASE 		= path.join(FOLDER_ASSETS, 'style'), // ver
 	SRC_IMAGES_BASE 	= path.join(FOLDER_ASSETS, 'img/shared'),
 	SRC_JAVASCRIPT_BASE = path.join(FOLDER_ASSETS, 'js'),
-	SRC_MODULES_BASE 	= path.join(FOLDER_ASSETS, 'modules'),
+	SRC_MODULES_BASE 	= path.join(ENVIRONMENT, 'modules'),
 	SRC_VIEWS_BASE 		= path.join(FOLDER_ASSETS, 'views'),
 	SRC_FONTS_BASE 		= path.join(FOLDER_ASSETS, 'icons'),
 	SRC_DATA_BASE 		= path.join(FOLDER_ASSETS, 'data'),
-	SRC_JS_LIBS_FILES 	= path.join(SRC_JAVASCRIPT_BASE, 'lib');
+	SRC_JS_LIBS_FILES 	= 'js/lib';
 
-var SRC_PROJECT, MODULE, SASS_FILES_PROJECT, MODULE_JS_FILES, INDEX_SERVER_FILE;
+var SRC_PROJECT, MODULE_NAME, SASS_FILES_PROJECT, MODULE_JS_FILES, INDEX_SERVER_FILE;
 	//JS_EXTERNAL_FILES = SRC_JAVASCRIPT_BASE + '/*.js',
 	//IMAGES_FILES 		= SRC_IMAGES_BASE + '/**/*',
 	//ICON_FILES 			= SRC_FONTS_BASE + '/**/*',
@@ -53,22 +56,26 @@ function setProjectVars(){
 		//INDEX_SERVER_FILE = '';
 }
 
-var JS_FILES_EXTERNAL_ORDER = configFiles.getLibsFiles(SRC_JS_LIBS_FILES),
-	JS_FILES_APP_ORDER 		= configFiles.getAppFiles(SRC_JAVASCRIPT_BASE);
+var JS_FILES_EXTERNAL_ORDER = configFiles.getLibsFiles(BOWER_COMPONENTS),
+	JS_GLOBAL_APP_ORDER 	= configFiles.getGlobalAppFiles(SRC_JAVASCRIPT_BASE),
+	uglifyOptions 			= configFiles.getUglifySettings;
 
-var ENVIRONMENT = FOLDER_DEV,
-	runFirstTime = true;
 
-var uglifyOptions = configFiles.getUglifySettings;
 
 gulp.task("sass", gulp.series(sassFunction));
+
+function cleanAllJs() {
+	return del([path.join(ENVIRONMENT, SRC_JS_LIBS_FILES), 
+					path.join(ENVIRONMENT, 'js/concat'),
+					path.join(SRC_PROJECT, '/js/concat') ]);
+};
 
 function start (done){
 	var projectElement 	= configProject.selectProject(process); //Envio como parámetro a los argumentos del comando.
 	if (projectElement) {
 		SRC_PROJECT = path.join(SRC_MODULES_BASE, projectElement.module); //Genero la ruta del proyecto.
 		INDEX_SERVER_FILE = projectElement.clearIndex; //Almaceno el index de la página como global
-		MODULE = projectElement.module; //Almaceno el Módulo a trabajar como global
+		MODULE_NAME = projectElement.module; //Almaceno el Módulo a trabajar como global
 		setProjectVars();
 	}
 	return done();
@@ -88,6 +95,31 @@ function sassFunction() {
 		/*.pipe(browserSync.stream()).on('error', gutil.log);*/
 };
 
+function jsConcatLibsFunction(done) {
+	gulp.src(JS_FILES_EXTERNAL_ORDER)
+		.pipe(concat('libs.js')) // concat pulls all our files together before minifying them
+		.pipe(gulp.dest(path.join(ENVIRONMENT, SRC_JS_LIBS_FILES))).on('error', gutil.log);
+	done();
+};
+
+function jsConcatGlobalFunction(done) {
+	return jsFunction(JS_GLOBAL_APP_ORDER, path.join(ENVIRONMENT, 'js/concat'), "scriptGlobalApp.js", done);
+}
+
+function jsConcatAppFunction(done) {
+	return jsFunction(SRC_PROJECT + '/js/**/*js', path.join(SRC_PROJECT, '/js/concat'), "scriptApp.js", done);
+}
+
+function jsFunction(source, destination, nameFile, done){
+	gulp.src(source)
+		.pipe(gulpif(ENVIRONMENT == FOLDER_DEV, sourcemaps.init()))
+		.pipe(concat(nameFile)) // concat pulls all our files together before minifying them
+		.pipe(gulpif(ENVIRONMENT == FOLDER_DEV, sourcemaps.write('./maps')))
+		.pipe(gulpif(ENVIRONMENT == FOLDER_BUILD, gpUglify(uglifyOptions)))
+		.pipe(gulp.dest(destination)).on('error', gutil.log);
+	done();
+}
+
 function connectServer(done) {
 	browserSync.init({
 		port: serverPort,
@@ -96,7 +128,7 @@ function connectServer(done) {
 			middleware: [{
 				route: "/",
 				handle: function (req, res, next) {
-					res.writeHead(302, { 'Location': 'inicio.html#/' + MODULE + '/' + INDEX_SERVER_FILE + '?targetHost=http://localhost:8080' });
+					res.writeHead(302, { 'Location': 'inicio.html#/' + MODULE_NAME + '/' + INDEX_SERVER_FILE + '?targetHost=http://localhost:8080' });
 					res.end();
 					next();
 				}
@@ -121,4 +153,6 @@ function showComment(string) {
 };
 
 
-gulp.task("run", gulp.series(start, sassFunction, connectServer));
+gulp.task("run", gulp.series(start, cleanAllJs, gulp.parallel(sassFunction, jsConcatLibsFunction, jsConcatGlobalFunction, jsConcatAppFunction), connectServer ));
+
+/*gulp.task("nico", gulp.series(start, cleanAllJs));*/

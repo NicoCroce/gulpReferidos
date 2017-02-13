@@ -11,12 +11,11 @@ jQuery.loadScript = function (url, callback) {
     });
 }
 
-function loadModules(modules){
-	for(i = 0; i < modules.length; i++){
-		$.loadScript(modules[i], function(){
-			//callback cuando se carga
-		});
-	}
+function loadAppScripts(source){
+	var s = document.createElement("script");
+	s.type = "text/javascript";
+	s.src = source;
+	$("body").append(s);
 }
 
 function loadRoutes(rp, pasos, jsPath, htmlPath){

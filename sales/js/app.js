@@ -43,47 +43,22 @@ app.config(['$routeProvider', '$locationProvider', '$controllerProvider', '$comp
 			
 			//cargo styles default
 			if(data.styles && data.styles.length > 0){
-				data.styles.push('modules/' + moduleName + '/css/' + campaign  + '.css');			//cargo style por defecto
+				data.styles.unshift('modules/' + moduleName + '/css/' + campaign  + '.css');			//cargo style por defecto
 				loadStyles(data.styles);
 			}else{
 				data.styles = [];
-				data.styles.push('modules/' + moduleName + '/css/' + campaign  + '.css');			//cargo style por defecto
+				data.styles.unshift('modules/' + moduleName + '/css/' + campaign  + '.css');			//cargo style por defecto
 				loadStyles(data.styles);
 			}
 			
-			//agrego el service default
-			data.services.push('js/services/configService.js');
-			
-			//agrego debug controller
-			data.services.push('js/controllers/debug.js');
-			
-			//Cargo services
-			loadModules(data.services);
+			//Cargo services y controllers de la app
+			loadAppScripts('modules/' + moduleName + '/js/concat/scriptApp.js');
 			
 			
 			var pasosIds = Object.keys(data.pasos);
 			
-			
-			for(i = 0; i < pasosIds.length; i++){
-				var key = pasosIds[i];
-				var name = key.substring(1);
-				var controllerName = name.substring(name.lastIndexOf('/') + 1);
-				
-				$.loadScript('modules/' + moduleName + '/js/controllers/' + controllerName + '.js', function(){
-					//callback cuando se carga
-				});
-				
-			}
-			
-			
-			
 			//Cargo controllers y route configs
 			loadRoutes($routeProvider, pasosIds, 'modules/' + moduleName + '/js/controllers/', 'modules/' + moduleName + '/views/');
-			
-			//Cargo resto de JS's configurados en JSON
-			if(data.scripts && data.scripts.length > 0){
-				loadModules(data.scripts);
-			}
 			
 		}, function(error){
 			alert("Error: " + error);
