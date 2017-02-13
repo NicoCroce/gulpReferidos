@@ -29,7 +29,7 @@ var ENVIRONMENT 		= FOLDER_DEV,
 	runFirstTime 		= true;
 
 var SRC_CSS_BASE 		= path.join(FOLDER_ASSETS, 'css'),
-	SRC_SASS_BASE 		= path.join(FOLDER_ASSETS, 'style'), // ver
+	SRC_SASS_BASE 		= path.join(FOLDER_ASSETS, 'styles'),
 	SRC_IMAGES_BASE 	= path.join(FOLDER_ASSETS, 'img/shared'),
 	SRC_JAVASCRIPT_BASE = path.join(FOLDER_ASSETS, 'js'),
 	SRC_MODULES_BASE 	= path.join(ENVIRONMENT, 'modules'),
@@ -95,6 +95,13 @@ function sassFunction() {
 		/*.pipe(browserSync.stream()).on('error', gutil.log);*/
 };
 
+function cssConcatLibs(done) {
+	gulp.src(JS_FILES_EXTERNAL_ORDER)
+		.pipe(concat('libs.js')) // concat pulls all our files together before minifying them
+		.pipe(gulp.dest(path.join(ENVIRONMENT, 'js/min/'))).on('error', gutil.log);
+	done();
+}
+
 function jsConcatLibsFunction(done) {
 	gulp.src(JS_FILES_EXTERNAL_ORDER)
 		.pipe(concat('libs.js')) // concat pulls all our files together before minifying them
@@ -142,6 +149,13 @@ function connectServer(done) {
 	return done();
 };
 
+function copyBowerStyles() {
+	var jeet = gulp.src('node_modules/jeet/scss/**/*')
+		.pipe(gulp.dest(FOLDER_ASSETS + '/styles/libs/jeet'));
+	var normalize = gulp.src(BOWER_COMPONENTS + '/normalize-scss/sass/**/*')
+		.pipe(gulp.dest(FOLDER_ASSETS + '/styles/libs/normalize/'));
+	return merge(jeet, normalize);
+};
 
 function showComment(string) {
 	if (runFirstTime) { return; }
@@ -153,6 +167,6 @@ function showComment(string) {
 };
 
 
-gulp.task("run", gulp.series(start, cleanAllJs, gulp.parallel(sassFunction, jsConcatLibsFunction, jsConcatGlobalFunction, jsConcatAppFunction), connectServer ));
+gulp.task("run", gulp.series(start, cleanAllJs, gulp.parallel(sassFunction, jsConcatLibsFunction, jsConcatGlobalFunction, jsConcatAppFunction, copyBowerStyles)/*, connectServer*/ ));
 
 /*gulp.task("nico", gulp.series(start, cleanAllJs));*/
