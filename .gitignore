@@ -7,3 +7,6 @@ assets/styles/libs/jeet/
 assets/styles/libs/normalize/
 debug.log
 .svn
+sales/js/concat/
+sales/js/lib/libs.js
+sales/modules/*/js/concat/
