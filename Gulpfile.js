@@ -60,10 +60,6 @@ var JS_FILES_EXTERNAL_ORDER = configFiles.getLibsFiles(BOWER_COMPONENTS),
 	JS_GLOBAL_APP_ORDER 	= configFiles.getGlobalAppFiles(SRC_JAVASCRIPT_BASE),
 	uglifyOptions 			= configFiles.getUglifySettings;
 
-
-
-gulp.task("sass", gulp.series(sassFunction));
-
 function cleanAllJs() {
 	return del([path.join(ENVIRONMENT, SRC_JS_LIBS_FILES), 
 					path.join(ENVIRONMENT, 'js/concat'),
@@ -81,7 +77,7 @@ function start (done){
 	return done();
 };
 
-function sassFunction() {
+function sassFunctionModule() {
 	showComment('Changed SASS File');
 	return gulp.src(SRC_PROJECT + '/style/style.scss')
 		.pipe(sourcemaps.init())
@@ -167,6 +163,6 @@ function showComment(string) {
 };
 
 
-gulp.task("run", gulp.series(start, cleanAllJs, gulp.parallel(sassFunction, jsConcatLibsFunction, jsConcatGlobalFunction, jsConcatAppFunction, copyBowerStyles)/*, connectServer*/ ));
+gulp.task("run", gulp.series(start, cleanAllJs, gulp.parallel(sassFunctionModule, jsConcatLibsFunction, jsConcatGlobalFunction, jsConcatAppFunction, copyBowerStyles)/*, connectServer*/ ));
 
 /*gulp.task("nico", gulp.series(start, cleanAllJs));*/
