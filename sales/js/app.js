@@ -42,18 +42,18 @@ app.config(['$routeProvider', '$locationProvider', '$controllerProvider', '$comp
 			
 			
 			//cargo styles default
-			if(data.styles && data.styles.length > 0){
+			/*if(data.styles && data.styles.length > 0){
 				data.styles.unshift('modules/' + moduleName + '/css/' + campaign  + '.css');			//cargo style por defecto
 				loadStyles(data.styles);
 			}else{
 				data.styles = [];
 				data.styles.unshift('modules/' + moduleName + '/css/' + campaign  + '.css');			//cargo style por defecto
 				loadStyles(data.styles);
-			}
+			}*/
 			
 			//Cargo services y controllers de la app
+			loadStyles('modules/' + moduleName + '/css/style.css');
 			loadAppScripts('modules/' + moduleName + '/js/concat/scriptApp.js');
-			
 			
 			var pasosIds = Object.keys(data.pasos);
 			

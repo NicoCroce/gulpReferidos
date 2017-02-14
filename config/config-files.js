@@ -30,6 +30,13 @@ exports.getGlobalAppFiles = function (SRC_JAVASCRIPT_BASE) {
     ];
 };
 
+exports.getCssLibsFiles = function (SRC_CSS_BASE) {
+    return [
+        path.join(SRC_CSS_BASE, 'lib/bootstrap.min.css'),
+        path.join(SRC_CSS_BASE, 'lib/bootstrap-theme.min.css')
+    ];
+};
+
 exports.getUglifySettings = {
     compress: {
         sequences: true,  // join consecutive statemets with the “comma operator”

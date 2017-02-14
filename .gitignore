@@ -10,3 +10,5 @@ debug.log
 sales/js/concat/
 sales/js/lib/libs.js
 sales/modules/*/js/concat/
+sales/styles/libs/
+sales/css/libs-concat.min.css

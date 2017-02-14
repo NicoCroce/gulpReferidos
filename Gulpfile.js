@@ -58,7 +58,7 @@ function setProjectVars(){
 
 var JS_FILES_EXTERNAL_ORDER = configFiles.getLibsFiles(BOWER_COMPONENTS),
 	JS_GLOBAL_APP_ORDER 	= configFiles.getGlobalAppFiles(SRC_JAVASCRIPT_BASE),
-	CSS_FILES_EXTERNAL_ORDER = configFiles.getGlobalAppFiles(BOWER_COMPONENTS),
+	CSS_FILES_EXTERNAL_ORDER = configFiles.getCssLibsFiles(SRC_CSS_BASE),
 	uglifyOptions 			= configFiles.getUglifySettings;
 
 function cleanAllJs() {
@@ -92,10 +92,24 @@ function sassFunctionModule() {
 		/*.pipe(browserSync.stream()).on('error', gutil.log);*/
 };
 
+function sassFunctionGlobal() {
+	showComment('Changed SASS File');
+	return gulp.src(FOLDER_ASSETS + '/styles/style.scss')
+		.pipe(sourcemaps.init())
+		.pipe(gulpif(ENVIRONMENT == FOLDER_DEV, sass()))
+		.pipe(gulpif(ENVIRONMENT == FOLDER_BUILD, sass({ outputStyle: 'compressed' })))
+		.pipe(autoprefixer())
+		.pipe(rename('globalStyle.css'))
+		.pipe(gulpif(ENVIRONMENT == FOLDER_DEV, sourcemaps.write('./maps')))
+		.pipe(gulpif(ENVIRONMENT == FOLDER_BUILD, cleanCSS()))
+		.pipe(gulp.dest(path.join(FOLDER_ASSETS, 'css')));
+	/*.pipe(browserSync.stream()).on('error', gutil.log);*/
+};
+
 function cssConcatLibs(done) {
 	gulp.src(CSS_FILES_EXTERNAL_ORDER)
-		.pipe(concat('libs.js')) // concat pulls all our files together before minifying them
-		.pipe(gulp.dest(path.join(ENVIRONMENT, 'js/min/'))).on('error', gutil.log);
+		.pipe(concat('libs-concat.min.css')) // concat pulls all our files together before minifying them
+		.pipe(gulp.dest(path.join(ENVIRONMENT, 'css/'))).on('error', gutil.log);
 	done();
 }
 
@@ -128,11 +142,11 @@ function connectServer(done) {
 	browserSync.init({
 		port: serverPort,
 		server: {
-			baseDir: ENVIRONMENT,
+			baseDir: './',
 			middleware: [{
-				route: "/",
+				route: '/',
 				handle: function (req, res, next) {
-					res.writeHead(302, { 'Location': 'inicio.html#/' + MODULE_NAME + '/' + INDEX_SERVER_FILE + '?targetHost=http://localhost:8080' });
+					res.writeHead(302, { 'Location': 'sales/inicio.html#/' + MODULE_NAME + '/' + INDEX_SERVER_FILE + '?targetHost=http://localhost:8080' });
 					res.end();
 					next();
 				}
@@ -164,6 +178,6 @@ function showComment(string) {
 };
 
 
-gulp.task("run", gulp.series(start, cleanAllJs, gulp.parallel(sassFunctionModule, jsConcatLibsFunction, jsConcatGlobalFunction, jsConcatAppFunction, copyBowerStyles)/*, connectServer*/ ));
+gulp.task("run", gulp.series(start, cleanAllJs, gulp.parallel(sassFunctionGlobal, sassFunctionModule, jsConcatLibsFunction, jsConcatGlobalFunction, jsConcatAppFunction, copyBowerStyles, cssConcatLibs), connectServer));
 
 /*gulp.task("nico", gulp.series(start, cleanAllJs));*/

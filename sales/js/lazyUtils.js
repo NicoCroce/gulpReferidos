@@ -59,10 +59,7 @@ function obtainModuleName(hash){
 	return hash.split('/')[1]
 }
 
-function loadStyles(styles){
-	for(var i = 0; i < styles.length; i++){
-		var style = styles[i];
-		
+function loadStyles(style){
 		var head  = document.getElementsByTagName('head')[0];
 		var link  = document.createElement('link');
 		link.rel  = 'stylesheet';
@@ -70,7 +67,6 @@ function loadStyles(styles){
 		link.href = style;
 		link.media = 'all';
 		head.appendChild(link);
-	}
-}
+};
 
 
