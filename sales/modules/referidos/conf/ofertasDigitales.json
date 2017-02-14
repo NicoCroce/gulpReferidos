@@ -58,8 +58,5 @@
 			"contador": true,
 			"legales": ""
 		}
-	},
-	"services": ["modules/referidos/js/services/services.js"],
-	"styles": ["css/debug.css"],
-	"scripts": []
+	}
 }
