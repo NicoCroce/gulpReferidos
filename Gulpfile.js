@@ -61,6 +61,20 @@ var JS_FILES_EXTERNAL_ORDER = configFiles.getLibsFiles(BOWER_COMPONENTS),
 	CSS_FILES_EXTERNAL_ORDER = configFiles.getCssLibsFiles(SRC_CSS_BASE),
 	uglifyOptions 			= configFiles.getUglifySettings;
 
+
+
+gulp.task("run-dev", gulp.series(start, cleanAllJs, gulp.parallel(sassFunctionGlobal, sassFunctionModule, jsConcatLibsFunction, jsConcatGlobalFunction, jsConcatAppFunction, copyBowerStyles, cssConcatLibs), connectServer));
+
+function setEnvironmentEnv(done) {
+	ENVIRONMENT = FOLDER_DEV;
+	done();
+};
+
+function setEnvironmentProd(done) {
+	ENVIRONMENT = FOLDER_BUILD;
+	done();
+};
+
 function cleanAllJs() {
 	return del([path.join(ENVIRONMENT, SRC_JS_LIBS_FILES), 
 					path.join(ENVIRONMENT, 'js/concat'),
@@ -177,7 +191,19 @@ function showComment(string) {
 	return;
 };
 
+function finishMsg(msg) {
+	setTimeout(function () {
+		showComment(msg);
+		log(' GOOD CODE...');
+		log('');
+	}, 100);
+}
 
-gulp.task("run", gulp.series(start, cleanAllJs, gulp.parallel(sassFunctionGlobal, sassFunctionModule, jsConcatLibsFunction, jsConcatGlobalFunction, jsConcatAppFunction, copyBowerStyles, cssConcatLibs), connectServer));
+
+gulp.task('run', gulp.series(setEnvironmentEnv, 'run-dev', function runDev() {
+	runFirstTime = false;
+	finishMsg('YOU CAN START YOUR WORK in http://localhost:' + serverPort + '/sales/inicio.html#/' + MODULE_NAME + '/' + INDEX_SERVER_FILE + '?targetHost=http://localhost:8080');
+}));
+
 
 /*gulp.task("nico", gulp.series(start, cleanAllJs));*/
