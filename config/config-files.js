@@ -37,6 +37,26 @@ exports.getCssLibsFiles = function (SRC_CSS_BASE) {
     ];
 };
 
+exports.getModuleFiles = function (rootModule) {
+    return [
+        rootModule + '/**/*',
+        '!' + rootModule + '/css', '!' + rootModule + '/css/**/*',
+        '!' + rootModule + '/js', '!' + rootModule + '/js/**/*',
+        '!' + rootModule + '/style', '!' + rootModule + '/style/**/*'
+    ];
+};
+
+exports.getSalesFiles = function () {
+    return [
+        'sales/**/*',
+        '!sales/css', '!sales/css/**/*',
+        '!sales/js', '!sales/js/**/*',
+        '!sales/modules', '!sales/modules/**/*',
+        '!sales/styles', '!sales/styles/**/*'
+    ];
+};
+
+
 exports.getUglifySettings = {
     compress: {
         sequences: true,  // join consecutive statemets with the “comma operator”

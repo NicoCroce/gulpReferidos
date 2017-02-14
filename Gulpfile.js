@@ -17,6 +17,7 @@ var configProject 	= require('./config/config-project'),
 	del 			= require('del'),
 	gpUglify 		= require('gulp-uglify'),
 	gulpif 			= require('gulp-if'),
+	ngAnnotate 		= require('gulp-ng-annotate'),
 	browserSync 	= require('browser-sync').create(),
 	log 			= gutil.log;
 
@@ -69,11 +70,16 @@ function setProjectVars(){
 var JS_FILES_EXTERNAL_ORDER = configFiles.getLibsFiles(BOWER_COMPONENTS),
 	JS_GLOBAL_APP_ORDER 	= configFiles.getGlobalAppFiles(SRC_JAVASCRIPT_BASE),
 	CSS_FILES_EXTERNAL_ORDER = configFiles.getCssLibsFiles(SRC_CSS_BASE),
+	PROJECTS_NAMES			= configProject.getProjects(),
 	uglifyOptions 			= configFiles.getUglifySettings;
 
 
 
 gulp.task("run-dev", gulp.series(start, cleanAllJs, gulp.parallel(sassFunctionGlobal, sassFunctionModule, jsConcatLibsFunction, jsConcatGlobalFunction, jsConcatAppFunction, copyBowerStyles, cssConcatLibs), connectServer));
+
+gulp.task("deploy-run", gulp.series(cleanBuild, copyBowerStyles, cssConcatLibs, gulp.parallel(sassFunctionGlobal, copyFunctionDeployModules, jsConcatLibsFunction, jsConcatGlobalFunction)));
+
+gulp.task("deploy-run-server", gulp.series(start, cleanBuild, copyBowerStyles, cssConcatLibs, gulp.parallel(sassFunctionGlobal, copyFunctionDeployModules, jsConcatLibsFunction, jsConcatGlobalFunction), connectServerDeploy));
 
 
 gulp.task("watch", function (done) {
@@ -116,6 +122,10 @@ function cleanJsModule() {
 	return del([SRC_PROJECT + '/js/concat']);
 };
 
+function cleanBuild() {
+	return del([FOLDER_BUILD]);
+}
+
 function start (done){
 	var projectElement 	= configProject.selectProject(process); //Envio como parámetro a los argumentos del comando.
 	if (projectElement) {
@@ -141,6 +151,50 @@ function sassFunctionModule() {
 		.pipe(browserSync.stream()).on('error', gutil.log);
 };
 
+function copyFunctionDeployModules(done) {
+	PROJECTS_NAMES.forEach(function (moduleName) {
+		var rootModule = FOLDER_DEV + '/modules/' + moduleName;
+		sassFunctionDeploy(rootModule + '/style/', moduleName);
+		
+		jsConcatAppFunctionDeploy(
+			[rootModule + '/js/**/*js', '!' + rootModule + '/js/concat' ], 
+			path.join(ENVIRONMENT + '/sales/modules/' + moduleName + '/js/concat'), 
+			"scriptApp.js"
+		);
+
+		var filesToCopy = configFiles.getModuleFiles(rootModule),
+			destination = ENVIRONMENT + '/sales/modules/' + moduleName;
+		copyModuleFiles(filesToCopy, destination);
+	});
+	copySalesFiles();
+	copyRootFiles();
+	return done();
+};
+
+function sassFunctionDeploy(stylePath, moduleName) {
+	return gulp.src(stylePath + '/style.scss')
+		.pipe(autoprefixer())
+		.pipe(rename('style.css'))
+		.pipe(cleanCSS())
+		.pipe(gulp.dest(ENVIRONMENT + '/sales/modules/' + moduleName + '/css'))
+		.on('error', gutil.log);
+};
+
+function copyModuleFiles(filesToCopy, destination) {
+	gulp.src(filesToCopy)
+		.pipe(gulp.dest(destination).on('error', gutil.log));
+};
+
+function copySalesFiles() {
+	gulp.src(configFiles.getSalesFiles())
+		.pipe(gulp.dest(ENVIRONMENT + '/sales').on('error', gutil.log));
+};
+
+function copyRootFiles() {
+	gulp.src(['.settings/**/*', 'fbin/**/*'], { base: "." })
+		.pipe(gulp.dest(ENVIRONMENT).on('error', gutil.log));
+};
+
 function sassFunctionGlobal() {
 	showComment('Changed SASS File');
 	return gulp.src(FOLDER_ASSETS + '/styles/style.scss')
@@ -151,26 +205,36 @@ function sassFunctionGlobal() {
 		.pipe(rename('globalStyle.css'))
 		.pipe(gulpif(ENVIRONMENT == FOLDER_DEV, sourcemaps.write('./maps')))
 		.pipe(gulpif(ENVIRONMENT == FOLDER_BUILD, cleanCSS()))
-		.pipe(gulp.dest(path.join(FOLDER_ASSETS, 'css')))
+		.pipe(gulpif(ENVIRONMENT == FOLDER_DEV, gulp.dest(path.join(ENVIRONMENT, 'css'))))
+		.pipe(gulpif(ENVIRONMENT == FOLDER_BUILD, gulp.dest(path.join(ENVIRONMENT, '/sales/css'))))
 		.pipe(browserSync.stream()).on('error', gutil.log);
 };
 
 function cssConcatLibs(done) {
+
 	gulp.src(CSS_FILES_EXTERNAL_ORDER)
 		.pipe(concat('libs-concat.min.css')) // concat pulls all our files together before minifying them
-		.pipe(gulp.dest(path.join(ENVIRONMENT, 'css/'))).on('error', gutil.log);
+		.pipe(gulpif(ENVIRONMENT == FOLDER_DEV, gulp.dest(path.join(ENVIRONMENT, 'css/'))))
+		.pipe(gulpif(ENVIRONMENT == FOLDER_BUILD, gulp.dest(path.join(ENVIRONMENT, 'sales/css/'))))
+		.on('error', gutil.log);
 	done();
 }
 
 function jsConcatLibsFunction(done) {
 	gulp.src(JS_FILES_EXTERNAL_ORDER)
 		.pipe(concat('libs.js')) // concat pulls all our files together before minifying them
-		.pipe(gulp.dest(path.join(ENVIRONMENT, SRC_JS_LIBS_FILES))).on('error', gutil.log);
+		.pipe(gulpif(ENVIRONMENT == FOLDER_DEV, gulp.dest(path.join(ENVIRONMENT, SRC_JS_LIBS_FILES))))
+		.pipe(gulpif(ENVIRONMENT == FOLDER_BUILD, gulp.dest(path.join(ENVIRONMENT, 'sales/' + SRC_JS_LIBS_FILES))))
+		.on('error', gutil.log);
 	done();
 };
 
 function jsConcatGlobalFunction(done) {
-	return jsFunction(JS_GLOBAL_APP_ORDER, path.join(ENVIRONMENT, 'js/concat'), "scriptGlobalApp.js", done);
+	var destination = path.join(ENVIRONMENT, 'js/concat');
+	if(ENVIRONMENT == FOLDER_BUILD){
+		destination = path.join(ENVIRONMENT, 'sales/js/concat');
+	}
+	return jsFunction(JS_GLOBAL_APP_ORDER, destination, "scriptGlobalApp.js", done);
 }
 
 function jsConcatAppFunction(done) {
@@ -181,10 +245,21 @@ function jsFunction(source, destination, nameFile, done){
 	gulp.src(source)
 		.pipe(gulpif(ENVIRONMENT == FOLDER_DEV, sourcemaps.init()))
 		.pipe(concat(nameFile)) // concat pulls all our files together before minifying them
+		.pipe(ngAnnotate())
 		.pipe(gulpif(ENVIRONMENT == FOLDER_DEV, sourcemaps.write('./maps')))
 		.pipe(gulpif(ENVIRONMENT == FOLDER_BUILD, gpUglify(uglifyOptions)))
-		.pipe(gulp.dest(destination, { overwrite: true })).on('error', gutil.log);
+		.pipe(gulp.dest(destination))
+		.on('error', gutil.log);
 	done();
+}
+
+function jsConcatAppFunctionDeploy(source, destination, nameFile) {
+	gulp.src(source)
+		.pipe(concat(nameFile)) // concat pulls all our files together before minifying them
+		.pipe(ngAnnotate())
+		.pipe(gpUglify(uglifyOptions))
+		.pipe(gulp.dest(destination))
+		.on('error', gutil.log);
 }
 
 function connectServer(done) {
@@ -192,6 +267,28 @@ function connectServer(done) {
 		port: serverPort,
 		server: {
 			baseDir: './',
+			middleware: [{
+				route: '/',
+				handle: function (req, res, next) {
+					res.writeHead(302, { 'Location': 'sales/inicio.html#/' + MODULE_NAME + '/' + INDEX_SERVER_FILE + '?targetHost=http://localhost:8080' });
+					res.end();
+					next();
+				}
+			}],
+		},
+		ui: {
+			port: 2222,
+		}
+	});
+
+	return done();
+};
+
+function connectServerDeploy(done) {
+	browserSync.init({
+		port: serverPort,
+		server: {
+			baseDir: './build',
 			middleware: [{
 				route: '/',
 				handle: function (req, res, next) {
@@ -240,5 +337,13 @@ gulp.task('run', gulp.series(setEnvironmentEnv, 'run-dev', 'watch', function run
 	finishMsg('YOU CAN START YOUR WORK in http://localhost:' + serverPort + '/sales/inicio.html#/' + MODULE_NAME + '/' + INDEX_SERVER_FILE + '?targetHost=http://localhost:8080');
 }));
 
+gulp.task('run-deploy-server', gulp.series(setEnvironmentProd, 'deploy-run-server', function runDeployServer() {
+	runFirstTime = false;
+	finishMsg('YOU CAN SEE YOUR WORK in http://localhost:' + serverPort + '/sales/inicio.html#/' + MODULE_NAME + '/' + INDEX_SERVER_FILE + '?targetHost=http://localhost:8080');
+}));
 
-/*gulp.task("nico", gulp.series(start, cleanAllJs));*/
+gulp.task('run-deploy', gulp.series(setEnvironmentProd, 'deploy-run', function runDeploy(done) {
+	runFirstTime = false;
+	finishMsg('IS DEPLOYED in "' + FOLDER_BUILD + '" folder');
+	return done();
+}));
