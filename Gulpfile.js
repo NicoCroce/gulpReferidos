@@ -29,16 +29,24 @@ var ENVIRONMENT 		= FOLDER_DEV,
 	runFirstTime 		= true;
 
 var SRC_CSS_BASE 		= path.join(FOLDER_ASSETS, 'css'),
-	SRC_SASS_BASE 		= path.join(FOLDER_ASSETS, 'styles'),
+	SRC_SASS_BASE 		= path.join(FOLDER_ASSETS, 'styles'),  
 	SRC_IMAGES_BASE 	= path.join(FOLDER_ASSETS, 'img/shared'),
 	SRC_JAVASCRIPT_BASE = path.join(FOLDER_ASSETS, 'js'),
 	SRC_MODULES_BASE 	= path.join(ENVIRONMENT, 'modules'),
 	SRC_VIEWS_BASE 		= path.join(FOLDER_ASSETS, 'views'),
 	SRC_FONTS_BASE 		= path.join(FOLDER_ASSETS, 'icons'),
 	SRC_DATA_BASE 		= path.join(FOLDER_ASSETS, 'data'),
-	SRC_JS_LIBS_FILES 	= 'js/lib';
+	SRC_JS_LIBS_FILES 	= 'js/lib',
+	HTML_FILES_WATCH;
 
-var SRC_PROJECT, MODULE_NAME, SASS_FILES_PROJECT, MODULE_JS_FILES, INDEX_SERVER_FILE;
+var FILES_SASS_GLOBAL 	= SRC_SASS_BASE + '/**/*.scss',
+	FILES_JS_BASE = [path.join(SRC_JAVASCRIPT_BASE, '**/*.js'), 
+					'!' + path.join(SRC_JAVASCRIPT_BASE, 'concat/**/*'),
+					'!' + path.join(SRC_JAVASCRIPT_BASE, 'lib/**/*')],
+
+	FILES_JS_BASE_WATCH = path.join(SRC_JAVASCRIPT_BASE, 'concat/**/*');
+
+var SRC_PROJECT, MODULE_NAME, SASS_FILES_PROJECT, MODULE_JS_FILES, MODULE_JS_FILES_WATCH, INDEX_SERVER_FILE;
 	//JS_EXTERNAL_FILES = SRC_JAVASCRIPT_BASE + '/*.js',
 	//IMAGES_FILES 		= SRC_IMAGES_BASE + '/**/*',
 	//ICON_FILES 			= SRC_FONTS_BASE + '/**/*',
@@ -47,8 +55,10 @@ var SRC_PROJECT, MODULE_NAME, SASS_FILES_PROJECT, MODULE_JS_FILES, INDEX_SERVER_
 
 
 function setProjectVars(){
-	var SASS_FILES_PROJECT = SRC_PROJECT + 'style/**/*.scss';
-		//MODULE_JS_FILES = SRC_MODULE_BASE + '/**/*.js',
+		SASS_FILES_PROJECT 		= SRC_PROJECT + '/style/**/*.scss',
+		MODULE_JS_FILES 		= [SRC_PROJECT+'/js/**/*', '!'+SRC_PROJECT+'/js/concat/**/*'],
+		MODULE_JS_FILES_WATCH 	= SRC_PROJECT + '/js/concat/**/*.js';
+		HTML_FILES_WATCH 		= [ENVIRONMENT + '/inicio.html', SRC_PROJECT + '/**/*.html' ]
 		//JS_EXTERNAL_FILES = SRC_JAVASCRIPT_BASE + '/*.js',
 		//IMAGES_FILES = SRC_IMAGES_BASE + '/**/*',
 		//ICON_FILES = SRC_FONTS_BASE + '/**/*',
@@ -65,6 +75,23 @@ var JS_FILES_EXTERNAL_ORDER = configFiles.getLibsFiles(BOWER_COMPONENTS),
 
 gulp.task("run-dev", gulp.series(start, cleanAllJs, gulp.parallel(sassFunctionGlobal, sassFunctionModule, jsConcatLibsFunction, jsConcatGlobalFunction, jsConcatAppFunction, copyBowerStyles, cssConcatLibs), connectServer));
 
+
+gulp.task("watch", function (done) {
+	gulp.watch(FILES_SASS_GLOBAL, gulp.series(sassFunctionGlobal));
+	gulp.watch(SASS_FILES_PROJECT, gulp.series(sassFunctionModule));
+	gulp.watch(FILES_JS_BASE, gulp.series(jsConcatGlobalFunction));
+	gulp.watch(MODULE_JS_FILES, gulp.series(cleanJsModule, jsConcatAppFunction));
+	gulp.watch([MODULE_JS_FILES_WATCH, FILES_JS_BASE_WATCH, HTML_FILES_WATCH]).on('change', browserSync.reload);
+/*	gulp.watch(FILES_JS_BASE_WATCH).on('change', browserSync.reload);*/
+	//gulp.watch(APP_HTML_FILES, gulp.series('copyTemplates'));
+	//gulp.watch(ICON_FILES, gulp.series('copyIcons'));
+	//gulp.watch(IMAGES_FILES, gulp.series("copyImg"));
+	//gulp.watch(DATA_FILES, gulp.series('copyData'));
+	//gulp.watch(DEV_HTML_JS_FILES).on('change', browserSync.reload);
+	return done();
+});
+
+
 function setEnvironmentEnv(done) {
 	ENVIRONMENT = FOLDER_DEV;
 	done();
@@ -79,6 +106,14 @@ function cleanAllJs() {
 	return del([path.join(ENVIRONMENT, SRC_JS_LIBS_FILES), 
 					path.join(ENVIRONMENT, 'js/concat'),
 					path.join(SRC_PROJECT, '/js/concat') ]);
+};
+
+function cleanJsGlobal() {
+	return del([path.join(SRC_JAVASCRIPT_BASE, 'concat')]);
+};
+
+function cleanJsModule() {
+	return del([SRC_PROJECT + '/js/concat']);
 };
 
 function start (done){
@@ -102,8 +137,8 @@ function sassFunctionModule() {
 		.pipe(rename('style.css'))
 		.pipe(gulpif(ENVIRONMENT == FOLDER_DEV, sourcemaps.write('./maps')))
 		.pipe(gulpif(ENVIRONMENT == FOLDER_BUILD, cleanCSS()))
-		.pipe(gulp.dest(path.join(SRC_PROJECT, 'css')));
-		/*.pipe(browserSync.stream()).on('error', gutil.log);*/
+		.pipe(gulp.dest(path.join(SRC_PROJECT, 'css')))
+		.pipe(browserSync.stream()).on('error', gutil.log);
 };
 
 function sassFunctionGlobal() {
@@ -116,8 +151,8 @@ function sassFunctionGlobal() {
 		.pipe(rename('globalStyle.css'))
 		.pipe(gulpif(ENVIRONMENT == FOLDER_DEV, sourcemaps.write('./maps')))
 		.pipe(gulpif(ENVIRONMENT == FOLDER_BUILD, cleanCSS()))
-		.pipe(gulp.dest(path.join(FOLDER_ASSETS, 'css')));
-	/*.pipe(browserSync.stream()).on('error', gutil.log);*/
+		.pipe(gulp.dest(path.join(FOLDER_ASSETS, 'css')))
+		.pipe(browserSync.stream()).on('error', gutil.log);
 };
 
 function cssConcatLibs(done) {
@@ -148,7 +183,7 @@ function jsFunction(source, destination, nameFile, done){
 		.pipe(concat(nameFile)) // concat pulls all our files together before minifying them
 		.pipe(gulpif(ENVIRONMENT == FOLDER_DEV, sourcemaps.write('./maps')))
 		.pipe(gulpif(ENVIRONMENT == FOLDER_BUILD, gpUglify(uglifyOptions)))
-		.pipe(gulp.dest(destination)).on('error', gutil.log);
+		.pipe(gulp.dest(destination, { overwrite: true })).on('error', gutil.log);
 	done();
 }
 
@@ -200,7 +235,7 @@ function finishMsg(msg) {
 }
 
 
-gulp.task('run', gulp.series(setEnvironmentEnv, 'run-dev', function runDev() {
+gulp.task('run', gulp.series(setEnvironmentEnv, 'run-dev', 'watch', function runDev() {
 	runFirstTime = false;
 	finishMsg('YOU CAN START YOUR WORK in http://localhost:' + serverPort + '/sales/inicio.html#/' + MODULE_NAME + '/' + INDEX_SERVER_FILE + '?targetHost=http://localhost:8080');
 }));
