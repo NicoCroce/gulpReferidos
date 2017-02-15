@@ -36,7 +36,7 @@ $ npm run first-run
 Esperar que termine de instalar las dependencias y ejecutar 
 ```sh
 
-$ gulp
+$ gulp run --REFERIDOS o --HIPOTECARIOS
 
 ```
 

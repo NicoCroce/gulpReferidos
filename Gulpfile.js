@@ -71,16 +71,16 @@ var JS_FILES_EXTERNAL_ORDER = configFiles.getLibsFiles(BOWER_COMPONENTS),
 	PROJECTS_NAMES			= configProject.getProjects(),
 	uglifyOptions 			= configFiles.getUglifySettings;
 
-gulp.task("run-dev", gulp.series(start, cleanAllJs, gulp.parallel(sassFunctionGlobal, sassFunctionModule, jsConcatLibsFunction, jsConcatGlobalFunction, jsConcatAppFunction, copyBowerStyles, cssConcatLibs), connectServer));
+gulp.task("run-dev", gulp.series(start, cleanAllJs, copyBowerStyles, gulp.parallel(sassFunctionModule, jsConcatLibsFunction, jsConcatGlobalFunction, jsConcatAppFunction, cssConcatLibs), connectServer));
 
-gulp.task("deploy-run", gulp.series(cleanBuild, copyBowerStyles, cssConcatLibs, gulp.parallel(sassFunctionGlobal, copyFunctionDeployModules, jsConcatLibsFunction, jsConcatGlobalFunction)));
+gulp.task("deploy-run", gulp.series(cleanBuild, copyBowerStyles, cssConcatLibs, gulp.parallel(copyFunctionDeployModules, jsConcatLibsFunction, jsConcatGlobalFunction)));
 
-gulp.task("deploy-run-server", gulp.series(start, cleanBuild, copyBowerStyles, cssConcatLibs, gulp.parallel(sassFunctionGlobal, copyFunctionDeployModules, jsConcatLibsFunction, jsConcatGlobalFunction), connectServerDeploy));
+gulp.task("deploy-run-server", gulp.series(start, cleanBuild, copyBowerStyles, cssConcatLibs, gulp.parallel(copyFunctionDeployModules, jsConcatLibsFunction, jsConcatGlobalFunction), connectServerDeploy));
 
 
 gulp.task("watch", function (done) {
-	gulp.watch(FILES_SASS_GLOBAL, gulp.series(sassFunctionGlobal));
-	gulp.watch(SASS_FILES_PROJECT, gulp.series(sassFunctionModule));
+	/*gulp.watch(FILES_SASS_GLOBAL, gulp.series(sassFunctionGlobal));*/
+	gulp.watch([SASS_FILES_PROJECT, FILES_SASS_GLOBAL], gulp.series(sassFunctionModule));
 	gulp.watch(FILES_JS_BASE, gulp.series(jsConcatGlobalFunction));
 	gulp.watch(MODULE_JS_FILES, gulp.series(cleanJsModule, jsConcatAppFunction));
 	gulp.watch([MODULE_JS_FILES_WATCH, FILES_JS_BASE_WATCH, HTML_FILES_WATCH]).on('change', browserSync.reload);
@@ -134,12 +134,10 @@ function sassFunctionModule() {
 	showComment('Changed SASS File');
 	return gulp.src(SRC_PROJECT + '/style/style.scss')
 		.pipe(sourcemaps.init())
-		.pipe(gulpif(ENVIRONMENT == FOLDER_DEV, sass()))
-		.pipe(gulpif(ENVIRONMENT == FOLDER_BUILD, sass({ outputStyle: 'compressed' })))
+		.pipe( sass())
 		.pipe(autoprefixer())
 		.pipe(rename('style.css'))
-		.pipe(gulpif(ENVIRONMENT == FOLDER_DEV, sourcemaps.write('./maps')))
-		.pipe(gulpif(ENVIRONMENT == FOLDER_BUILD, cleanCSS()))
+		.pipe(sourcemaps.write('./maps'))
 		.pipe(gulp.dest(path.join(SRC_PROJECT, 'css')))
 		.pipe(browserSync.stream()).on('error', gutil.log);
 };
@@ -160,23 +158,7 @@ function copyFunctionDeployModules(done) {
 		copyModuleFiles(filesToCopy, destination);
 	});
 	copySalesFiles();
-	copyRootFiles();
 	return done();
-};
-
-function sassFunctionGlobal() {
-	showComment('Changed SASS File');
-	return gulp.src(FOLDER_ASSETS + '/styles/style.scss')
-		.pipe(sourcemaps.init())
-		.pipe(gulpif(ENVIRONMENT == FOLDER_DEV, sass()))
-		.pipe(gulpif(ENVIRONMENT == FOLDER_BUILD, sass({ outputStyle: 'compressed' })))
-		.pipe(autoprefixer())
-		.pipe(rename('globalStyle.css'))
-		.pipe(gulpif(ENVIRONMENT == FOLDER_DEV, sourcemaps.write('./maps')))
-		.pipe(gulpif(ENVIRONMENT == FOLDER_BUILD, cleanCSS()))
-		.pipe(gulpif(ENVIRONMENT == FOLDER_DEV, gulp.dest(path.join(ENVIRONMENT, 'css'))))
-		.pipe(gulpif(ENVIRONMENT == FOLDER_BUILD, gulp.dest(path.join(ENVIRONMENT, '/sales/css'))))
-		.pipe(browserSync.stream()).on('error', gutil.log);
 };
 
 function cssConcatLibs(done) {
@@ -247,7 +229,8 @@ function connectServer(done) {
 /*DEPLOY *********************************************************/
 
 function sassFunctionDeploy(stylePath, moduleName) {
-	return gulp.src(stylePath + '/style.scss')
+	return gulp.src(stylePath + 'style.scss')
+		.pipe(sass({ outputStyle: 'compressed' }))
 		.pipe(autoprefixer())
 		.pipe(rename('style.css'))
 		.pipe(cleanCSS())
@@ -273,12 +256,6 @@ function copySalesFiles() {
 	gulp.src(configFiles.getSalesFiles())
 		.pipe(gulp.dest(ENVIRONMENT + '/sales').on('error', gutil.log));
 };
-
-function copyRootFiles() {
-	gulp.src(['.settings/**/*', 'fbin/**/*'], { base: "." })
-		.pipe(gulp.dest(ENVIRONMENT).on('error', gutil.log));
-};
-
 
 function connectServerDeploy(done) {
 	browserSync.init({

@@ -1,6 +1,20 @@
 @charset "UTF-8";
-/*@import "helpers/all";
-@import "core/all";*/
+/*@import "helpers/all";*/
+/*
+  =========================================
+
+    GRID SYSTEM
+
+    -> Thanks to Jeet Framework - http://jeet.gs/
+    
+    NORMALIZER
+/// -> Thanks to Nicolas Gallagher's Normalize.css - http://necolas.github.io/normalize.css/
+
+	=========================================
+*/
+/*@import "settings";
+@import "typography";
+@import "base";*/
 /* Web Fonts */
 @font-face {
   font-family: 'BBVA Web Light';
