@@ -10,26 +10,10 @@
 		"adquisicion2UVA":"Adquisición de 2da. vivienda en UVAS"
 	},
 	"repago":{
-		"excel":{
-			"url":"https://www.bbvafrances.com.ar/ph/conf/repago.xlsx",
-			"campos":{
-				"refPlazo":"E7",     
-				"refValorPropiedad":"E8",
-				"refDestino":"E9",    
-				"refMontoSolicitado":"E11",        
-				"refTipoTasa":"E12",           
-				"refIngresos":"E19",      
-				"refValorTarjetas":"E34",     
-				"refValorPrestamos":"E54",
-				"refEvalPorcentajeFinanciar":"F15",
-				"refEvalDictamen":"E73",
-				"refCuota":"E14",
-				"refPorcentajeFinanciar":"E15"
-			},
-			"impl":"ar.org.bbva.homebanking.campania.hipotecarios.impl.ExcelFormulaProviderImpl"
-		},
 		"formula":{
-			"velocity":"$repago.setResultado($resultado_aprobado) $repago.getRespuesta().put('porcentajeOk', 'OK') $repago.putNumericValue('cuota', 1819283, 100) $repago.getRespuesta().put('file','/tmp/repago-1484765892352.xlsx') $repago.getRespuesta().put('plazo', 180) $repago.putNumericValue('porcentajeFinanciar', 6483, 10000)",
+			"formulaCalculoCuota": "#set ($base = $math.add($uno, $math.div($tasa, $tasaMensual))) #set ($potencia = $math.pow($base , $plazo)) #set ($seguroIncendioParcial = $math.div($math.mul($math.mul($valorPropiedad, $alicuotaSeguroIncendio), $impuestoSeguroIncendio), $mesesPagoPrima)) #set ($iva = $math.mul($math.mul($math.div($tasa, $tasaMensual), $montoSolicitado), $porcentajeIVA)) #if ( $tipoVivienda != 2 ) #set ( $iva = $cero ) #end#if ($repago.val1MayorVal2($math.mul($valorPropiedad, $alicuotaSeguroIncendio), $seguroIncendio)) #set ($seguroIncendio = $seguroIncendioParcial) #end#set ($respuestaTemp = $math.div($math.mul($math.mul($math.div($tasa, $tasaMensual), $montoSolicitado), $potencia), $math.sub($potencia, $uno))) #set ($respuesta = $math.add($respuestaTemp, $math.add($seguroIncendio, $iva))) $repago.getRespuesta().put('cuota', $respuesta)",
+			"reCalculoOfertaMontoMaximo": "#set ($base = $math.add($uno, $math.div($tasa, $tasaMensual))) #set ($potencia = $math.pow($base , $plazo)) #set ($seguroIncendioParcial = $math.div($math.mul($math.mul($valorPropiedad, $alicuotaSeguroIncendio), $impuestoSeguroIncendio), $mesesPagoPrima)) #if ($repago.val1MayorVal2($math.mul($valorPropiedad, $alicuotaSeguroIncendio), $seguroIncendio)) #set ($seguroIncendio = $seguroIncendioParcial) #end#set ($respuesta = $math.div($math.mul($math.sub($cuota,$seguroIncendio), $math.sub($potencia, $uno)),$math.mul($math.div($tasa, $tasaMensual), $potencia))) $repago.getRespuesta().put('montoMaximo', $respuesta)",
+			"reCalculoOfertaMontoMaximoCONIVA": "#set ($base = $math.add($uno, $math.div($tasa, $tasaMensual))) #set ($potencia = $math.pow($base , $plazo)) #set ($seguroIncendioParcial = $math.div($math.mul($math.mul($valorPropiedad, $alicuotaSeguroIncendio), $impuestoSeguroIncendio), $mesesPagoPrima)) #if ($repago.val1MayorVal2($math.mul($valorPropiedad, $alicuotaSeguroIncendio), $seguroIncendio)) #set ($seguroIncendio = $seguroIncendioParcial) #end#set ($divisor = ($math.mul($math.div($tasa, $tasaMensual), $math.add($math.div($potencia, $math.sub($potencia, $uno)), $porcentajeIVA))))#set ($respuesta = ($math.div($math.sub($cuota,$seguroIncendio), $divisor))) $repago.getRespuesta().put('montoMaximo', $respuesta)",
 			"impl":"ar.org.bbva.homebanking.campania.hipotecarios.impl.VelocityFormulaProviderImpl"
 		}
 	},

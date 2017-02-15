@@ -21,7 +21,8 @@
 			"validaciones":{
 				"ingresoTotalMinimo": 15000,
 				"ingresoMinimo": 10000,
-				"includeNombreVivienda": "UVA",
+				"tasaUVA": "UVA",
+				"tasaFija": "FIJA",
 				"trabajo": {
 					"relacion":{
 						"antiguedadMinima": 1,

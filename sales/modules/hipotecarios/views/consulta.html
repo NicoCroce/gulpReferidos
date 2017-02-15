@@ -43,7 +43,7 @@
 				
 				<div class="dynamic-fields-container" ng-repeat="ingreso in consulta.ingresos" ng-class="ingreso.id !== 'ingreso-1'? 'dynamicFieldMargin' : ''">
 					<span class="money fuente-gris">$</span>
-					<input type="text" x-only-num ng-model="ingreso.valor" id="sueldo" name="sueldo" ng-attr-id="{{ ingreso.id }}" class="form-control consulta money" ng-class="{errorEnInput: (errorIngresos && submitted)}" ng-blur="validarIngresosAsinc()" ng-required="true">
+					<input type="text" x-only-num ng-model="ingreso.valor" id="sueldo" name="sueldo" ng-attr-id="{{ ingreso.id }}" class="form-control consulta money" ng-class="{errorEnInput: (errorIngresos && (!formConsulta.ingreso.$valid && (formConsulta.ingreso.$dirty || submitted)))}" ng-blur="validarIngresosAsinc()" ng-required="true">
 					
 					<a class="masInfo hidden-xs hidden-sm" ng-if="ingreso.id == 'ingreso-1'" x-tool-tip data-placement="right" data-toggle="tooltip" title="Es el sueldo que recibís en mano, podés agregar los ingresos de tu pareja o cónyuge."></a>
 					<a class="masInfo hidden-md hidden-lg" ng-if="ingreso.id == 'ingreso-1'" data-toggle="modal" data-target="#defaultModal" data-title="Ingresos" data-body="Es el sueldo que recibís en mano, podés agregar los ingresos de tu pareja o cónyuge."></a>

@@ -91,11 +91,13 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 		
 		$scope.submitted = true;
 		
-		if((validarPrestamoAbono() && validarAntiguedad() && validarIngresos($scope.consulta.ingresos))
+		if((validarAntiguedad() && validarIngresos($scope.consulta.ingresos))
 				&& validarMontoSolicitud($scope.consulta.montoSolicitud)
 				&& Servidor.campoObligatorio($scope.consulta.minimoConsumoTarjeta)
 				&& Servidor.campoObligatorio($scope.consulta.valorPropiedad)
 				&& Servidor.campoObligatorio($scope.consulta.montoSolicitud)){
+			
+			$scope.consulta.datosViviendas = JSON.stringify($scope.consulta.viviendas);
 			
 			Servidor.setDatosConsulta($scope.consulta);
 			
@@ -117,21 +119,6 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 	$scope.addNewIngreso();
 	
 	$scope.consultarOpcionesYValidaciones();
-	
-	function validarPrestamoAbono(){
-		
-		if($scope.consulta.prestamo == 'si'){
-			if($scope.consulta.prestamoAbono == undefined || $scope.consulta.prestamoAbono == ""){
-				$scope.errorPrestamoAbono = true;
-			}else{
-				$scope.errorPrestamoAbono = false;
-			}
-		}else{
-			$scope.errorPrestamoAbono = false;
-		}
-		
-		return !$scope.errorPrestamoAbono;
-	};
 	
 	function validarIngresos(ingresos){
 		$scope.errorIngresos = true;
@@ -199,8 +186,12 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 	
 	function validarMontoSolicitud(monto){
 		debugger
-		if(monto > $scope.consulta.viviendas[0].montoMinimo){
-			if(monto > $scope.consulta.viviendas[0].montoMaximo){
+		var montoReal = parseInt(monto);
+		var montoMinimo = parseInt($scope.consulta.viviendas[ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.tasaFija].montoMinimo);
+		var montoMaximo = parseInt($scope.consulta.viviendas[ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.tasaFija].montoMaximo);
+
+		if(montoReal >= montoMinimo){
+			if(montoReal <= montoMaximo){
 				$scope.errorValidarMontoSolicitud = false;
 				$scope.mensajeErrorMonto = "";
 			}else{
@@ -219,7 +210,7 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 		var indice = 0;
 		for(var i = 0; i < viviendas.length; i++){
 			
-			if(viviendas[i].nombreDeLinea.indexOf(ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.includeNombreVivienda) != -1){
+			if(viviendas[i].nombreDeLinea.indexOf(ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.tasaUVA) == -1){
 				
 				var index = viviendas[i].nombreDeLinea.indexOf(" ");
 				$scope.datosViviendasAMostrar[indice] = {"descripcion": viviendas[i].nombreDeLinea.replace(" ",'\n'), 
@@ -234,13 +225,12 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 	};
 	
 	function cargarArrayViviendas(tipoViviendaSelected){
-
 		var arrayDatosViviendas = $scope.datosViviendas.lineas;
 		var indice = 0;
 		for(var i = 0; i < arrayDatosViviendas.length; i++){
-			
+		
 			if(arrayDatosViviendas[i].nombreDeLinea.indexOf(tipoViviendaSelected) != -1){
-				$scope.consulta.viviendas[indice] = arrayDatosViviendas[i];
+				$scope.consulta.viviendas[arrayDatosViviendas[i].nombreDeLinea.indexOf(ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.tasaUVA)== -1 ? ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.tasaFija: ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.tasaUVA] = arrayDatosViviendas[i];
 				indice++;
 			}
 		}
