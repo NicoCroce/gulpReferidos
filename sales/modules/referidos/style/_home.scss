@@ -1,0 +1,77 @@
+/*REFERIDOS*/
+
+/*TEMPORAL*/
+
+button.btn-enviar { font-size: 14px; font-weight: normal; width: auto; height: auto; padding: 13px 47px; }
+.main-title { 
+	font-size: toem(24px); font-family: BBVA Web Book; color: #121212; margin-top: 61px; margin-bottom: 22px;
+	&.has-subtitle { margin-bottom: 5px; }
+}
+.sub-title { font-size: toem(12px); font-family: BBVA Web Book; color: #121212; margin: 0; margin-bottom: toem(34px); }
+.sub-title-two {
+	@extend .sub-title;
+	font-size: toem(14px); margin-bottom: 25px;
+}
+.bt-step-one { margin-top: 14px; margin-bottom: 50px; }
+.add-padding { padding: 0 15px; }
+p, .normal-text { font: $font; }
+button.btn-enviar.confirm {
+	background-image: linear-gradient(to bottom, #61c000, #519b00);
+	border: solid 1px #519b00;    
+	&:hover { background-image: linear-gradient(to bottom, #61c000, #3d7302); }
+}
+/******************************************************/
+
+.referidos--img-home { 
+	height: 220px; background: #737373; position: relative;
+	background: url("../img/ofertasDigitales/-g-inicio_780x250px_desk.jpg");
+	.content-text {
+		position: absolute; bottom: 30px; left: 31px;
+		h1, h2, h3 { margin: 0; padding: 0; color: white; }
+		h3 {
+			font-size: toem(14px);
+			&.last-text { font-weight: 800; }
+		}
+		h1 { font-weight: 800; padding: 5px 0; font-size: toem(38px); }
+	}
+}
+
+.referidos--home { 
+	text-align: center; min-height: 330px; 
+	.icons-consulta { width: 70%; margin: 0 auto; margin-bottom: 45px;
+		&:after { content: ''; display: block; clear: both; }
+		li { 
+			@include span(1/3);
+			span { display: block; font-size: 38px; }
+			p { font-size: toem(16px); margin: 0; margin-top: toem(11px); font-weight: 800; }
+		}
+	}
+}
+
+.input-inline { 
+	padding: 0; padding-right: 15px;
+	&:last-of-type { padding: 0; }
+}
+
+.link-branch{ margin-top: 40px; }
+
+.page-title { margin-top: 32px; margin-bottom: 30px; font-size: toem(18px); }
+
+form.conditions { 
+	margin: 35px 0;
+	.check-conditions { margin-bottom: toem(21px); }
+}
+
+
+.center-wrapper { width: 140px; text-align: left; margin: 0 auto; }
+.margin-input { margin: 20px 15px 0 15px; }
+
+.clear-fix { @include clearfix(); }
+.input-inline-4 { @include column(1/4, $gutter: 1.5); }
+.input-inline-2 { @include column(1/2, $gutter: 1.5); }
+.bt-continue-s4 { margin-top: 15px; margin-bottom: 120px; }
+
+@media (max-width: 992px){
+	.input-inline { padding: 0; margin-top: 15px; }
+	.link-branch{ margin-top: 0; }
+}

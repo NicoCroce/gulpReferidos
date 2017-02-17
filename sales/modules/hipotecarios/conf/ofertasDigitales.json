@@ -23,18 +23,41 @@
 				"ingresoMinimo": 10000,
 				"tasaUVA": "UVA",
 				"tasaFija": "FIJA",
+				"resultadoResponse": "APROBADO",
 				"trabajo": {
 					"relacion":{
 						"antiguedadMinima": 1,
-						"mensajeError": "La antigüedad mínima requerida para poder acceder a un préstamo hipotecario es de 1 año"
+						"mensajeError": "La antigüedad mínima requerida para poder acceder a un préstamo hipotecario es de 1 año."
 					},
 					"monotributista":{
 						"antiguedadMinima": 3,
-						"mensajeError": "La antigüedad mínima requerida para poder acceder a un préstamo hipotecario es de 3 años"
+						"mensajeError": "La antigüedad mínima requerida para poder acceder a un préstamo hipotecario es de 3 años."
 					},
 					"autonomo":{
 						"antiguedadMinima": 2,
-						"mensajeError": "La antigüedad mínima requerida para poder acceder a un préstamo hipotecario es de 2 años"
+						"mensajeError": "La antigüedad mínima requerida para poder acceder a un préstamo hipotecario es de 2 años."
+					}
+				},
+				"tipoVivienda":{
+					"primeraVivienda":{
+						"titulo":"Adquisición de 1ra. vivienda",
+						"porcentaje": "0.7",
+						"mensajeError":"El monto solicitado no puede ser mayor al 70% del valor de la propiedad."
+					},
+					"segundaVivienda":{
+						"titulo":"Adquisición de 2da. vivienda",
+						"porcentaje": "0.5",
+						"mensajeError":"El monto solicitado no puede ser mayor al 50% del valor de la propiedad."
+					},
+					"construccion":{
+						"titulo":"Construcción de 1ra. vivienda",
+						"porcentaje": "0.7",
+						"mensajeError":"El monto solicitado no puede ser mayor al 70% del valor de la propiedad."
+					},
+					"refaccion":{
+						"titulo":"Refacción de 1ra. vivienda",
+						"porcentaje": "0.3",
+						"mensajeError":"El monto solicitado no puede ser mayor al 30% del valor de la propiedad."
 					}
 				}
 			}
@@ -66,10 +89,11 @@
 		"/hipotecarios/resultados":{
 			"numero": 2,
 			"titulo": "Resultados",
-			"texto": "Según los datos que nos proporcionaste calculamos la siguiente opción de préstamo Hipotecario: Monto Solitado $ 3.000.000,00 a 20 años - 240 meses. Podés probar diferentes opciones modificando los campos de Monto Solicitado y Plazo, tanto para préstamos UVA´s como para préstamos a Tasa Fija.",
+			"texto": "Según los datos que nos proporcionaste calculamos la siguiente opción de préstamo Hipotecario: Monto Solitado $ 3.000.000,00 a 20 años - 240 meses. Podés probar diferentes opciones modificando los campos de Monto Solicitado y Plazo, tanto para préstamos UVAs como para préstamos a Tasa Fija.",
 			"proximo":"/hipotecarios/envio",
 			"contador":true,
-			"feliz":true
+			"feliz":true,
+			"mensajeErrorTasaFija": "Según los datos ingresados en el Paso 1, únicamente podemos ofrecerle una opción de línea de prestamo Hipotecario UVAs."
 		},
 		"/hipotecarios/envio":{
 			"numero": 3,

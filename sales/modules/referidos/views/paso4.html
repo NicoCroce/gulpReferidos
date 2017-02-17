@@ -1,0 +1,66 @@
+<div class="row plusPadLeft">
+	<h1 class="text-center main-title has-subtitle">Ya casi terminamos</h1>
+	<h2 class="text-center sub-title-two">Elegí como preferis registrar tu firma:</h2>
+	<div class="col-xs-12">
+		<p class="add-padding m-0">Para finalizar, podés acercarte a cualquiera de nuestras sucursales para registrar tu firma y activar tu cuenta o bien
+			podés elegir que te visitemos a tu trabajo. Una vez que tengas tu firma registrada, la cuenta sueldo quedará habilitada
+			para que puedas usarla con normalidad.</p>
+
+		<form name="dataRegister" class="text-center mt-25">
+			<div class="center-wrapper">
+				<div>
+					<input name="goToOffice" type="radio" ng-model="registerOption" value="goToOffice">
+					<label for="goToOffice">Voy a una sucursal</label>
+				</div>
+				<div>
+					<input name="theyGo" type="radio" ng-model="registerOption" value="theyGo">
+					<label for="theyGo">Visitenme a mi trabajo</label>
+				</div>
+			</div>
+			<div class="row margin-input" ng-if="registerOption == 'theyGo'">
+				<div class="form-group">
+					<label for="nombre" class="control-label">Calle</label>
+					<input type="text" id="street" class="form-control">
+				</div>
+				<div class="clear-fix">
+					<div class="form-group input-inline-4">
+						<label for="apellido" class="control-label">Número</label>
+						<input type="text" id="apellido" class="form-control">
+					</div>
+					<div class="form-group input-inline-4">
+						<label for="apellido" class="control-label">Piso</label>
+						<input type="text" id="apellido" class="form-control">
+					</div>
+					<div class="form-group input-inline-4">
+						<label for="apellido" class="control-label">Depto.</label>
+						<input type="text" id="apellido" class="form-control">
+					</div>
+					<div class="form-group input-inline-4">
+						<label for="apellido" class="control-label">Código Postal</label>
+						<input type="text" id="apellido" class="form-control">
+					</div>
+				</div>
+				<div class="clear-fix">
+					<div class="form-group input-inline-2 select-element">
+						<label class="control-label">Provincia</label>
+						<select id="provinceId" ng-model="data.nameSelected" ng-options="name.description for name in data.names track by name.id"
+							class="btn-select">
+							</select>
+					</div>
+
+					<div class="form-group input-inline-2 select-element">
+						<label class="control-label">Localidad</label>
+						<select id="locationId" ng-model="data.nameSelected" ng-options="name.description for name in data.names track by name.id"
+							class="btn-select">
+							</select>
+					</div>
+				</div>
+			</div>
+			<div class="row bt-continue-s4">
+				<div class="col-xs-12 text-center">
+					<button class="btn btn-enviar" ng-click="continue()">Continuar</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

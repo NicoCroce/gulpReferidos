@@ -278,7 +278,7 @@ pre.btn-pre{
 
 /* items */
 a.masInfo{
-	background:url(../img/shared/ico_info.png) left top;
+	background:url(../../../img/shared/ico_info.png) left top;
     width: 20px;
     height: 20px;
     display: inline-block;
@@ -299,7 +299,7 @@ a.masInfo{
 }
 
 a.removeIngreso{
-	background:url(../img/shared/ico_close.png) left top;
+	background:url(../../../img/shared/ico_close.png) left top;
     width: 16px;
     height: 16px;
     display: inline-block;
@@ -310,7 +310,7 @@ a.removeIngreso{
 }
 
 span.agregar{
-	background: url(../img/shared/ico_more.png) left top;
+	background: url(../../../img/shared/ico_more.png) left top;
     width: 18px;
     height: 18px;
     display: block;
@@ -647,7 +647,7 @@ span.menos, span.mas {
 }
 
 span.menos{
-    background: url(../img/shared/ico_menos.png);
+    background: url(../../../img/shared/ico_menos.png);
     background-size: 14px 3px;
     background-repeat: no-repeat;
     background-position: center;
@@ -658,7 +658,7 @@ span.menos{
 }
 
 span.mas{
-	background: url(../img/shared/ico_mas.png);
+	background: url(../../../img/shared/ico_mas.png);
     background-size: 14px 15px;
     background-repeat: no-repeat;
     background-position: center;
@@ -783,7 +783,7 @@ span.circle.inner.active{
 
 /* uso el mismo caret y lo roto*/
 span.flechita {
-	background: url(../img/shared/ico_arrow_down.png) right top;
+	background: url(../../../img/shared/ico_arrow_down.png) right top;
     width: 12px;
     height: 8px;
     display: inline-block;
@@ -832,6 +832,19 @@ div.panel-body{
 	color: #094fa4;
 	padding: 8px;
 }
+
+p.panel-body{
+	background-color: white;
+	color: #71777f;
+	font-family: 'BBVA Web Light';
+	font-size: 14px;
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
 div.resultado-container{
 	border-radius: 5px;
 	background-color: #ffffff;

@@ -7,13 +7,23 @@ app.service('Servidor', [ '$http', "$location", '$routeParams', '$rootScope', 'C
 	datosConsulta.viviendas = {};
 	datosConsulta.ingresos = [];
 	
+	var datosRepago = {};
+	
 	this.setDatosConsulta = function(datos){
 		datosConsulta = datos;
 	};
 	
 	this.getDatosConsulta = function(){
 		return datosConsulta;
-	}
+	};
+	
+	this.setDatosRepago = function(response){
+		datosRepago = response;
+	};
+	
+	this.getDatosRepago = function(){
+		return datosRepago;
+	};
 	
 	this.consultarOpcionesYValidaciones = function(onSuccess, onError){
 		var req = {

@@ -77,13 +77,12 @@ gulp.task("deploy-run", gulp.series(cleanBuild, copyBowerStyles, cssConcatLibs, 
 
 gulp.task("deploy-run-server", gulp.series(start, cleanBuild, copyBowerStyles, cssConcatLibs, gulp.parallel(copyFunctionDeployModules, jsConcatLibsFunction, jsConcatGlobalFunction), connectServerDeploy));
 
-
 gulp.task("watch", function (done) {
 	/*gulp.watch(FILES_SASS_GLOBAL, gulp.series(sassFunctionGlobal));*/
 	gulp.watch([SASS_FILES_PROJECT, FILES_SASS_GLOBAL], gulp.series(sassFunctionModule));
 	gulp.watch(FILES_JS_BASE, gulp.series(jsConcatGlobalFunction));
 	gulp.watch(MODULE_JS_FILES, gulp.series(cleanJsModule, jsConcatAppFunction));
-	gulp.watch([MODULE_JS_FILES_WATCH, FILES_JS_BASE_WATCH, HTML_FILES_WATCH]).on('change', browserSync.reload);
+	gulp.watch([MODULE_JS_FILES_WATCH, FILES_JS_BASE_WATCH, HTML_FILES_WATCH], gulp.series(function (done) { browserSync.reload(); done(); }));
 	//gulp.watch(ICON_FILES, gulp.series('copyIcons'));
 	//gulp.watch(IMAGES_FILES, gulp.series("copyImg"));
 	//gulp.watch(DATA_FILES, gulp.series('copyData'));
@@ -212,7 +211,7 @@ function connectServer(done) {
 			middleware: [{
 				route: '/',
 				handle: function (req, res, next) {
-					res.writeHead(302, { 'Location': 'sales/inicio.html#/' + MODULE_NAME + '/' + INDEX_SERVER_FILE + '?targetHost=http://localhost:8080' });
+					res.writeHead(302, { 'Location': 'sales/inicio.html#/' + MODULE_NAME + '/' + INDEX_SERVER_FILE + '?targetHost=http://localhost:8080&debug=true' });
 					res.end();
 					next();
 				}
@@ -307,12 +306,12 @@ function finishMsg(msg) {
 
 gulp.task('run', gulp.series(setEnvironmentEnv, 'run-dev', 'watch', function runDev() {
 	runFirstTime = false;
-	finishMsg('YOU CAN START YOUR WORK in http://localhost:' + serverPort + '/sales/inicio.html#/' + MODULE_NAME + '/' + INDEX_SERVER_FILE + '?targetHost=http://localhost:8080');
+	finishMsg('YOU CAN START YOUR WORK in http://localhost:' + serverPort + '/sales/inicio.html#/' + MODULE_NAME + '/' + INDEX_SERVER_FILE + '?targetHost=http://localhost:8080&debug=true');
 }));
 
 gulp.task('run-deploy-server', gulp.series(setEnvironmentProd, 'deploy-run-server', function runDeployServer() {
 	runFirstTime = false;
-	finishMsg('YOU CAN SEE YOUR WORK in http://localhost:' + serverPort + '/sales/inicio.html#/' + MODULE_NAME + '/' + INDEX_SERVER_FILE + '?targetHost=http://localhost:8080');
+	finishMsg('YOU CAN SEE YOUR WORK in http://localhost:' + serverPort + '/sales/inicio.html#/' + MODULE_NAME + '/' + INDEX_SERVER_FILE + '?targetHost=http://localhost:8080&debug=true');
 }));
 
 gulp.task('run-deploy', gulp.series(setEnvironmentProd, 'deploy-run', function runDeploy(done) {

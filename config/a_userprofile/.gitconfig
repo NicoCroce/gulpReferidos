@@ -1,0 +1,121 @@
+[core]
+  autocrlf = true
+  #excludesfile = C:\\Users\\A126943\\Documents\\gitignore_global.txt
+[http]
+proxy = http://xa50310:junio2015@200.5.92.164:8080
+[https]
+proxy = https://xa50310:junio2015@200.5.92.164:8080
+[credential]
+	helper = wincred
+[alias]
+	# add
+  	a = add                           # add
+  	chunkyadd = add --patch           # stage commits chunk by chunk
+
+  # branch
+  	b = branch -v                     # branch (verbose)
+
+  # commit
+  	c = commit -m                     # commit with message
+  	ca = commit -am                   # commit all with message
+  	ci = commit                       # commit
+  	amend = commit --amend            # ammend your last commit
+  	ammend = commit --amend           # ammend your last commit
+
+ 	# checkout
+ 	  co = checkout                     # checkout
+ 		nb = checkout -b                  # create and switch to a new branch (mnemonic: "git new branch branchname...")
+
+  # cherry-pick
+  	cp = cherry-pick -x               # grab a change from a branch
+
+  # diff
+  	d = diff                          # diff unstaged changes
+  	dc = diff --cached                # diff staged changes
+  	last = diff HEAD^                 # diff last committed change
+
+  # log
+  	l = log --graph --date=short
+  	lol = log --graph --decorate --pretty=oneline --abbrev-commit
+  	lou = log --decorate --pretty=oneline --abbrev-commit
+  	changes = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
+  	short = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
+  	changelog = log --pretty=format:\" * %s\"
+  	shortnocolor = log --pretty=format:\"%h %cr %cn %s\"
+  	lola = log -20 --pretty=format:"%C(yellow)%h%Creset\\ %C(green)%ar%C(cyan)%d\\ %Creset%s%C(yellow)\\ [%cn]" --graph --decorate --all
+
+  # merge
+  	mergec = merge --no-ff
+
+  # pull
+  	pl = pull                          # pull
+
+  # push
+ 	  ps = push                          # push
+
+  # rebase
+  	rc = rebase --continue            # continue rebase
+  	rs = rebase --skip                # skip rebase
+
+  # remote
+  	r = remote -v                     # show remotes (verbose)
+
+ 	# reset
+  	unstage = reset HEAD              # remove files from index (tracking)
+  	uncommit = reset --soft HEAD^     # go back before last commit, with files in uncommitted state
+  	uncommith = reset --hard HEAD~1	  # go back before last commit, ignoring previously commited changes
+  	filelog = log -u                  # show changes to a file
+  	mt = mergetool                    # fire up the merge tool
+    remove = checkout --              # reset file to HEAD position
+
+  # stash
+  	ss = stash                        # stash changes
+  	sl = stash list                   # list stashes
+  	sa = stash apply                  # apply stash (restore changes)
+  	sd = stash drop                   # drop stashes (destroy changes)
+  	sp = stash pop                    # apply and drop stashes (restore & destroy changes)
+
+  # status
+  	s = status                        # status
+  	st = status                       # status
+  	stat = status                     # status
+
+  # tag
+  	t = tag -n                        # show tags with <n> lines of each tag message
+
+  # svn helpers
+  	svnr = svn rebase
+  	svnd = svn dcommit
+ 		svnl = svn log --oneline --show-commit
+[color]
+  	ui = true
+[color "branch"]
+  	current = green
+  	local = white
+  	remote = red
+[color "diff"]
+  	meta = yellow bold
+  	frag = magenta bold
+  	old = red bold
+  	new = green bold
+[diff]
+	tool = p4merge
+  # Git diff will use (i)ndex, (w)ork tree, (c)ommit and (o)bject
+  #  instead of a/b/c/d as prefixes for patches
+  mnemonicprefix = true
+[filter "hawser"]
+	clean = git hawser clean %f
+	smudge = git hawser smudge %f
+	required = true
+[merge]
+	conflictstyle = diff3
+	tool = p4merge
+[mergetool "p4merge"]
+	cmd = \"C:/Program Files/Perforce/p4merge.exe\" $BASE $LOCAL $REMOTE $MERGED
+	#cmd = p4merge $BASE $LOCAL $REMOTE $MERGED
+[rerere]
+  enabled = 1
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true

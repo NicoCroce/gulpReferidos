@@ -1,11 +1,11 @@
 {
-  "name": "UI-Premium-Framework",
+  "name": "bbva",
   "version": "1.0.0",
   "homepage": "https://github.com/NicoCroce/UI-Premium-Framework",
   "authors": [
     "Nico Croce <ingcrocenicolas@outlook.com>"
   ],
-  "description": "UI/Front",
+  "description": "ui",
   "license": "MIT",
   "dependencies": {
     "jquery": "~3.1.1",

@@ -56,7 +56,6 @@ exports.getSalesFiles = function () {
     ];
 };
 
-
 exports.getUglifySettings = {
     compress: {
         sequences: true,  // join consecutive statemets with the “comma operator”

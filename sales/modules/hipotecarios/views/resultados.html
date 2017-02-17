@@ -20,7 +20,7 @@
 					<h4 class="panel-title">
 						<span id="buttonOne" role="button" data-toggle="collapse" data-parent="#accordion"
 							data-target="#collapseOne" aria-expanded="true"
-							aria-controls="collapseOne" class="collapsed" ng-click="accordion(true)"> HIPOTECARIO UVA's <span class="flechita"></span></span>
+							aria-controls="collapseOne" class="collapsed" ng-click="accordion(true)"> HIPOTECARIO UVAs <span class="flechita"></span></span>
 					</h4>
 				</div>
 				<div id="collapseOne" class="panel-collapse collapse"
@@ -28,10 +28,10 @@
 					<div class="panel-body">
 						<div class="row hidden-sm hidden-xs">
 							<div class="col-md-3 col-md-offset-6">
-								<p class="resultado-header">En Pesos</p>
+								<p class="resultado-header">En UVA's</p>
 							</div>
 							<div class="col-md-3">
-								<p class="resultado-header">En UVA's</p>
+								<p class="resultado-header">En Pesos</p>
 							</div>
 						</div>
 						<div class="row">
@@ -41,10 +41,10 @@
 										<p class="montoMaximo">Monto Maximo Disponible</p>
 									</div>
 									<div class="col-md-3 col-xs-6">
-										<span class="money fuente-gris">$ {{resultados.tasaVariable.montoMaximo}}</span>
+										<p class="uvaMaximo">180.000 UVA's</p>
 									</div>
 									<div class="col-md-3 col-xs-6">
-										<p class="uvaMaximo">180.000 UVA's</p>
+										<span class="money fuente-gris">$ {{resultados.tasaUVA.montoMaximo}}</span>
 									</div>
 								</div>
 							</div>
@@ -55,12 +55,12 @@
 									<div class="col-md-6">
 										<p class="resultadoTitle">Monto Solicitado</p>
 									</div>
-									<div class="col-md-3 col-xs-6">
-										<span class="money fuente-azul-oscuro">$</span>
- 										<input type="text" x-only-decimal ng-model="resultados.tasaVariable.montoSolicitado" class="form-control resultado money" ng-blur="montoValido(resultados.tasaVariable.montoMaximo, resultados.tasaVariable.montoSolicitado)" ng-class="{errorEnInput: valMontoSolicitadoTV}" >
-									</div>
 									<div class="col-md-3 col-xs-12">
 										<p class="uvaMaximo">180.000 UVA's</p>
+									</div>
+									<div class="col-md-3 col-xs-6">
+										<span class="money fuente-azul-oscuro">$</span>
+ 										<input type="text" x-only-decimal ng-model="resultados.tasaUVA.montoSolicitado" class="form-control resultado money" ng-blur="montoValido(resultados.tasaUVA.montoMaximo, resultados.tasaUVA.montoSolicitado)" ng-class="{errorEnInput: valMontoSolicitadoTV}" >
 									</div>
 								</div>
 							</div>
@@ -88,10 +88,10 @@
 										<p class="resultadoTitle">Cuota Mensual</p>
 									</div>
 									<div class="col-md-3 col-xs-6">
-										<span class="resultado money">$ {{resultados.tasaVariable.montoCuota}}</span>
+										<p class="uvaMaximo">1.500 UVA's</p>
 									</div>
 									<div class="col-md-3 col-xs-6">
-										<p class="uvaMaximo">1.500 UVA's</p>
+										<span class="resultado money">$ {{resultados.tasaUVA.montoCuota}}</span>
 									</div>
 								</div>
 							</div>
@@ -124,7 +124,7 @@
 				</div>
 				<div id="collapseTwo" class="panel-collapse collapse"
 					role="tabpanel" aria-labelledby="headingTwo">
-					<div class="panel-body">
+					<div class="panel-body" ng-if="tasaFijaAprobada">
 						<div class="row hidden-sm hidden-xs">
 							<div class="col-md-3 col-md-offset-6">
 								<p class="resultado-header">En Pesos</p>
@@ -193,7 +193,17 @@
 								</div>
 							</div>
 						</div>
-					
+					</div>
+					<div class="panel-body" ng-if="!tasaFijaAprobada">
+						<p class="panel-body">{{mensajeErrorTasaFija}}<p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">&nbsp;</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12">
+						<span ng-show="valMontoSolicitadoTF" class="error">{{mensajeErrorMontos}}</span>
 					</div>
 				</div>
 			</div>
@@ -206,7 +216,6 @@
 		&nbsp;
 	</div>
 </div>
-
 
 <div class="row">
 	<div class="col-xs-12 text-center">

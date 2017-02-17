@@ -14,7 +14,7 @@
 		"/referidos/consulta": {
 			"numero": 1,
 			"titulo": "¡Hola!",
-			"texto": "Fuiste referido por un compañero de tutrabajoparaempezaracobrartusueldoenBBVAFrancés.",
+			"texto": "Fuiste referido por un compañero de tutrabajo para empezar acobrar tu sueldo en BBVAFrancés.",
 			"proximo": "/referidos/paso1",
 			"contador": true,
 			"bannerTemplate": "modules/referidos/templates/banner.html",
@@ -37,20 +37,20 @@
 		"/referidos/paso2": {
 			"numero": 3,
 			"titulo": "Datos de contacto",
-			"texto": "Estos datos seran usados para enviarte novedades sobre este proceso y del Banco.",
-			"proximo": null,
+			"texto": "Podés ingresar tu mail personal donde te mantendremos informado sobre las novedades de este proceso y del Banco.",
+			"proximo": "/referidos/paso3",
 			"contador": true,
 			"legales": ""
 		},
-		"/referidos/cuenta": {
+		"/referidos/paso3": {
 			"numero": 4,
 			"titulo": "Configuración",
 			"texto": "Caja de Ahorro.",
-			"proximo": null,
+			"proximo": "/referidos/paso4",
 			"contador": true,
 			"legales": ""
 		},
-		"/referidos/firma": {
+		"/referidos/paso4": {
 			"numero": 5,
 			"titulo": "Registro de firma",
 			"texto": "Caja de Ahorro.",

@@ -17,7 +17,6 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 			scrollToTopError();
 		});
 	});
-
 	
 	$scope.$watch('antiguedad', function(){
 
@@ -82,9 +81,9 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 		$scope.consulta.prestamo = prestamo;
 	};
 		
-	$scope.tipoVivienda = function(tipoVivienda){
+	$scope.tipoVivienda = function(tipoVivienda, porcentaje){
 		$scope.consulta.tipoVivienda = tipoVivienda;
-		cargarArrayViviendas($scope.consulta.tipoVivienda);
+		cargarArrayViviendas($scope.consulta.tipoVivienda, porcentaje);
 	};
 	
 	$scope.consultar = function(){
@@ -92,7 +91,7 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 		$scope.submitted = true;
 		
 		if((validarAntiguedad() && validarIngresos($scope.consulta.ingresos))
-				&& validarMontoSolicitud($scope.consulta.montoSolicitud)
+				&& validarMontoSolicitud($scope.consulta.montoSolicitud, $scope.consulta.tipoVivienda)
 				&& Servidor.campoObligatorio($scope.consulta.minimoConsumoTarjeta)
 				&& Servidor.campoObligatorio($scope.consulta.valorPropiedad)
 				&& Servidor.campoObligatorio($scope.consulta.montoSolicitud)){
@@ -102,8 +101,15 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 			Servidor.setDatosConsulta($scope.consulta);
 			
 			Servidor.calcularOferta($scope.consulta, function(response){
+				
+				var resultado = ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.resultadoResponse;
+				
 				//onSuccess
-				if(response.data.repago.resultado.value == "APROBADO"){
+				if(response.data.repagos.resultadoTasaFija.value == resultado || 
+						response.data.repagos.resultadoUVA.value == resultado){
+					
+					Servidor.setDatosRepago(response.data.repagos);
+					
 					$location.path('/hipotecarios/resultados');
 				}else{
 					$location.path('/hipotecarios/sinOferta');
@@ -184,23 +190,33 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 		return !$scope.errorAntiguedad;
 	};
 	
-	function validarMontoSolicitud(monto){
-		debugger
+	function validarMontoSolicitud(monto, vivienda){
+
 		var montoReal = parseInt(monto);
 		var montoMinimo = parseInt($scope.consulta.viviendas[ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.tasaFija].montoMinimo);
 		var montoMaximo = parseInt($scope.consulta.viviendas[ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.tasaFija].montoMaximo);
-
+		var array = buscarPorTipoValor($scope.datosViviendasAMostrar, vivienda);
+		var porcentaje = parseFloat(array[0]);
+		
 		if(montoReal >= montoMinimo){
 			if(montoReal <= montoMaximo){
 				$scope.errorValidarMontoSolicitud = false;
 				$scope.mensajeErrorMonto = "";
 			}else{
 				$scope.errorValidarMontoSolicitud = true;
-				$scope.mensajeErrorMonto = "El monto máximo que puede solicitar es $" + $scope.consulta.viviendas[0].montoMaximo;
+				$scope.mensajeErrorMonto = "El monto máximo que puede solicitar es $" + $scope.consulta.viviendas[ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.tasaFija].montoMaximo;
 			}
 		}else{
 			$scope.errorValidarMontoSolicitud = true;
-			$scope.mensajeErrorMonto = "El monto mínimo que puede solicitar es $" + $scope.consulta.viviendas[0].montoMinimo;
+			$scope.mensajeErrorMonto = "El monto mínimo que puede solicitar es $" + $scope.consulta.viviendas[ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.tasaFija].montoMinimo;
+		}
+		
+		if(!$scope.errorValidarMontoSolicitud){
+			var montoMaximoAPrestar = montoMaximo * porcentaje;
+			if(montoReal > montoMaximoAPrestar){
+				$scope.errorValidarMontoSolicitud = true;
+				$scope.mensajeErrorMonto = array[1];
+			}
 		}
 		
 		return !$scope.errorValidarMontoSolicitud;
@@ -209,16 +225,17 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 	function cargarViviendasAMostrar(viviendas){
 		var indice = 0;
 		for(var i = 0; i < viviendas.length; i++){
-			
 			if(viviendas[i].nombreDeLinea.indexOf(ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.tasaUVA) == -1){
 				
+				var validaciones = buscarPorTipoVivienda(ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.tipoVivienda, viviendas[i].nombreDeLinea);
 				var index = viviendas[i].nombreDeLinea.indexOf(" ");
 				$scope.datosViviendasAMostrar[indice] = {"descripcion": viviendas[i].nombreDeLinea.replace(" ",'\n'), 
-														"porcentaje": viviendas[i].porcentajeMaximo,
 														"valor": viviendas[i].nombreDeLinea,
 														"montoMaximo": parseInt(viviendas[i].montoMaximo),
-														"montoMinimo": parseInt(viviendas[i].montoMinimo)
-														};
+														"montoMinimo": parseInt(viviendas[i].montoMinimo),
+														"porcentaje" : validaciones[0],
+														"mensajeError": validaciones[1]
+													};
 				indice++;
 			}
 		}
@@ -228,10 +245,31 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 		var arrayDatosViviendas = $scope.datosViviendas.lineas;
 		var indice = 0;
 		for(var i = 0; i < arrayDatosViviendas.length; i++){
-		
 			if(arrayDatosViviendas[i].nombreDeLinea.indexOf(tipoViviendaSelected) != -1){
 				$scope.consulta.viviendas[arrayDatosViviendas[i].nombreDeLinea.indexOf(ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.tasaUVA)== -1 ? ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.tasaFija: ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.tasaUVA] = arrayDatosViviendas[i];
 				indice++;
+			}
+		}
+	};
+
+	function buscarPorTipoVivienda(arrayAIterar, cadena){
+		var array = [];
+		var tipoVivienda;
+		for(tipoVivienda in arrayAIterar){
+			if(arrayAIterar[tipoVivienda].titulo == cadena){
+				array = [arrayAIterar[tipoVivienda].porcentaje, arrayAIterar[tipoVivienda].mensajeError]
+				return array;
+			}
+		}
+	};
+
+	function buscarPorTipoValor(arrayAIterar, cadena){
+		var array = [];
+		var tipoVivienda;
+		for(tipoVivienda in arrayAIterar){
+			if(arrayAIterar[tipoVivienda].valor == cadena){
+				array = [arrayAIterar[tipoVivienda].porcentaje, arrayAIterar[tipoVivienda].mensajeError]
+				return array;
 			}
 		}
 	};

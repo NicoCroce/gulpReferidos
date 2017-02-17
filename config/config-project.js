@@ -11,6 +11,7 @@ exports.getProjects = function () {
 }
 /*************************************/
 
+
 /***************  DETERMINAR MÓDULO  ***************/
 exports.selectProject = function (process) {
     //Primero se obtiene el parámetro 3. Luego se eliminan los --

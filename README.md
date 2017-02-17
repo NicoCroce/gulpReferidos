@@ -19,15 +19,9 @@ $ npm install gulpjs/gulp-cli -g
 
 https://demisx.github.io/gulp4/2015/01/15/install-gulp4.html
 
-###Descargar e instalar el Proyecto
+Copiar .bashrc al disco "P"
+Copiar .gitconfig en %userprofile%
 
-Dentro de un directorio limpio ejecutar
-```sh
-$ git clone https://github.com/NicoCroce/webworld.git
-```
-```sh
-$ cd webworld
-```
 Para instalar todas las dependencias ejecutar
 ```sh
 $ npm run first-run
@@ -39,6 +33,3 @@ Esperar que termine de instalar las dependencias y ejecutar
 $ gulp run --REFERIDOS o --HIPOTECARIOS
 
 ```
-
-Por último observar el resultado en un navegador. 
-http://127.0.0.1:2173/
