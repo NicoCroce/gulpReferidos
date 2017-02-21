@@ -1,6 +1,6 @@
 app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor', 'ConfigService', 'Tagging', '$timeout', function($http, $scope, $location, Servidor, ConfigService, Tagging, $timeout){
 	$scope.consulta = Servidor.getDatosConsulta();
-
+	
 	$scope.submitted = false;
 	$scope.errorValidarMontoSolicitud = false;
 	$scope.errorPrestamoAbono = false;
@@ -21,6 +21,7 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 	$scope.$watch('antiguedad', function(){
 
 		$scope.antiguedadDesc = $scope.antiguedad + ' año';
+		$scope.consulta.antiguedad = $scope.antiguedad;
 		
 		if($scope.antiguedad > 1){
 			$scope.antiguedadDesc += 's' 
@@ -103,15 +104,15 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 			Servidor.calcularOferta($scope.consulta, function(response){
 				
 				var resultado = ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.resultadoResponse;
-				
 				//onSuccess
-				if(response.data.repagos.resultadoTasaFija.value == resultado || 
-						response.data.repagos.resultadoUVA.value == resultado){
+				if(response.data.repagos[0].estado.value == resultado || 
+						response.data.repagos[1].estado.value == resultado){
 					
-					Servidor.setDatosRepago(response.data.repagos);
-					
+					Servidor.setDatosRepago(response.data);
 					$location.path('/hipotecarios/resultados');
 				}else{
+
+					Servidor.setDatosRepago(response.data);
 					$location.path('/hipotecarios/sinOferta');
 				}
 			}, function(errorResponse){

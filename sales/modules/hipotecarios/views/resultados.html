@@ -35,7 +35,7 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="resultado-container">
+							<div class="resultado-container-maximo">
 								<div class="row">
 									<div class="col-md-6">
 										<p class="montoMaximo">Monto Maximo Disponible</p>
@@ -60,15 +60,8 @@
 									</div>
 									<div class="col-md-3 col-xs-6">
 										<span class="money fuente-azul-oscuro">$</span>
- 										<input type="text" x-only-decimal ng-model="resultados.tasaUVA.montoSolicitado" class="form-control resultado money" ng-blur="montoValido(resultados.tasaUVA.montoMaximo, resultados.tasaUVA.montoSolicitado)" ng-class="{errorEnInput: valMontoSolicitadoTV}" >
+ 										<input type="text" x-only-decimal ng-model="resultados.tasaUVA.montoSolicitud" class="form-control resultado money" ng-blur="recalculo(resultados.tasaUVA.montoMaximo, resultados.tasaUVA.montoSolicitud)" ng-class="{errorEnInput: valMontoSolicitadoTV}" >
 									</div>
-								</div>
-							</div>
-						</div>
-					
-						<div class="row">
-							<div class="resultado-container">
-								<div class="row">
 									<div class="col-md-6">
 										<p class="resultadoTitle">Plazo</p>
 									</div>
@@ -82,16 +75,16 @@
 						</div>
 						
 						<div class="row">
-							<div class="resultado-container">
+							<div class="resultado-container-cuota">
 								<div class="row">
 									<div class="col-md-6">
-										<p class="resultadoTitle">Cuota Mensual</p>
+										<p class="resultadoTitleCuota">Cuota Mensual</p>
 									</div>
 									<div class="col-md-3 col-xs-6">
-										<p class="uvaMaximo">1.500 UVA's</p>
+										<p class="uvaMaximo fuente-blanca">1.500 UVA's</p>
 									</div>
 									<div class="col-md-3 col-xs-6">
-										<span class="resultado money">$ {{resultados.tasaUVA.montoCuota}}</span>
+										<span class="money fuente-blanca">$ {{resultados.tasaUVA.montoCuota}}</span>
 									</div>
 								</div>
 							</div>
@@ -124,7 +117,7 @@
 				</div>
 				<div id="collapseTwo" class="panel-collapse collapse"
 					role="tabpanel" aria-labelledby="headingTwo">
-					<div class="panel-body" ng-if="tasaFijaAprobada">
+					<div class="panel-body" ng-show="tasaFijaAprobada">
 						<div class="row hidden-sm hidden-xs">
 							<div class="col-md-3 col-md-offset-6">
 								<p class="resultado-header">En Pesos</p>
@@ -150,14 +143,9 @@
 									</div>
 									<div class="col-md-3">
 										<span class="money fuente-azul-oscuro">$</span>
-										<input type="text" x-only-decimal ng-model="resultados.tasaFija.montoSolicitado" class="form-control resultado money" ng-blur="montoValido(resultados.tasaFija.montoMaximo, resultados.tasaFija.montoSolicitado)" ng-class="{errorEnInput: valMontoSolicitadoTF}">
+										<input type="text" x-only-decimal ng-model="resultados.tasaFija.montoSolicitud" class="form-control resultado money" ng-blur="recalculo(resultados.tasaFija.montoMaximo, resultados.tasaFija.montoSolicitud)" ng-class="{errorEnInput: valMontoSolicitadoTF}">
 									</div>
 								</div>
-							</div>
-						</div>
-					
-						<div class="row">
-							<div class="resultado-container">
 								<div class="row">
 									<div class="col-md-6">
 										<p class="resultadoTitle">Plazo</p>
@@ -172,13 +160,13 @@
 						</div>
 						
 						<div class="row">
-							<div class="resultado-container">
+							<div class="resultado-container-cuota">
 								<div class="row">
 									<div class="col-md-6">
-										<p class="resultadoTitle">Cuota Mensual</p>
+										<p class="resultadoTitleCuota">Cuota Mensual</p>
 									</div>
 									<div class="col-md-6">
-										<span class="money fuente-gris">$ {{resultados.tasaFija.montoCuota}}</span>
+										<span class="money fuente-blanca">$ {{resultados.tasaFija.montoCuota}}</span>
 									</div>
 								</div>
 							</div>
@@ -194,7 +182,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="panel-body" ng-if="!tasaFijaAprobada">
+					<div class="panel-body" ng-show="!tasaFijaAprobada">
 						<p class="panel-body">{{mensajeErrorTasaFija}}<p>
 					</div>
 				</div>
@@ -203,7 +191,7 @@
 				</div>
 				<div class="row">
 					<div class="col-xs-12">
-						<span ng-show="valMontoSolicitadoTF" class="error">{{mensajeErrorMontos}}</span>
+						<span ng-show="(valMontoSolicitadoTV || valMontoSolicitadoTF)" class="error">{{mensajeErrorMontos}}</span>
 					</div>
 				</div>
 			</div>
@@ -219,7 +207,7 @@
 
 <div class="row">
 	<div class="col-xs-12 text-center">
-		<button class="btn btn-quiero" ng-click="quiero()">Quiero recibir una copia<br/>de esta Simulación</button>	
+		<button class="btn btn-quiero" ng-click="quiero()">Continuar</button>	
 	</div>
 </div>
 

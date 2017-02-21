@@ -5,11 +5,8 @@
 		<form name="sucursales" class="clearfix">
 			<div class="form-group col-md-6">
 				<label for="emailId" class="control-label">Sucursal de radicación</label>
-				<select id="typeDocId" ng-model="data.typeDocSelected" ng-options="doc.description for doc in data.typesDoc track by doc.id"
-					class="btn-select">
-					</select>
+				<div sucursales options="officeOptions"></div>
 			</div>
-
 			<div class="form-group col-md-6 link-branch">
 				<a href="">Encontrar Sucursales BBVA.</a>
 			</div>

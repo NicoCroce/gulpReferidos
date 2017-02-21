@@ -13,7 +13,7 @@
 		"/hipotecarios/consulta":{
 			"numero": 1,
 			"titulo": "Simulador",
-			"texto": "Respondiendo las preguntas podemos calcular la mejor opción para tu Crédito Hipotecario. Completá los datos y enterate cuánto es tu cuota.",
+			"texto": "Completando los datos podemos calcular la mejor cuota para tu Préstamo Hipotecario.",
 			"proximo":"/hipotecarios/resultados",
 			"contador":true,
 			"feliz":true,
@@ -93,7 +93,9 @@
 			"proximo":"/hipotecarios/envio",
 			"contador":true,
 			"feliz":true,
-			"mensajeErrorTasaFija": "Según los datos ingresados en el Paso 1, únicamente podemos ofrecerle una opción de línea de prestamo Hipotecario UVAs."
+			"mensajeErrorTasaFija": "Según los datos ingresados en el Paso 1, únicamente podemos ofrecerle una opción de línea de prestamo Hipotecario UVAs.",
+			"mensajeErrorMontos": "El monto solicitado deber ser menor o igual al monto máximo.",
+			"legales": ""
 		},
 		"/hipotecarios/envio":{
 			"numero": 3,

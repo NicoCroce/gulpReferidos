@@ -1,6 +1,6 @@
 <div class="row plusPadLeft">
 	<div class="col-xs-12">
-		<h1 class="titulo">Te enviamos la simulación del préstamo</h1>
+		<h1 class="titulo tituloPaso">Completando tus datos recibirás una copia del simulador</h1>
 	</div>
 </div>
 
@@ -16,103 +16,78 @@
 		<form>
 			<div class="form-group col-md-6">
 				<label for="nombre" class="control-label">Nombre</label>
-				<input type="text" id="nombre" class="form-control">	
+				<input type="text" id="nombre" class="form-control"  ng-model="envio.nombre" ng-class="{errorEnInput: nombreError}">	
+				<span ng-show="nombreError" id="errorNombreEnvio" class="error">Este campo es Obligatorio.</span>
 			</div>			
 	
 			<div class="form-group col-md-6">
 				<label for="apellido" class="control-label">Apellido</label>
-				<input type="text" id="apellido" class="form-control">	
+				<input type="text" id="apellido" class="form-control" ng-model="envio.apellido" ng-class="{errorEnInput: apellidoError}">	
+				<span ng-show="apellidoError" id="errorApellidoEnvio" class="error">Este campo es Obligatorio.</span>
 			</div>
 			
 			<div class="form-group col-md-6">
-				<label for="tipoDoc" class="control-label">DNI</label>
-				<select id="tipoDoc">
-					<option value="0">DNI</option>
+				<label for="tipoDoc" class="control-label">Documento</label>
+				<div class="col-xs-3 col-md-3" style="padding-right: 0px; padding-left: 0px">
+					<select id="tipoDoc" class="btn-select" ng-model="envio.tipoDoc">
+						<option value="0">DNI</option>
+					</select>
+				</div>
+				<div class="col-xs-9 col-md-9" style="padding-right: 0px; margin-bottom: 15px;">
+					<input type="text" id="nroDoc" class="form-control" placeholder="número de documento" ng-model="envio.nroDoc" ng-class="{errorEnInput: nroDocError}">
+					<span ng-show="nroDocError" id="errorNroDocEnvio" class="error">Este campo es Obligatorio.</span>
+				</div>
+			</div>
+			
+			<div class="form-group col-md-6">
+				<label for="telefono" class="control-label col-xs-12" style="padding-left: 0px; padding-right: 0px;">Teléfono</label>
+				<div class="col-xs-3 col-md-3" style="padding-right: 0px; padding-left: 0px">
+					<select id="tipoTel" class="btn-select" ng-model="envio.tipoTel">
+						<option value="Celular">Celular</option>
+						<option value="Fijo">Fijo</option>
+					</select>
+				</div>
+				<div class="col-xs-9 col-md-9" style="padding-right: 0px; margin-bottom: 15px;">
+					<input type="text" id="telefono" class="form-control" placeholder="ej. (011)1561616655" ng-model="envio.nroTel" ng-class="{errorEnInput: nroTelError}">
+					<span ng-show="nroTelError" id="errorNroTelEnvio" class="error">Este campo es Obligatorio.</span>
+				</div>
+			</div>
+			
+			<div class="form-group col-md-6">
+				<label for="sexo" class="control-label">Sexo</label>
+				<div radio-button radio-options="envio.sexoOptions" ></div>
+			</div>
+
+			<div class="form-group col-md-6">
+				<label for="nacionalidad" class="control-label">Nacionalidad</label>
+				<select type="text" id="nacionalidad" ng-model="envio.nacionalidad" placeholder="Argentino/a" class="btn-select">
+					<option ng-repeat="nacionalidad in nacionalidades" value="{{nacionalidad.c}}">{{nacionalidad.d}}</option>
 				</select>
-				<input type="text" id="nroDoc" class="form-control">
+				<span ng-show="informarAclaracionDeNacionalidad" class="aclaracion">Válido únicamente para personas con residencia Argentina.</span>
 			</div>
 			
 			<div class="form-group col-md-6">
-				<label for="telefono" class="control-label">Telefono</label>
-				<input type="text" id="telefono" class="form-control">
-			</div>
-			
-			<div class="form-group col-md-6">
-				<label for="mail" class="control-label">Mail</label>
-<!-- 				<span class="mail fuente-gris">@</span> -->
-<!-- 				<input type="text" id="mail" class="form-control mail"> -->
-				
-				
-				
-				
+				<label for="mail" class="control-label">Correo Electrónico</label>
 				<div class="dynamic-fields-container" ng-repeat="email in envio.emails" ng-class="email.id !== 'email-1'? 'dynamicFieldMargin' : ''">
-					<span class="mail fuente-gris">@</span>
-					<input type="text" id="mail" ng-model="email.valor" ng-attr-id="{{ email.id }}" class="form-control mail">
-					
+					<input type="text" id="mail" ng-model="email.valor" ng-attr-id="{{ email.id }}" class="form-control" placeholder="@" ng-class="{errorEnInput: emailError}">
 					<a class="removeIngreso" ng-if="email.id != 'email-1'" ng-click="removeEmail(email.id)"></a>
 				</div>
 				<span class="agregar" ng-if="envio.emails.length < 2" ng-click="addNewEmail()">Agregá a otra persona con la quieras compartir la información</span>
+				<span ng-show="emailError" id="errorEmailEnvio" class="error" style="margin-top: 12px;">Este campo es obligatorio.</span>
 			</div>
 			
 			<div class="form-group col-md-6">
-				<label for="sucursal" class="control-label">Sucursal</label>
-			
-				<input type="text" id="sucursal" 
-					ng-model="envio.sucursal" 
-					placeholder="" 
-					uib-typeahead="sucursal as sucursal.descripcionSucursal for sucursal in sucursales | filter:$viewValue | limitTo:5" 
-					class="form-control" 
-					typeahead-show-hint="true" 
-					typeahead-editable="false"
-					typeahead-min-length="0"
-					typeahead-select-on-blur="true">
-			
+				<label for="sucursal" class="control-label">Sucursal <a class="masInfo hidden-xs hidden-sm" x-tool-tip data-placement="right" data-toggle="tooltip" title="Solicitamos este dato para enviar la información a tu Sucursal más cercana."></a>
+				<a class="masInfo hidden-md hidden-lg" data-toggle="modal" data-target="#defaultModal" data-title="Sucursal Cercana" data-body="Solicitamos este dato para enviar la información a tu Sucursal más cercana."></a></label>
+				<select id="sucursal" class="btn-select" ng-model="envio.nroSucursal">
+					<option ng-repeat="sucursal in sucursales" value="{{sucursal.numeroSucursal}}">
+						{{sucursal.numeroSucursal}} - {{sucursal.descripcionSucursal}} - {{sucursal.direccionSucursal}}
+					</option>
+				</select>
 			</div>
 			
 			<div class="form-group col-md-6">
 				{{envio.sucursal}}
-			</div>
-			
-			<div class="row">
-				<div class="form-group col-md-6">
-					<label for="provincia" class="control-label">Provincia</label>
-				
-					<input type="text" id="provincia" 
-						ng-model="envio.provincia" 
-						placeholder="" 
-						uib-typeahead="provincia as provincia.nombre for provincia in provincias | filter:$viewValue | limitTo:5" 
-						class="form-control" 
-						typeahead-show-hint="true" 
-						typeahead-editable="false"
-						typeahead-min-length="0"
-						typeahead-select-on-blur="true" autocomplete="off">
-				
-				</div>
-				
-				<div class="form-group col-md-6">
-					{{envio.provincia}}
-				</div>
-			</div>
-			
-			<div class="row">
-				<div class="form-group col-md-6">
-					<label for="localidad" class="control-label">Localidad</label>
-				
-					<input type="text" id="localidad" 
-						ng-model="envio.localidad" 
-						placeholder="" 
-						uib-typeahead="localidad as localidad.nombre for localidad in localidades| filter:$viewValue | limitTo:5" 
-						class="form-control" 
-						typeahead-show-hint="true" 
-						typeahead-editable="false"
-						typeahead-min-length="0"
-						typeahead-select-on-blur="true" autocomplete="off">
-				
-				</div>
-				
-				<div class="form-group col-md-6">
-					{{envio.localidad}}
-				</div>
 			</div>
 			
 		</form>

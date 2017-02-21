@@ -6,7 +6,7 @@ exports.getLibsFiles = function (BOWER_COMPONENTS) {
     return [
         path.join(BOWER_COMPONENTS, 'jquery/dist/jquery.min.js'),
         path.join(BOWER_COMPONENTS, 'tether/dist/js/tether.min.js'),
-        path.join(BOWER_COMPONENTS, 'bootstrap/dist/js/bootstrap.min.js'),
+        /*path.join(BOWER_COMPONENTS, 'bootstrap/dist/js/bootstrap.min.js'),*/
         path.join(BOWER_COMPONENTS, 'angular/angular.min.js'),
         path.join(BOWER_COMPONENTS, 'angular-route/angular-route.min.js'),
         path.join(BOWER_COMPONENTS, 'angular-sanitize/angular-sanitize.min.js'),

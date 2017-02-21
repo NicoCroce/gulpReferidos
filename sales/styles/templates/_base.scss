@@ -578,12 +578,7 @@ input#antiguedad[readonly]{
 	background-color: white;
 }
 
-label.control-label {
-	font-family: 'BBVA Web Book';
-	font-size: 19px;
-	color: #094fa4;
-	display: block;
-}
+label.control-label { font-family: 'BBVA Web Book'; font-size: 19px; color: #094fa4; display: block; text-align: left; }
 
 input.form-control{
 	display: inline-block;
@@ -627,7 +622,7 @@ form.consulta > input.form-control{
 	width: 100%;
 }
 
-span.money, span.mail{
+span.money{
     display: block;
     position: absolute;
     padding-left: 10px;
@@ -684,7 +679,7 @@ span.legales5x{
     text-align: left;
 }
 
-input.money, input.mail {
+input.money {
 	padding-left: 25px;
 }
 
@@ -700,54 +695,6 @@ span.telefono{
   padding-left: 9px;
 }
 
-/* radio button */
-@media (min-width: 992px){
-	div.radio-container{
-		display: inline-block;
-	}
-}
-
-button.btn-radio {
-	color: #71777f;
-	font-family: 'BBVA Web Book';
-	font-weight: bold;
-	font-size: 16px;
-	display: inline-block;
-    background: none;
-    border: none;
-}
-
-button.btn-radio:focus{
-	outline: 0 !important;
-}
-
-span.circle.outer{
-	margin-right: 8px;
-	width: 20px;
-    height: 20px;
-    display: inline-block;
-    border-radius: 10px;
-    border: none;
-    -webkit-box-shadow: inset 0px 0px 14px -5px rgba(0,0,0,0.75);
-    -moz-box-shadow: inset 0px 0px 14px -5px rgba(0,0,0,0.75);
-    box-shadow: inset 0px 0px 14px -5px rgba(0,0,0,0.75);
-}
-
-span.circle.inner{
-    width: 10px;
-    height: 10px;
-    display: inline-block;
-    border-radius: 5.5px;
-    border: none;
-    background-color: white;
-    position: relative;
-    left: 0px;
-    top: -2px;
-}
-
-span.circle.inner.active{
-	background-color: #86c82d;
-}
 /* botones */
 
 .btn-consulta{
@@ -854,6 +801,24 @@ div.resultado-container{
     padding: 10px;
 }
 
+div.resultado-container-maximo{
+	border-radius: 10px;
+	background-color: #ffffff;
+	margin-left: 14px;
+    margin-right: 14px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+div.resultado-container-cuota{
+	border-radius: 5px;
+	background-color: #009ee5;
+	margin-left: 14px;
+    margin-right: 14px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
 p.montoMaximo{
 	font-family: 'BBVA Web Book';
 	font-size: 16px;
@@ -881,6 +846,15 @@ p.resultadoTitle{
 	font-style: normal;
 	font-stretch: normal;
 	color: rgba(9, 79, 164, 0.86);
+}
+
+p.resultadoTitleCuota{
+	font-family: 'BBVA Web Book';
+	font-size: 16px;
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+	color: white;
 }
 
 .resultado{

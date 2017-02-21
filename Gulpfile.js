@@ -59,7 +59,7 @@ function setProjectVars(){
 		SASS_FILES_PROJECT 		= SRC_PROJECT + '/style/**/*.scss',
 		MODULE_JS_FILES 		= [SRC_PROJECT+'/js/**/*', '!'+SRC_PROJECT+'/js/concat/**/*'],
 		MODULE_JS_FILES_WATCH 	= SRC_PROJECT + '/js/concat/**/*.js';
-		HTML_FILES_WATCH 		= [ENVIRONMENT + '/inicio.html', SRC_PROJECT + '/**/*.html' ]
+		HTML_FILES_WATCH 		= [ENVIRONMENT + '/inicio.html', SRC_PROJECT + '/**/*.html', SRC_VIEWS_BASE + '/**/*.html' ]
 		//IMAGES_FILES = SRC_IMAGES_BASE + '/**/*',
 		//ICON_FILES = SRC_FONTS_BASE + '/**/*',
 		//DATA_FILES = SRC_DATA_BASE + '/**/*.json',
@@ -80,9 +80,9 @@ gulp.task("deploy-run-server", gulp.series(start, cleanBuild, copyBowerStyles, c
 gulp.task("watch", function (done) {
 	/*gulp.watch(FILES_SASS_GLOBAL, gulp.series(sassFunctionGlobal));*/
 	gulp.watch([SASS_FILES_PROJECT, FILES_SASS_GLOBAL], gulp.series(sassFunctionModule));
-	gulp.watch(FILES_JS_BASE, gulp.series(jsConcatGlobalFunction));
+	gulp.watch(FILES_JS_BASE, gulp.series(cleanJsApp, jsConcatGlobalFunction));
 	gulp.watch(MODULE_JS_FILES, gulp.series(cleanJsModule, jsConcatAppFunction));
-	gulp.watch([MODULE_JS_FILES_WATCH, FILES_JS_BASE_WATCH, HTML_FILES_WATCH], gulp.series(function (done) { browserSync.reload(); done(); }));
+	gulp.watch([MODULE_JS_FILES_WATCH, FILES_JS_BASE_WATCH, HTML_FILES_WATCH], gulp.series(function reload(done) { browserSync.reload(); done(); }));
 	//gulp.watch(ICON_FILES, gulp.series('copyIcons'));
 	//gulp.watch(IMAGES_FILES, gulp.series("copyImg"));
 	//gulp.watch(DATA_FILES, gulp.series('copyData'));
@@ -113,6 +113,10 @@ function cleanJsGlobal() {
 function cleanJsModule() {
 	return del([SRC_PROJECT + '/js/concat']);
 };
+
+function cleanJsApp() {
+	return del([SRC_JAVASCRIPT_BASE + '/concat']);
+}
 
 function cleanBuild() {
 	return del([FOLDER_BUILD]);
@@ -198,7 +202,7 @@ function jsFunction(source, destination, nameFile, done){
 		.pipe(ngAnnotate())
 		.pipe(gulpif(ENVIRONMENT == FOLDER_DEV, sourcemaps.write('./maps')))
 		.pipe(gulpif(ENVIRONMENT == FOLDER_BUILD, gpUglify(uglifyOptions)))
-		.pipe(gulp.dest(destination))
+		.pipe(gulp.dest(destination, { overwrite: true }))
 		.on('error', gutil.log);
 	done();
 }

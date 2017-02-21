@@ -1,0 +1,4 @@
+<div ng-repeat="radioInput in radioOptions.options track by $index" class="btn-radio" ng-class="{{mainClasess}}">
+    <input type="radio" id="radio{{$index}}" ng-model="radioOptions.selected" name="radio" value="{{radioInput.option}}" />
+    <label for="radio{{$index}}"><span class="radio"></span>{{ radioInput.label }}</label>
+</div>
