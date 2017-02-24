@@ -41,11 +41,10 @@ var SRC_CSS_BASE 		= path.join(FOLDER_ASSETS, 'css'),
 	HTML_FILES_WATCH;
 
 var FILES_SASS_GLOBAL 	= SRC_SASS_BASE + '/**/*.scss',
+	FILES_JS_BASE_WATCH = path.join(SRC_JAVASCRIPT_BASE, 'concat/**/*'),
 	FILES_JS_BASE = [path.join(SRC_JAVASCRIPT_BASE, '**/*.js'), 
 					'!' + path.join(SRC_JAVASCRIPT_BASE, 'concat/**/*'),
-					'!' + path.join(SRC_JAVASCRIPT_BASE, 'lib/**/*')],
-
-	FILES_JS_BASE_WATCH = path.join(SRC_JAVASCRIPT_BASE, 'concat/**/*');
+					'!' + path.join(SRC_JAVASCRIPT_BASE, 'lib/**/*')];
 
 var SRC_PROJECT, MODULE_NAME, SASS_FILES_PROJECT, MODULE_JS_FILES, MODULE_JS_FILES_WATCH, INDEX_SERVER_FILE;
 	//JS_EXTERNAL_FILES = SRC_JAVASCRIPT_BASE + '/*.js',
@@ -210,6 +209,7 @@ function jsFunction(source, destination, nameFile, done){
 function connectServer(done) {
 	browserSync.init({
 		port: serverPort,
+		codeSync: true,
 		server: {
 			baseDir: './',
 			middleware: [{

@@ -20,13 +20,13 @@
 
 			<div class="form-group col-md-6">
 				<label for="apellido" class="control-label">Fecha de Nacimiento</label>
-				<div class="col-md-4 input-inline">
+				<div class="input-inline-3">
 					<input type="text" id="dia" class="form-control">
 				</div>
-				<div class="col-md-4 input-inline">
+				<div class="input-inline-3">
 					<input type="text" id="mes" class="form-control">
 				</div>
-				<div class="col-md-4 input-inline">
+				<div class="input-inline-3">
 					<input type="text" id="anio" class="form-control">
 				</div>
 			</div>
@@ -43,7 +43,7 @@
 				<input type="text" id="document" ng-model="document" class="form-control">
 			</div>
 
-			<div class="form-group col-md-12">
+			<div class="form-group col-md-6">
 				<label for="telefono" class="control-label">Nacionalidad</label>
 				<select id="typeDocId" ng-model="data.nationalitySelected" ng-options="nationality.name for nationality in data.nationalities track by nationality.code"
 					class="btn-select">

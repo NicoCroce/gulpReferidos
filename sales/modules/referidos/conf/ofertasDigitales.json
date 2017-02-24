@@ -5,7 +5,7 @@
 	"youtube": "https://www.youtube.com/user/bbvabancofrances",
 	"landing": "/referidos/consulta",
 	"telefono": "0810-222-0000",
-	"cantPasos": 3,
+	"cantPasos": 5,
 	"mainLegales": "Oferta válida desde el xx/xx/2017 hasta el día xx/xx/2017. Cartera consumo. <span class='legales5x'>Costo Financiero Total nominal anual (CFTna) 5,05%.</span>CFTNA calculado para un préstamo de $2.500.000 sobre un valor de tasación de $3.571.000 para compra de vivienda única, familiar y permanente en pesos a tasa fija para un plazo de 180 meses. El CFTNA y la cuota incluyen: capital, intereses y seguro de incendio (para casa o departamento en planta baja y fuera de barrios privados o cerrados). Operación destino primera vivienda no esta gravada con I.V.A. El Costo Financiero Total Nominal Anual es orientativo y de carácter informativo, calculado en base a meses de 30 días, el mismo podrá variar en caso de que los días contados desde la fecha de liquidación del préstamo a la fecha de vencimiento de la primera cuota superen los 30 días, pudiendo también variar el función al valor de la propiedad y el plazo seleccionado. Operación Tasa nominal anual (TNA) 4,90% Fija; tasa efectiva anual (TEA) 5,01%. La tasa que se aplica es vencida sobre saldos. Otorgamiento sujeto al cumplimiento de los requisitos exigidos por el departamento de créditos de BBVA Banco Francés S.A. y demás condiciones de vinculación. Los accionistas de BBVA Banco Francés S.A. limitan su responsabilidad a la integración de las acciones suscriptas conforme Ley 19.550 y Ley 25.738. CUIT 30-500000319-3. Reconquista 199 CABA - CP 1003.",
 	"tagging": {
 		"activado": false
@@ -20,6 +20,7 @@
 			"bannerTemplate": "modules/referidos/templates/banner.html",
 			"asideTemplate": "modules/referidos/templates/asidePaso1.html",
 			"feliz": true,
+			"hideStep": true,
 			"validaciones": {
 				"ingresoTotalMinimo": 15000,
 				"ingresoMinimo": 10000,
@@ -27,15 +28,15 @@
 			}
 		},
 		"/referidos/paso1": {
-			"numero": 2,
+			"numero": 1,
 			"titulo": "Datos personales",
 			"texto": "Por favor confirmanos los datos quenospasó tu referente.",
-			"proximo": null,
+			"proximo": "/referidos/paso2",
 			"contador": true,
 			"legales": ""
 		},
 		"/referidos/paso2": {
-			"numero": 3,
+			"numero": 2,
 			"titulo": "Datos de contacto",
 			"texto": "Podés ingresar tu mail personal donde te mantendremos informado sobre las novedades de este proceso y del Banco.",
 			"proximo": "/referidos/paso3",
@@ -43,19 +44,32 @@
 			"legales": ""
 		},
 		"/referidos/paso3": {
-			"numero": 4,
+			"numero": 3,
 			"titulo": "Configuración",
 			"texto": "Caja de Ahorro.",
 			"proximo": "/referidos/paso4",
+			"asideTemplate": "modules/referidos/templates/asidePaso3.html",
 			"contador": true,
 			"legales": ""
 		},
 		"/referidos/paso4": {
-			"numero": 5,
+			"numero": 4,
 			"titulo": "Registro de firma",
-			"texto": "Caja de Ahorro.",
+			"texto": "Una vez que registremos tu firma, tu cuenta quedará habilitada para que puedas usarla con normalidad.",
 			"proximo": null,
+			"asideTemplate": "modules/referidos/templates/asidePaso4.html",
 			"contador": true,
+			"legales": ""
+		},
+		"/referidos/paso5": {
+			"numero": 5,
+			"titulo": "DATOS DE TU CUENTA SUELDO",
+			"texto": "",
+			"proximo": null,
+			"bannerTemplate": "modules/referidos/templates/thypage.html",
+			"asideTemplate": "modules/referidos/templates/asidePaso5.html",
+			"contador": true,
+			"hideStep": true,
 			"legales": ""
 		}
 	}

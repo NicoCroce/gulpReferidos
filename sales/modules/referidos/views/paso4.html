@@ -34,19 +34,7 @@
 					</div>
 				</div>
 				<div class="clear-fix">
-					<div class="form-group input-inline-2 select-element">
-						<label class="control-label">Provincia</label>
-						<input type="text" id="provincia" ng-model="envio.provincia" placeholder="" uib-typeahead="provincia as provincia.nombre for provincia in provincias | filter:$viewValue | limitTo:5"
-							class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-min-length="0" typeahead-select-on-blur="true"
-							autocomplete="off">
-					</div>
-
-					<div class="form-group input-inline-2 select-element">
-						<label class="control-label">Localidad</label>
-						<input type="text" id="localidad" ng-model="envio.localidad" placeholder="" uib-typeahead="localidad as localidad.nombre for localidad in localidades| filter:$viewValue | limitTo:5"
-							class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-min-length="0" typeahead-select-on-blur="true"
-							autocomplete="off">
-					</div>
+					<div localidades location-selected="locationSelected"></div>
 				</div>
 			</div>
 			<div class="row bt-continue-s4">

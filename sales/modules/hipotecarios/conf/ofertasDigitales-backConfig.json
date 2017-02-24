@@ -1,32 +1,65 @@
-{
-	"destinos":{
-		"adquisicion1":"Adquisici贸n de 1ra. vivienda",
-		"construccion1":"Construcci贸n de 1ra. vivienda",
-		"refaccion1":"Refacci贸n de 1ra. vivienda",
-		"adquisicion2":"Adquisici贸n de 2da. vivienda",
-		"adquisicion1UVA":"Adquisici贸n de 1ra. vivienda en UVAs",
-		"construccion1UVA":"Construcci贸n de 1ra. vivienda en UVAs",
-		"refaccion1UVA":"Refacci贸n de 1ra. vivienda en UVAs",
-		"adquisicion2UVA":"Adquisici贸n de 2da. vivienda en UVAS"
-	},
-	"repago":{
-		"formula":{
-			"formulaCalculoCuota": "#set ($base = $math.add($uno, $math.div($tasa, $tasaMensual))) #set ($potencia = $math.pow($base , $plazo)) #set ($seguroIncendioParcial = $math.div($math.mul($math.mul($valorPropiedad, $alicuotaSeguroIncendio), $impuestoSeguroIncendio), $mesesPagoPrima)) #set ($iva = $math.mul($math.mul($math.div($tasa, $tasaMensual), $montoSolicitado), $porcentajeIVA)) #if ( $tipoVivienda != 2 ) #set ( $iva = $cero ) #end#if ($repago.val1MayorVal2($math.mul($valorPropiedad, $alicuotaSeguroIncendio), $seguroIncendio)) #set ($seguroIncendio = $seguroIncendioParcial) #end#set ($respuestaTemp = $math.div($math.mul($math.mul($math.div($tasa, $tasaMensual), $montoSolicitado), $potencia), $math.sub($potencia, $uno))) #set ($respuesta = $math.add($respuestaTemp, $math.add($seguroIncendio, $iva))) $repago.getRespuesta().put('cuota', $respuesta)",
-			"reCalculoOfertaMontoMaximo": "#set ($base = $math.add($uno, $math.div($tasa, $tasaMensual))) #set ($potencia = $math.pow($base , $plazo)) #set ($seguroIncendioParcial = $math.div($math.mul($math.mul($valorPropiedad, $alicuotaSeguroIncendio), $impuestoSeguroIncendio), $mesesPagoPrima)) #if ($repago.val1MayorVal2($math.mul($valorPropiedad, $alicuotaSeguroIncendio), $seguroIncendio)) #set ($seguroIncendio = $seguroIncendioParcial) #end#set ($respuesta = $math.div($math.mul($math.sub($cuota,$seguroIncendio), $math.sub($potencia, $uno)),$math.mul($math.div($tasa, $tasaMensual), $potencia))) $repago.getRespuesta().put('montoMaximo', $respuesta)",
-			"reCalculoOfertaMontoMaximoCONIVA": "#set ($base = $math.add($uno, $math.div($tasa, $tasaMensual))) #set ($potencia = $math.pow($base , $plazo)) #set ($seguroIncendioParcial = $math.div($math.mul($math.mul($valorPropiedad, $alicuotaSeguroIncendio), $impuestoSeguroIncendio), $mesesPagoPrima)) #if ($repago.val1MayorVal2($math.mul($valorPropiedad, $alicuotaSeguroIncendio), $seguroIncendio)) #set ($seguroIncendio = $seguroIncendioParcial) #end#set ($divisor = ($math.mul($math.div($tasa, $tasaMensual), $math.add($math.div($potencia, $math.sub($potencia, $uno)), $porcentajeIVA))))#set ($respuesta = ($math.div($math.sub($cuota,$seguroIncendio), $divisor))) $repago.getRespuesta().put('montoMaximo', $respuesta)",
-			"impl":"ar.org.bbva.homebanking.campania.hipotecarios.impl.VelocityFormulaProviderImpl"
-		}
-	},
-	"opcionRepago":"formula",
-	"conversorDeHost":{
-		"10":"adquisicion1",
-		"30":"construccion1",
-		"40":"refaccion1",
-		"20":"adquisicion2",
-		"11":"adquisicion1UVA",
-		"31":"construccion1UVA",
-		"41":"refaccion1UVA",
-		"21":"adquisicion2UVA"
-	}
+{  
+   "destinos":{  
+      "adquisicion1":"Adquisici髇 de 1ra. vivienda",
+      "construccion1":"Construcci髇 de 1ra. vivienda",
+      "refaccion1":"Refacci髇 de 1ra. vivienda",
+      "adquisicion2":"Adquisici髇 de 2da. vivienda",
+      "adquisicion1UVA":"Adquisici髇 de 1ra. vivienda en UVAs",
+      "construccion1UVA":"Construcci髇 de 1ra. vivienda en UVAs",
+      "refaccion1UVA":"Refacci髇 de 1ra. vivienda en UVAs",
+      "adquisicion2UVA":"Adquisici髇 de 2da. vivienda en UVAS"
+   },
+   "repago":{  
+      "formula":{  
+         "formulaCalculoCuota":"#set ($base = $math.add($uno, $math.div($tasa, $tasaMensual))) #set ($potencia = $math.pow($base , $plazo)) #set ($seguroIncendioParcial = $math.div($math.mul($math.mul($valorPropiedad, $alicuotaSeguroIncendio), $impuestoSeguroIncendio), $mesesPagoPrima)) #set ($iva = $math.mul($math.mul($math.div($tasa, $tasaMensual), $montoSolicitado), $porcentajeIVA)) #if ( $tipoVivienda != 2 ) #set ( $iva = $cero ) #end#if ($repago.val1MayorVal2($math.mul($valorPropiedad, $alicuotaSeguroIncendio), $seguroIncendio)) #set ($seguroIncendio = $seguroIncendioParcial) #end#set ($respuestaTemp = $math.div($math.mul($math.mul($math.div($tasa, $tasaMensual), $montoSolicitado), $potencia), $math.sub($potencia, $uno))) #set ($respuesta = $math.add($respuestaTemp, $math.add($seguroIncendio, $iva))) $repago.getRespuesta().put('cuota', $respuesta)",
+         "reCalculoOfertaMontoMaximo":"#set ($base = $math.add($uno, $math.div($tasa, $tasaMensual))) #set ($potencia = $math.pow($base , $plazo)) #set ($seguroIncendioParcial = $math.div($math.mul($math.mul($valorPropiedad, $alicuotaSeguroIncendio), $impuestoSeguroIncendio), $mesesPagoPrima)) #if ($repago.val1MayorVal2($math.mul($valorPropiedad, $alicuotaSeguroIncendio), $seguroIncendio)) #set ($seguroIncendio = $seguroIncendioParcial) #end#set ($respuesta = $math.div($math.mul($math.sub($cuota,$seguroIncendio), $math.sub($potencia, $uno)),$math.mul($math.div($tasa, $tasaMensual), $potencia))) $repago.getRespuesta().put('montoMaximo', $respuesta)",
+         "reCalculoOfertaMontoMaximoCONIVA":"#set ($base = $math.add($uno, $math.div($tasa, $tasaMensual))) #set ($potencia = $math.pow($base , $plazo)) #set ($seguroIncendioParcial = $math.div($math.mul($math.mul($valorPropiedad, $alicuotaSeguroIncendio), $impuestoSeguroIncendio), $mesesPagoPrima)) #if ($repago.val1MayorVal2($math.mul($valorPropiedad, $alicuotaSeguroIncendio), $seguroIncendio)) #set ($seguroIncendio = $seguroIncendioParcial) #end#set ($divisor = ($math.mul($math.div($tasa, $tasaMensual), $math.add($math.div($potencia, $math.sub($potencia, $uno)), $porcentajeIVA))))#set ($respuesta = ($math.div($math.sub($cuota,$seguroIncendio), $divisor))) $repago.getRespuesta().put('montoMaximo', $respuesta)",
+         "impl":"ar.org.bbva.homebanking.campania.hipotecarios.impl.VelocityFormulaProviderImpl"
+      }
+   },
+   "opcionRepago":"formula",
+   "conversorDeHost":{  
+      "10":"adquisicion1",
+      "30":"construccion1",
+      "40":"refaccion1",
+      "20":"adquisicion2",
+      "11":"adquisicion1UVA",
+      "31":"construccion1UVA",
+      "41":"refaccion1UVA",
+      "21":"adquisicion2UVA"
+   },
+   "validaciones":{  
+      "10":{  
+         "porcentajeMaximo":"0.7",
+         "plazoMaximo":"180"
+      },
+      "30":{  
+         "porcentajeMaximo":"0.7",
+         "plazoMaximo":"180"
+      },
+      "40":{  
+         "porcentajeMaximo":"0.3",
+         "plazoMaximo":"96"
+      },
+      "20":{  
+         "porcentajeMaximo":"0.5",
+         "plazoMaximo":"180"
+      },
+      "11":{  
+         "porcentajeMaximo":"0.7",
+         "plazoMaximo":"180"
+      },
+      "31":{  
+         "porcentajeMaximo":"0.7",
+         "plazoMaximo":"180"
+      },
+      "41":{  
+         "porcentajeMaximo":"0.3",
+         "plazoMaximo":"96"
+      },
+      "21":{  
+         "porcentajeMaximo":"0.5",
+         "plazoMaximo":"180"
+      }
+   }
 }
-

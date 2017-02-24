@@ -1,0 +1,15 @@
+<div class="form-group input-inline-2 select-element">
+    <label class="control-label">Provincia</label>
+    <input type="text" id="state" ng-model="locationSelected.state" placeholder="" uib-typeahead="state as state.nombre for state in states | filter:$viewValue | limitTo:5"
+        class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-min-length="0" typeahead-select-on-blur="true"
+        autocomplete="off">
+</div>
+
+<div class="form-group input-inline-2 select-element">
+    <label class="control-label">Localidad</label>
+    <input type="text" id="city" ng-model="locationSelected.city" placeholder="" uib-typeahead="city as city.nombre for city in cities| filter:$viewValue | limitTo:5"
+        class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-min-length="0" typeahead-select-on-blur="true"
+        autocomplete="off"
+        ng-disabled="checkInput()"
+        >
+</div>

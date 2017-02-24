@@ -1,0 +1,13 @@
+.additional-section {
+    margin-bottom: 50px;
+    .has-icon {
+        [class^=icon-] { 
+            &.plane { font-size: toem(22px); }
+         }
+        .card-img { 
+            width: 48%; margin-top: 15px; float: left;
+            &:last-of-type { float: right }
+        }
+    }
+    &.strong-text h3 { font-weight: 700; font-size: 14px; }
+}

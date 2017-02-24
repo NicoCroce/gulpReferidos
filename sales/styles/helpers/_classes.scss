@@ -12,6 +12,19 @@
 //   Variables
 // -------------------------------------
 
+@import "../libs/jeet/index";
+
+.clear-content {
+  &:after { content: ''; display: block; clear: both; }
+}
+
+.clear-fix { float: none; clear: both; }
+
+.input-inline-2 { @include column(1/2, $gutter: 1.5); }
+.input-inline-3 { @include column(1/3, $gutter: 3); }
+.input-inline-4 { @include column(1/4, $gutter: 1.5); }
+
+
 .m-0 { margin: 0 !important; }
 .mt-15 { margin-top: 15px !important; }
 .mt-25 { margin-top: 25px !important; }

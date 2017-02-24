@@ -1,0 +1,19 @@
+.additional-section {
+    h3 { font-size: 16px; font-weight: normal; font-style: normal; font-stretch: normal; 
+        line-height: 1.38; letter-spacing: normal; color: #121212; margin-bottom: 25px;;
+    }
+
+    .has-icon {
+        display: table; margin-bottom: 35px;
+        [class^=icon-] { display: table-cell; font-size: toem(30px); padding-right: 10px; }
+        .block--info-aside { 
+            display: table-cell; vertical-align: middle;
+            p { font-family: 'BBVA Web Book'; margin: 0; font-size: toem(14px); font-weight: 800; letter-spacing: 1.5px; }
+            a { font-family: 'BBVA Web Book'; color: #006ec1; font-weight: 800; letter-spacing: 1.5px;}
+        }
+        .card-img { 
+            width: 48%; margin-top: 15px; float: left;
+            &:last-of-type { float: right }
+        }
+    }
+}

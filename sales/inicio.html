@@ -31,7 +31,7 @@
 					</div>
 					
 					<div class="debugCheck" ng-if="showDebugSwitch()" ng-controller="DebugController">
-						<input type="checkbox" ng-model="debug" ng-checked="debug"> Debug?
+						<input type="checkbox" ng-model="debug" ng-checked="debug" class="check-visible"> Debug?
 						
 						<div class="consola" id="elem" ng-show="debug">
 							<div class="consola-header">
@@ -59,9 +59,9 @@
 					<img class="banner hidden-md hidden-lg" alt="" ng-src="{{paso.banner}}" ng-if="paso.banner && !paso.bannerTemplate">
 					<div class="hidden-md hidden-lg" id="bannerTemplateContainerMobile" ng-include="paso.bannerTemplate" ng-if="paso.bannerTemplate"></div>
 					
-					<div class="col-md-3 table-col sideInfo">
+					<div class="col-md-4 table-col sideInfo">
 						<div class="pasoContainer">
-							<p class="indicadorPaso fuente-azul" ng-if="paso.contador">paso {{paso.numero}} de {{pasos}}</p>
+							<p class="indicadorPaso fuente-azul" ng-if="paso.contador && !paso.hideStep">paso {{paso.numero}} de {{pasos}}</p>
 							
 							<h2 class="tituloPaso">{{paso.titulo}}</h2>
 							
@@ -71,13 +71,12 @@
 						</div>
 						
 						<div class="hidden-xs hidden-sm" id="asideTemplateContainer" ng-include="paso.asideTemplate" ng-if="paso.asideTemplate"></div>
-
-						<div class="proximoPasoContainer" ng-if="proximoPaso && proximoPaso.numero != 0">
+						<div class="proximoPasoContainer" ng-if="proximoPaso && proximoPaso.numero != 0 && !paso.hideStep" >
 							<p class="indicadorPaso fuente-azul">paso {{proximoPaso.numero}} de {{pasos}}</p>
 							<h2 class="tituloPaso">{{proximoPaso.titulo}}</h2>
 						</div>
 					</div>
-					<div class="col-md-9 table-col noPadLeft">
+					<div class="col-md-8 table-col noPadLeft">
 						<img class="banner hidden-xs hidden-sm" alt="" ng-src="{{paso.banner}}" ng-if="paso.banner && !paso.bannerTemplate">
 						<div class="hidden-xs hidden-sm" id="bannerTemplateContainer" ng-include="paso.bannerTemplate" ng-if="paso.bannerTemplate"></div>
 						<div class="plusPadLeft" ng-view id="vista"></div>

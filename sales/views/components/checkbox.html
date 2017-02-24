@@ -1,0 +1,6 @@
+<div class="check-conditions btn-check" ng-class="{ 'active': checked }">
+    <input type="checkbox" id="accept" ng-model="checked">
+    <label for="accept" ng-click="changeState()" class="normal-text"><span class="icon-ico_green_check check" ng-click="changeState()"></span>
+        <ng-transclude></ng-transclude>
+    </label>
+</div>

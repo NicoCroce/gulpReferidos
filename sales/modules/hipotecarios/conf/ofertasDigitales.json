@@ -23,7 +23,9 @@
 				"ingresoMinimo": 10000,
 				"tasaUVA": "UVA",
 				"tasaFija": "FIJA",
-				"resultadoResponse": "APROBADO",
+				"resultadoAprobado": "APROBADO",
+				"resultadoExcedido": "EXCEDIDO",
+				"plazoMaximo": 180,
 				"trabajo": {
 					"relacion":{
 						"antiguedadMinima": 1,
@@ -40,24 +42,36 @@
 				},
 				"tipoVivienda":{
 					"primeraVivienda":{
+						"codigoTipoPrestamo": 1,
 						"titulo":"Adquisición de 1ra. vivienda",
 						"porcentaje": "0.7",
-						"mensajeError":"El monto solicitado no puede ser mayor al 70% del valor de la propiedad."
+						"mensajeError":"El monto solicitado no puede ser mayor al 70% del valor de la propiedad.",
+						"mensajeInfo":"Es para la compra de la vivienda en la cual el o los solicitantes habita o habitarán la mayor parte del año.",
+						"plazoMaximo": "180"
 					},
 					"segundaVivienda":{
+						"codigoTipoPrestamo": 2,
 						"titulo":"Adquisición de 2da. vivienda",
 						"porcentaje": "0.5",
-						"mensajeError":"El monto solicitado no puede ser mayor al 50% del valor de la propiedad."
+						"mensajeError":"El monto solicitado no puede ser mayor al 50% del valor de la propiedad.",
+						"mensajeInfo":"Es para la compra de la vivienda en la cual el o los solicitantes no habita o habitarán la mayor parte del año.",
+						"plazoMaximo": "180"
 					},
 					"construccion":{
+						"codigoTipoPrestamo": 3,
 						"titulo":"Construcción de 1ra. vivienda",
 						"porcentaje": "0.7",
-						"mensajeError":"El monto solicitado no puede ser mayor al 70% del valor de la propiedad."
+						"mensajeError":"El monto solicitado no puede ser mayor al 70% del valor de la propiedad.",
+						"mensajeInfo":"Para construir o terminar una vivienda sobre un terreno propio de el o los solicitantes y en la cual habita o habitarán la mayor parte del año. La vivienda no esta habitable (no resguarda a sus habitantes de la intemperie y no tiene servicios básicos habilitados).",
+						"plazoMaximo": "180"
 					},
 					"refaccion":{
+						"codigoTipoPrestamo": 4,
 						"titulo":"Refacción de 1ra. vivienda",
 						"porcentaje": "0.3",
-						"mensajeError":"El monto solicitado no puede ser mayor al 30% del valor de la propiedad."
+						"mensajeError":"El monto solicitado no puede ser mayor al 30% del valor de la propiedad.",
+						"mensajeInfo":"Para refaccionar o ampliar la vivienda de la cual el o los solicitantes ya son dueños y, en la cual habita o habitarán la mayor parte del año. La vivienda debe estar habitable (resguardar a sus habitantes de la intemperie y con servicios básicos habilitados). Es el 30% del valor actual de la propiedad según la tasación.",
+						"plazoMaximo": "96"
 					}
 				}
 			}
@@ -89,13 +103,12 @@
 		"/hipotecarios/resultados":{
 			"numero": 2,
 			"titulo": "Resultados",
-			"texto": "Según los datos que nos proporcionaste calculamos la siguiente opción de préstamo Hipotecario: Monto Solitado $ 3.000.000,00 a 20 años - 240 meses. Podés probar diferentes opciones modificando los campos de Monto Solicitado y Plazo, tanto para préstamos UVAs como para préstamos a Tasa Fija.",
+			"texto": "Según los datos que nos proporcionaste calculamos la siguiente opción de préstamo Hipotecario: Monto Solitado $ 3.000.000,00. Podés probar distintos montos y plazos para calcular la cuota mensual.",
 			"proximo":"/hipotecarios/envio",
 			"contador":true,
 			"feliz":true,
 			"mensajeErrorTasaFija": "Según los datos ingresados en el Paso 1, únicamente podemos ofrecerle una opción de línea de prestamo Hipotecario UVAs.",
-			"mensajeErrorMontos": "El monto solicitado deber ser menor o igual al monto máximo.",
-			"legales": ""
+			"mensajeErrorMontos": "El monto solicitado deber ser menor o igual al monto máximo."
 		},
 		"/hipotecarios/envio":{
 			"numero": 3,
@@ -108,7 +121,7 @@
 		"/hipotecarios/gracias":{
 			"numero": 0,
 			"titulo": "Información enviada",
-			"texto": "Por favor verificá tu casilla de correo electrónico.",
+			"texto": "Por favor verificá la bandeja de entrada de tu correo electrónico.",
 			"bannerTemplate": "modules/hipotecarios/templates/bannerGracias.html",
 			"proximo":null,
 			"contador":false

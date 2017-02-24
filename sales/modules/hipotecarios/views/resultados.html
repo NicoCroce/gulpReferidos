@@ -1,6 +1,9 @@
 <div class="row plusPadLeft">
 	<div class="col-xs-12">
-		<h1 class="titulo">Estas son las opciones que tenemos para vos:</h1>
+		<h1 class="titulo">Según los datos proporcionados, estas son las opciones que tenemos para vos</h1>
+	</div>
+	<div class="col-xs-12">
+		<h3 class="titulo">Regresando al paso anterior podrás verificar y editar tus datos</h3>
 	</div>
 </div>
 
@@ -28,23 +31,23 @@
 					<div class="panel-body">
 						<div class="row hidden-sm hidden-xs">
 							<div class="col-md-3 col-md-offset-6">
-								<p class="resultado-header">En UVA's</p>
+								<p class="resultado-header">En Pesos</p>
 							</div>
 							<div class="col-md-3">
-								<p class="resultado-header">En Pesos</p>
+								<p class="resultado-header">En UVA's</p>
 							</div>
 						</div>
 						<div class="row">
 							<div class="resultado-container-maximo">
 								<div class="row">
 									<div class="col-md-6">
-										<p class="montoMaximo">Monto Maximo Disponible</p>
-									</div>
-									<div class="col-md-3 col-xs-6">
-										<p class="uvaMaximo">180.000 UVA's</p>
+										<p class="montoMaximo">Monto Máximo Disponible</p>
 									</div>
 									<div class="col-md-3 col-xs-6">
 										<span class="money fuente-gris">$ {{resultados.tasaUVA.montoMaximo}}</span>
+									</div>
+									<div class="col-md-3 col-xs-12">
+										<p class="fuente-gris">180.000 UVA's</p>
 									</div>
 								</div>
 							</div>
@@ -53,21 +56,24 @@
 							<div class="resultado-container">
 								<div class="row">
 									<div class="col-md-6">
-										<p class="resultadoTitle">Monto Solicitado</p>
-									</div>
-									<div class="col-md-3 col-xs-12">
-										<p class="uvaMaximo">180.000 UVA's</p>
+										<p class="bold-blue">Monto Solicitado</p>
 									</div>
 									<div class="col-md-3 col-xs-6">
-										<span class="money fuente-azul-oscuro">$</span>
- 										<input type="text" x-only-decimal ng-model="resultados.tasaUVA.montoSolicitud" class="form-control resultado money" ng-blur="recalculo(resultados.tasaUVA.montoMaximo, resultados.tasaUVA.montoSolicitud)" ng-class="{errorEnInput: valMontoSolicitadoTV}" >
+										<span class="money bold-blue">$</span>
+ 										<input type="text" x-only-decimal ng-model="resultados.tasaUVA.montoSolicitud" class="form-control-blue resultado money" ng-blur="recalculo(resultados.tasaUVA.montoMaximo, resultados.tasaUVA.montoSolicitud)" ng-class="{errorEnInput: valMontoSolicitadoTV}" >
+									</div>
+									<div class="col-md-3 col-xs-12">
+										<p class="bold-blue">180.000 UVA's</p>
+									</div>
+								</div>
+								</br>
+								<div class="row">
+									<div class="col-md-6">
+										<p class="bold-blue">Plazo</p>
 									</div>
 									<div class="col-md-6">
-										<p class="resultadoTitle">Plazo</p>
-									</div>
-									<div class="col-md-6">
-										<select>
-											<option value="1">20 años - 240 meses</option>
+										<select name="plazosId" id="plazosId" ng-model="plazoSeleccionado" class="bold-blue">
+											<option ng-repeat="option in plazos" ng-selected="plazoMaximo == option.meses" value="{{option.meses}}">{{option.anios}} años - {{option.meses}} meses</option>
 										</select>
 									</div>
 								</div>
@@ -75,16 +81,16 @@
 						</div>
 						
 						<div class="row">
-							<div class="resultado-container-cuota">
+							<div class="div-light-blue">
 								<div class="row">
 									<div class="col-md-6">
-										<p class="resultadoTitleCuota">Cuota Mensual</p>
+										<p class="bold-white">Cuota Mensual</p>
 									</div>
 									<div class="col-md-3 col-xs-6">
-										<p class="uvaMaximo fuente-blanca">1.500 UVA's</p>
+										<span class="bold-white">$ {{resultados.tasaUVA.montoCuota}} <span class="layer-white">(1)</span></span>
 									</div>
 									<div class="col-md-3 col-xs-6">
-										<span class="money fuente-blanca">$ {{resultados.tasaUVA.montoCuota}}</span>
+										<p class="bold-white">1.500 UVA's</p>
 									</div>
 								</div>
 							</div>
@@ -94,7 +100,7 @@
 							<div class="descripcion-container">
 								<div class="row">
 									<div class="col-md-6">
-										<p class="descripcion">Tasa Nominal Anual (T.N.A) X,XX%.</p>
+										<p class="font-cobalt-gray">Tasa Nominal Anual (T.N.A) X,XX%.</p>
 									</div>
 									<div class="col-md-6">
 										<p class="descripcion">Cotización UVA´s a la fecha: $15,18.</p>
@@ -102,7 +108,11 @@
 								</div>
 							</div>
 						</div>
-					
+					</div>
+					<div class="div-cuota-mensual-inicial">
+						<span class="layer-blue"> (1) </span>
+						<span class="bold-blue-cuota-mensual-inicial">Cuota Mensual inicial: </span>
+						<span class="light-blue-cuota-mensual-inicial">Este es un valor de referencia teniendo en cuenta la cotización de las UVAs al día de la fecha.</span>
 					</div>
 				</div>
 			</div>
@@ -127,7 +137,7 @@
 							<div class="resultado-container">
 								<div class="row">
 									<div class="col-md-6">
-										<p class="montoMaximo">Monto Maximo Disponible</p>
+										<p class="montoMaximo">Monto Máximo Disponible</p>
 									</div>
 									<div class="col-md-6">
 										<span class="money fuente-gris">$ {{resultados.tasaFija.montoMaximo}}</span>
@@ -139,20 +149,21 @@
 							<div class="resultado-container">
 								<div class="row">
 									<div class="col-md-6">
-										<p class="resultadoTitle">Monto Solicitado</p>
+										<p class="bold-blue">Monto Solicitado</p>
 									</div>
 									<div class="col-md-3">
-										<span class="money fuente-azul-oscuro">$</span>
-										<input type="text" x-only-decimal ng-model="resultados.tasaFija.montoSolicitud" class="form-control resultado money" ng-blur="recalculo(resultados.tasaFija.montoMaximo, resultados.tasaFija.montoSolicitud)" ng-class="{errorEnInput: valMontoSolicitadoTF}">
+										<span class="money bold-blue">$</span>
+										<input type="text" x-only-decimal ng-model="resultados.tasaFija.montoSolicitud" class="form-control-blue resultado money" ng-blur="recalculo(resultados.tasaFija.montoMaximo, resultados.tasaFija.montoSolicitud)" ng-class="{errorEnInput: valMontoSolicitadoTF}">
 									</div>
 								</div>
+								</br>
 								<div class="row">
 									<div class="col-md-6">
-										<p class="resultadoTitle">Plazo</p>
+										<p class="bold-blue">Plazo</p>
 									</div>
 									<div class="col-md-6">
-										<select>
-											<option value="1">20 años - 240 meses</option>
+										<select name="plazosId" id="plazosId" ng-model="plazoSeleccionado" class="bold-blue">
+											<option ng-selected="{{option.meses == plazoMaximo}}" ng-repeat="option in plazos" value="{{option.meses}}" >{{option.anios}} años - {{option.meses}} meses</option>
 										</select>
 									</div>
 								</div>
@@ -160,13 +171,13 @@
 						</div>
 						
 						<div class="row">
-							<div class="resultado-container-cuota">
+							<div class="div-light-blue">
 								<div class="row">
 									<div class="col-md-6">
-										<p class="resultadoTitleCuota">Cuota Mensual</p>
+										<p class="bold-white">Cuota Mensual</p>
 									</div>
 									<div class="col-md-6">
-										<span class="money fuente-blanca">$ {{resultados.tasaFija.montoCuota}}</span>
+										<span class="bold-white">$ {{resultados.tasaFija.montoCuota}} <span class="layer-white">(1)</span></span>
 									</div>
 								</div>
 							</div>
@@ -176,7 +187,7 @@
 							<div class="descripcion-container">
 								<div class="row">
 									<div class="col-xs-12">
-										<p class="descripcion">Tasa Nominal Anual (T.N.A) X,XX%.</p>
+										<p class="font-cobalt-gray">Tasa Nominal Anual (T.N.A) X,XX%.</p>
 									</div>
 								</div>
 							</div>

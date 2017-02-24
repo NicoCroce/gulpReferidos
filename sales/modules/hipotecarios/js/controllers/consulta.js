@@ -7,6 +7,7 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 	$scope.errorIngresos = false;
 	$scope.errorAntiguedad = false;
 	$scope.mensajeErrorAntiguedad = "";
+	$scope.mensajeInfoTipoVivienda = "";
 	
 	$scope.consulta.ingresoTotal = '0';
 	$scope.datosViviendas = [];
@@ -62,8 +63,10 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 			$scope.datosViviendas = response.data;
     		cargarViviendasAMostrar($scope.datosViviendas.lineas);
     		$scope.consulta.tipoVivienda = $scope.datosViviendasAMostrar[0].valor;
+			$scope.consulta.plazoMaximo = $scope.datosViviendasAMostrar[0].plazo;
     		
     		cargarArrayViviendas($scope.consulta.tipoVivienda);
+    		$scope.obtenerMensajeInfoParaTipoVivienda();
 			
 		}, function(errorResponse){
 			//onError
@@ -82,10 +85,22 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 		$scope.consulta.prestamo = prestamo;
 	};
 		
-	$scope.tipoVivienda = function(tipoVivienda, porcentaje){
+	$scope.tipoVivienda = function(tipoVivienda, plazo){
 		$scope.consulta.tipoVivienda = tipoVivienda;
-		cargarArrayViviendas($scope.consulta.tipoVivienda, porcentaje);
+		$scope.consulta.plazoMaximo = plazo;
+		cargarArrayViviendas($scope.consulta.tipoVivienda);
+		//Cambiamos el mensaje de informacion
+		$scope.obtenerMensajeInfoParaTipoVivienda();
 	};
+	
+	$scope.obtenerMensajeInfoParaTipoVivienda = function(){
+		var tipos = ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.tipoVivienda;
+		for(var key in tipos){
+			if(tipos[key].titulo == $scope.consulta.tipoVivienda){
+				$scope.mensajeInfoTipoVivienda = tipos[key].mensajeInfo;
+			}
+		}
+	}
 	
 	$scope.consultar = function(){
 		
@@ -103,10 +118,12 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 			
 			Servidor.calcularOferta($scope.consulta, function(response){
 				
-				var resultado = ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.resultadoResponse;
+				var resultado = ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.resultadoAprobado;
 				//onSuccess
-				if(response.data.repagos[0].estado.value == resultado || 
-						response.data.repagos[1].estado.value == resultado){
+				if((response.data.repagos[0].estado.value == ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.resultadoAprobado || 
+						response.data.repagos[1].estado.value == ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.resultadoAprobado) || 
+						(response.data.repagos[0].estado.value == ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.resultadoExcedido || 
+						response.data.repagos[1].estado.value == ConfigService.getMsg().pasos["/hipotecarios/consulta"].validaciones.resultadoExcedido)){
 					
 					Servidor.setDatosRepago(response.data);
 					$location.path('/hipotecarios/resultados');
@@ -213,7 +230,7 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 		}
 		
 		if(!$scope.errorValidarMontoSolicitud){
-			var montoMaximoAPrestar = montoMaximo * porcentaje;
+			var montoMaximoAPrestar = parseInt($scope.consulta.valorPropiedad) * porcentaje;
 			if(montoReal > montoMaximoAPrestar){
 				$scope.errorValidarMontoSolicitud = true;
 				$scope.mensajeErrorMonto = array[1];
@@ -235,7 +252,8 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 														"montoMaximo": parseInt(viviendas[i].montoMaximo),
 														"montoMinimo": parseInt(viviendas[i].montoMinimo),
 														"porcentaje" : validaciones[0],
-														"mensajeError": validaciones[1]
+														"mensajeError": validaciones[1],
+														"plazo": validaciones[3]
 													};
 				indice++;
 			}
@@ -258,7 +276,7 @@ app.controller('ConsultaController', ['$http', '$scope', '$location', 'Servidor'
 		var tipoVivienda;
 		for(tipoVivienda in arrayAIterar){
 			if(arrayAIterar[tipoVivienda].titulo == cadena){
-				array = [arrayAIterar[tipoVivienda].porcentaje, arrayAIterar[tipoVivienda].mensajeError]
+				array = [arrayAIterar[tipoVivienda].porcentaje, arrayAIterar[tipoVivienda].mensajeError, arrayAIterar[tipoVivienda].mensajeInfo, arrayAIterar[tipoVivienda].plazoMaximo]
 				return array;
 			}
 		}

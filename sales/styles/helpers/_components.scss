@@ -12,16 +12,48 @@ div.btn-radio {
     }
     span.radio { 
         margin-right: 8px; width: 20px; height: 20px; display: inline-block; border-radius: 10px; 
-        border: none; box-shadow: inset 0px 0px 14px -5px rgba(0,0,0,0.75); vertical-align: middle; margin: 0;
+        border: 1px solid rgba(0, 0, 0, 0.24); box-shadow: inset 0px 0px 10px -5px rgba(0, 0, 0, 0.75); vertical-align: middle; margin: 0;
         margin-right: 10px; position: relative;        
         &:after { 
             content: ''; display: inline-block; width: 10px; height: 10px; border-radius: 5.5px; border: none; 
-            background-color: transparent; position: absolute; left: 5px; top: 5px; transform: scale3d(0,0,0); transition: all .5s ease;
+            background-color: transparent; position: absolute; left: 4px; top: 4px; transform: scale3d(0,0,0); transition: all .5s ease;
         }
     }
     &.active {
         span.radio:after { 
             transform: scale3d(1,1,1); background-color: #86c82d !important;
+        }
+    }
+    &.inline { display: inline-block; margin-right: 20px }
+}
+
+
+/*---------------------------------------------------------------------*/
+
+
+input[type="checkbox"]:not(.check-visible) {
+    display:none !important;
+}
+
+div.btn-check {
+	color: #71777f; font-family: 'BBVA Web Book'; font-weight: bold; font-size: 16px; 
+    display: inline-block; background: none; border: none;
+    &:focus{ outline: 0 !important; }
+    label { 
+        cursor: pointer;
+        &:hover span.check:before {  transform: scale3d(1,1,1); color: #c7c7c7; }
+    }
+    span.check { 
+        margin-right: 8px; width: 20px; height: 20px; display: inline-block; border-radius: 3px;
+        border: 1px solid rgba(0, 0, 0, 0.24); box-shadow: inset 0px 0px 10px -5px rgba(0, 0, 0, 0.75); vertical-align: middle; 
+        margin: 0; margin-right: 10px; position: relative;        
+        &:before { 
+            border: none; position: absolute; left: 3px; top: 4px; font-size: 10px; transform: scale3d(0,0,0); transition: all .5s ease;
+        }
+    }
+    &.active {
+        span.check:before { 
+            transform: scale3d(1,1,1); color: #86c82d !important;
         }
     }
     &.inline { display: inline-block; margin-right: 20px }

@@ -151,6 +151,7 @@ img.socialIcon{
 @media (min-width: 992px){
 	#mainContainer{
 		height: calc(100vh - 304px); /* alto del footer mas nav*/
+		margin: 0; padding: 0; width: 1240px;
 	}
 }
  
@@ -165,6 +166,8 @@ img.socialIcon{
 div.sideInfo{
 	height: 100%;
     background-color: #EEEEEE;
+	padding-left: 100px;
+	padding-right: 30px;
 }
 
 nav {
@@ -288,13 +291,49 @@ a.masInfo{
     float: none;
 }
 
+span.masInfo{
+	background:url(../../../img/shared/ico_info.png) left top;
+	background-repeat:no-repeat;
+    width: 20px;
+    height: 20px;
+    display: block;
+    position: relative;
+    top: 5px;
+    white-space: nowrap;
+    font-family: 'BBVA Web Book';
+    font-size: 12px;
+    color: rgba(155, 155, 155, 0.86);
+    padding-top: 1px;
+}
+
+span.masInfo:before{
+	content: "\00a0\00a0\00a0\00a0\00a0\00a0\00a0";
+}
+
 @media (max-width: 992px){
-	a.masInfo, a.removeIngreso{
+	a.masInfo, span.masInfo, a.removeIngreso{
 		float: right;
 	}
 	
 	a.removeIngreso{
 		left: -2px !important;
+	}
+	
+	p.textoDelPaso{
+	  font-family: 'BBVA Web Book';
+	  font-size: 14px !important;
+	  font-weight: normal;
+	  font-style: normal;
+	  font-stretch: normal;
+	  line-height: 1.38;
+	  letter-spacing: normal;
+	  color: #121212;
+	  text-align: center;
+	  margin-left: 70px;
+      margin-right: 70px
+	}
+	.pasoContainer{
+		text-align: center;
 	}
 }
 
@@ -478,8 +517,28 @@ div.dynamic-fields-container {
 /* pasos */
 h1.titulo {
 	font-family: 'BBVA Web Book';
-	font-size: 22px;
+	font-size: 34px;
 	color: #121212;
+	object-fit: contain;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.09;
+    letter-spacing: -0.5px;
+    text-align: center;
+}
+
+h3.titulo {
+  object-fit: contain;
+  font-family: 'BBVA Web Book';
+  font-size: 18px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  letter-spacing: normal;
+  text-align: center;
+  color: #121212;
 }
 
 @media (min-width: 768px){
@@ -507,8 +566,8 @@ div.pasoContainer{
 div.proximoPasoContainer{
     bottom: 38px;
     position: absolute;
+	display: none;
     opacity: 0.3;
-    display: none;
 }
 
 @media (min-width: 992px){
@@ -578,21 +637,20 @@ input#antiguedad[readonly]{
 	background-color: white;
 }
 
-label.control-label { font-family: 'BBVA Web Book'; font-size: 19px; color: #094fa4; display: block; text-align: left; }
+label.control-label { font-family: 'BBVA Web Book'; font-size: toem(14px); color: #094fa4; display: 
+block; text-align: left; }
 
 input.form-control{
 	display: inline-block;
-	font-size: 18px;
-	color: #5f5f5f;
+	font-size: toem(14px);
 	font-family: 'BBVA Web Book';
 	font-weight: bold;
-	
 	height: 40px;
 	border-radius: 3px;
 	background-color: #ffffff;
 	-webkit-box-shadow: inset 0 1px 5px 0 rgba(0, 0, 0, 0.3);
 	box-shadow: inset 0 1px 5px 0 rgba(0, 0, 0, 0.3);
-	border: solid 1px #c6c8c9;
+	border: solid 1p #094fa4;
 }
 
 span.error{
@@ -622,7 +680,7 @@ form.consulta > input.form-control{
 	width: 100%;
 }
 
-span.money{
+span.money, span.mail{
     display: block;
     position: absolute;
     padding-left: 10px;
@@ -679,7 +737,7 @@ span.legales5x{
     text-align: left;
 }
 
-input.money {
+input.money, input.mail {
 	padding-left: 25px;
 }
 
@@ -695,6 +753,54 @@ span.telefono{
   padding-left: 9px;
 }
 
+/* radio button */
+@media (min-width: 992px){
+	div.radio-container{
+		display: inline-block;
+	}
+}
+
+button.btn-radio {
+	color: #71777f;
+	font-family: 'BBVA Web Book';
+	font-weight: bold;
+	font-size: 16px;
+	display: inline-block;
+    background: none;
+    border: none;
+}
+
+button.btn-radio:focus{
+	outline: 0 !important;
+}
+
+span.circle.outer{
+	margin-right: 8px;
+	width: 20px;
+    height: 20px;
+    display: inline-block;
+    border-radius: 10px;
+    border: none;
+    -webkit-box-shadow: inset 0px 0px 14px -5px rgba(0,0,0,0.75);
+    -moz-box-shadow: inset 0px 0px 14px -5px rgba(0,0,0,0.75);
+    box-shadow: inset 0px 0px 14px -5px rgba(0,0,0,0.75);
+}
+
+span.circle.inner{
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-radius: 5.5px;
+    border: none;
+    background-color: white;
+    position: relative;
+    left: 0px;
+    top: -2px;
+}
+
+span.circle.inner.active{
+	background-color: #86c82d;
+}
 /* botones */
 
 .btn-consulta{
@@ -717,7 +823,7 @@ span.telefono{
 .panel-title > span{
 	text-decoration: none;
 	font-family: 'BBVA Web Book';
-	font-size: 16px;
+	font-size: 26px;
 	font-weight: bold;
 	font-style: normal;
 	font-stretch: normal;
@@ -792,6 +898,55 @@ p.panel-body{
 	padding-right: 10px;
 }
 
+.layer-white{
+  font-family: 'BBVA Web Book';
+  font-size: 10px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.1px;
+  color: #ffffff;
+}
+
+.layer-blue{
+  font-family: 'BBVA Web Book';
+  font-size: 10px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.1px;
+  color: #094fa4;
+}
+
+.form-control-blue{
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.25;
+  color: #464a4c;
+  background-color: #fff;
+  background-image: none;
+  -webkit-background-clip: padding-box;
+          background-clip: padding-box;
+  border: 1px solid #094fa4;
+  border-radius: 5px;
+  box-shadow: inset 0 1px 5px 0 #094fa4;
+}
+
+p.font-cobalt-gray{
+  font-family: 'BBVA Web Book';
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #434a59;
+}
+
 div.resultado-container{
 	border-radius: 5px;
 	background-color: #ffffff;
@@ -802,7 +957,8 @@ div.resultado-container{
 }
 
 div.resultado-container-maximo{
-	border-radius: 10px;
+	border-radius: 5px;
+	border-bottom-style: solid;
 	background-color: #ffffff;
 	margin-left: 14px;
     margin-right: 14px;
@@ -810,7 +966,7 @@ div.resultado-container-maximo{
     padding: 10px;
 }
 
-div.resultado-container-cuota{
+.div-light-blue{
 	border-radius: 5px;
 	background-color: #009ee5;
 	margin-left: 14px;
@@ -819,24 +975,70 @@ div.resultado-container-cuota{
     padding: 10px;
 }
 
+.div-gray{
+	border-radius: 5px;
+	background-color: #ffffff;
+	border: solid 1px #71777f;
+}
+
+.bold-blue{
+	font-family: 'BBVA Web Book';
+	font-size: 16px;
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: -0.2px;
+	color: #094fa4;
+	padding: 5px;
+}
+
+select.bold-blue{
+	border-radius: 5px;
+	background-image: linear-gradient(to bottom, #ffffff, #f6f8f9);
+	border: solid 2px #094fa4;
+	width: 100%;
+}
+
+.bold-white{
+	font-family: 'BBVA Web Book';
+	font-size: 18px;
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #ffffff;
+}
+
 p.montoMaximo{
 	font-family: 'BBVA Web Book';
 	font-size: 16px;
 	font-weight: bold;
 	font-style: normal;
 	font-stretch: normal;
-	color: rgba(113, 119, 127, 0.86);
+	color: #71777f;
+    line-height: normal;
+    letter-spacing: -0.2px;
 }
 
-p.uvaMaximo{
-	font-family: 'BBVA Web Book';
+p.fuente-gris{
+	font-size: 18px;
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: -0.2px;
+	padding: 8px;
+}
+
+span.fuente-gris{
 	font-size: 16px;
 	font-weight: normal;
 	font-style: normal;
 	font-stretch: normal;
+	line-height: normal;
 	letter-spacing: -0.2px;
-	color: #434a58;
-	margin-bottom: 0px;
 }
 
 p.resultadoTitle{
@@ -846,15 +1048,6 @@ p.resultadoTitle{
 	font-style: normal;
 	font-stretch: normal;
 	color: rgba(9, 79, 164, 0.86);
-}
-
-p.resultadoTitleCuota{
-	font-family: 'BBVA Web Book';
-	font-size: 16px;
-	font-weight: bold;
-	font-style: normal;
-	font-stretch: normal;
-	color: white;
 }
 
 .resultado{
@@ -868,12 +1061,36 @@ p.resultadoTitleCuota{
     margin-bottom: 0px;
 }
 
-p.descripcion{
-	font-family: 'BBVA Web Light';
+.div-cuota-mensual-inicial{
+	padding: 10px;
+}
+
+span.bold-blue-cuota-mensual-inicial{
+	font-family: 'BBVA Web Book';
 	font-size: 14px;
 	font-weight: normal;
 	font-style: normal;
 	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: 0px;
+	color: #0c3a93;
+}
+
+span.light-blue-cuota-mensual-inicial{
+  	font-family: 'BBVA Web Book';
+  	font-size: 12px;
+  	letter-spacing: -0.2px;
+  	color: #118bde;
+}
+
+p.descripcion{
+	font-family: 'BBVA Web Light';
+	font-size: 16px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
 	color: #434a59;
     margin-bottom: 0px;
 }
@@ -1008,8 +1225,7 @@ button.btn-enviar{
 	width: 230px;
 	height: 50px;
 	border-radius: 5px;
-	background-image: linear-gradient(to bottom, #0071bf, #004d9c);
-	border: solid 1px #1867ac;
+	background: $main-bt-color;
 	font-family: 'BBVA Web Book';
 	font-size: 18px;
 	font-weight: bold;
@@ -1018,21 +1234,24 @@ button.btn-enviar{
 	letter-spacing: 1.1px;
 	text-align: center;
 	color: #ffffff;
+	@include transition;
 }
 
-.btn.focus, .btn:focus, .btn:hover, .btn:active, .btn:active:focus, .btn-enviar:visited { color: white; outline: 0; }
+.btn { box-shadow: none !important; }
+
+.btn.focus, .btn:focus, .btn:hover, .btn:active, .btn:active:focus, .btn-enviar:visited { color: white; outline: 0; box-shadow: none; }
 
 .btn-enviar:hover, .btn-enviar:visited, .btn-enviar:active{
 	color: white !important;
 }
 
  .btn:hover {
-    background-image: linear-gradient(to bottom, #0071bf, #03407d);
+    background: $main-bt-color-hover;
     outline: none;
 	color: white;
 }
 
-.btn.active, .btn:active { background-image: linear-gradient(to bottom, #0071bf, #004d9c); }
+.btn.active, .btn:active { background: $main-bt-color; }
 .btn-enviar.thin{
 	width: 150px;
     height: 35px;

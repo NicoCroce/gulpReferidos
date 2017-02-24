@@ -31,8 +31,8 @@
 				
 				<span class="mas fuente-gris" ng-click="masAntiguedad()"></span>
 				
-				<a class="masInfo hidden-xs hidden-sm masInfoMargen" x-tool-tip data-placement="right" data-toggle="tooltip" title="La antiguedad mínima requerida para poder acceder a un préstamo hipotecario es de X año."></a>
-				<a class="masInfo hidden-md hidden-lg" data-toggle="modal" data-target="#defaultModal" data-title="Antigüedad" data-body="La antiguedad mínima requerida para poder acceder a un préstamo hipotecario es de X año."></a>
+				<a class="masInfo hidden-xs hidden-sm masInfoMargen" x-tool-tip data-placement="right" data-toggle="tooltip" title="{{mensajeErrorAntiguedad}}"></a>
+				<a class="masInfo hidden-md hidden-lg" data-toggle="modal" data-target="#defaultModal" data-title="Antigüedad" data-body="{{mensajeErrorAntiguedad}}"></a>
 				<br>
 				<span ng-show="(errorAntiguedad && submitted)" id="errorAntiguedad" class="error">{{mensajeErrorAntiguedad}}</span>
 			</div>
@@ -64,7 +64,7 @@
 				<a class="masInfo hidden-xs hidden-sm masInfoMargen" x-tool-tip data-placement="right" data-toggle="tooltip" title="Si tenés tarjeta de crédito en uso, te pedimos el consumo mínimo que figura en tu último resumen. Si usas más de una tarjeta, te pedimos el total de los mínimos. Te solicitamos estos datos para poder hacer un cálculo de tus gastos mensuales y así, poder informate una cuota acorde en el Simulador de préstamo Hipotecario."></a>
 				<a class="masInfo hidden-md hidden-lg" data-toggle="modal" data-target="#defaultModal" data-title="Tarjetas" data-body="Si tenés tarjeta de crédito en uso, te pedimos el consumo mínimo que figura en tu último resumen. Si usas más de una tarjeta, te pedimos el total de los mínimos. Te solicitamos estos datos para poder hacer un cálculo de tus gastos mensuales y así, poder informate una cuota acorde en el Simulador de préstamo Hipotecario."></a>
 				<br>
-				<span ng-show="(!formConsulta.minimoConsumoTarjeta.$valid && (formConsulta.minimoConsumoTarjeta.$dirty || submitted))" id="errorMinimoConsumoTarjeta" class="error">Este campo es Obligatorio.</span>
+				<span ng-show="(!formConsulta.minimoConsumoTarjeta.$valid && (formConsulta.minimoConsumoTarjeta.$dirty || submitted))" id="errorMinimoConsumoTarjeta" class="error">Este campo es Obligatorio. Si no tenés tarjetas por favor ingresá 0.</span>
 			</div>
 			
 			<div class="form-group">
@@ -83,20 +83,25 @@
 			
 				<label class="control-label">¿En qué vas a utilizar el préstamo hipotecario?</label>
 				
-				<div class="toggle-buttons-wrapper" data-toggle="buttons">
+				<div class="toggle-buttons-wrapper clear-content" data-toggle="buttons">
 					<div class="col-md-3 noPadLeft doublePadRight noPadMobile" ng-repeat-start="vivienda in datosViviendasAMostrar" ng-if="$first">
-						<button class="btn-switch-special" ng-click="tipoVivienda(vivienda.valor, vivienda.porcentaje)"><pre class="btn-pre" ng-class="consulta.tipoVivienda == vivienda.valor ? 'active' : ''">{{vivienda.descripcion}}</pre></button>
+						<button class="btn-switch-special" ng-click="tipoVivienda(vivienda.valor, vivienda.plazo)"><pre class="btn-pre" ng-class="consulta.tipoVivienda == vivienda.valor ? 'active' : ''">{{vivienda.descripcion}}</pre></button>
 					</div>
 					<div class="col-md-3 noPadMobile" ng-if="$middle">
-						<button class="btn-switch-special" ng-click="tipoVivienda(vivienda.valor, vivienda.porcentaje)"><pre class="btn-pre" ng-class="consulta.tipoVivienda == vivienda.valor ? 'active' : ''">{{vivienda.descripcion}}</pre></button>
+						<button class="btn-switch-special" ng-click="tipoVivienda(vivienda.valor, vivienda.plazo)"><pre class="btn-pre" ng-class="consulta.tipoVivienda == vivienda.valor ? 'active' : ''">{{vivienda.descripcion}}</pre></button>
 					</div>
 					<div class="col-md-3 noPadRight thin doublePadLeft noPadMobile" ng-repeat-end ng-if="(!$first && $last)">
-						<button class="btn-switch-special" ng-click="tipoVivienda(vivienda.valor, vivienda.porcentaje)"><pre class="btn-pre" ng-class="consulta.tipoVivienda == vivienda.valor ? 'active' : ''">{{vivienda.descripcion}}</pre></button>
+						<button class="btn-switch-special" ng-click="tipoVivienda(vivienda.valor, vivienda.plazo)"><pre class="btn-pre" ng-class="consulta.tipoVivienda == vivienda.valor ? 'active' : ''">{{vivienda.descripcion}}</pre></button>
 					</div>
+				</div>
+				
+				<div class="mediumMarginTop">
+					<span class="masInfo masInfoMargen"></span>
+					<p>{{mensajeInfoTipoVivienda}}</p>
 				</div>
 			</div>
 			
-			<div class="form-group bigMarginTop">
+			<div class="form-group">
 				<label for="valorPropiedad" class="control-label">¿Cuál es el valor de la propiedad?</label>
 				<span class="money fuente-gris">$</span>
 				<input type="text" x-only-num ng-model="consulta.valorPropiedad" id="valorPropiedad" name="valorPropiedad" class="form-control consulta money" ng-class="{errorEnInput: (!formConsulta.valorPropiedad.$valid && (formConsulta.valorPropiedad.$dirty || submitted))}" ng-required="true">

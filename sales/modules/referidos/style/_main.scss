@@ -1,11 +1,10 @@
 /*REFERIDOS*/
 
-/*TEMPORAL*/
-
 button.btn-enviar { font-size: 14px; font-weight: normal; width: auto; height: auto; padding: 13px 47px; }
 .main-title { 
 	font-size: toem(24px); font-family: BBVA Web Book; color: #121212; margin-top: 61px; margin-bottom: 22px;
 	&.has-subtitle { margin-bottom: 5px; }
+	&.thy-page { font-size: toem(16px); font-weight: 900; margin: 19px 0 31px 0; }
 }
 .sub-title { font-size: toem(12px); font-family: BBVA Web Book; color: #121212; margin: 0; margin-bottom: toem(34px); }
 .sub-title-two {
@@ -66,6 +65,21 @@ form.conditions {
 
 .clear-fix { @include clearfix(); }
 .bt-continue-s4 { margin-top: 15px; margin-bottom: 120px; }
+
+.referidos--thy-page { 
+	height: 200px; background: #005ead; display: table; width: 100%;
+	.content-text { 
+		color: white; text-align: center; display: table-cell; vertical-align: middle;
+		h1, h3 { margin: 0; }
+		h1 { font-size: toem(30px); margin-bottom: 15px; }
+		h3 { font-size: toem(14px); }
+	}
+}
+
+.content-thy-page .section-content-thy {
+	h2, p, div { font-size: toem(14px); }
+	h2 { font-weight: bold; font-family: BBVA Web Book; }
+}
 
 @media (max-width: 992px){
 	.input-inline { padding: 0; margin-top: 15px; }
